@@ -1,0 +1,20 @@
+﻿<Window x:Class="WvWOverlay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WvW Overlay" Width="320" AllowsTransparency="True" WindowStyle="None" Background="{x:Null}" Icon="pack://siteoforigin:,,,/Resources/shield.ico" Topmost="True">
+    <Grid x:Name="canvasSelection">
+        <!--Header-->
+        <Rectangle x:Name="rectangleTitlebar" Fill="#99000000" HorizontalAlignment="Left" Height="67" VerticalAlignment="Top" Width="320" RenderTransformOrigin="0.466,0.567" MouseLeftButtonDown="On_HeaderDrag_MouseLeftButtonDown"/>
+        <Image x:Name="imageClose" HorizontalAlignment="Left" Height="20" Margin="299,1,0,0" VerticalAlignment="Top" Width="20" Source="pack://siteoforigin:,,,/Resources/close.png" MouseLeftButtonUp="imageClose_MouseLeftButtonUp" Cursor="Hand" Opacity="0.5" MouseEnter="On_OpacityHoverEnter" MouseLeave="On_OpacityHoverLeave"/>
+        <Image x:Name="imageRefresh" HorizontalAlignment="Left" Height="20" Margin="279,2,0,0" VerticalAlignment="Top" Width="20" Source="pack://siteoforigin:,,,/Resources/refresh.png" Cursor="Hand" Opacity="0.5" MouseEnter="On_OpacityHoverEnter" MouseLeave="On_OpacityHoverLeave"/>
+        <Image x:Name="imageSelectMatch" HorizontalAlignment="Left" Height="20" Margin="259,2,0,0" VerticalAlignment="Top" Width="20" Source="pack://siteoforigin:,,,/Resources/search.png" Cursor="Hand" Opacity="0.5" MouseEnter="On_OpacityHoverEnter" MouseLeave="On_OpacityHoverLeave"/>
+        <Label x:Name="labelTitle" Content="WvW Overlay&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Height="25" Width="255" Margin="0,-3,0,0" Opacity="0.5" MouseLeftButtonDown="On_HeaderDrag_MouseLeftButtonDown"/>
+
+        <!--Content-->
+        <ItemsControl x:Name="itemscontrolObjectives" Margin="0,67,0,-5" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" Grid.Row="0">
+
+        </ItemsControl>
+        <Canvas HorizontalAlignment="Left" Height="425" Width="320" VerticalAlignment="Bottom" Margin="0,0,0,43"/>
+        <Label x:Name="labelMatchupMapTitle" Content="" HorizontalAlignment="Left" Margin="0,27,0,0" VerticalAlignment="Top" Height="29" Width="319" Foreground="#99FFFFFF" />
+    </Grid>
+</Window>

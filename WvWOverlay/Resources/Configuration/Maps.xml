@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfMap>
+  <Map>
+    <Title>Ewige Schlachtfelder</Title>
+    <Identifier>Eternal Battlegrounds</Identifier>
+  </Map>
+  <Map>
+    <Title>Rote Grenzlande</Title>
+    <Identifier>Red Borderlands</Identifier>
+  </Map>
+  <Map>
+    <Title>Grüne Grenzlande</Title>
+    <Identifier>Green Borderlands</Identifier>
+  </Map>
+  <Map>
+    <Title>Blaue Grenzlande</Title>
+    <Identifier>Blue Borderlands</Identifier>
+  </Map>
+</ArrayOfMap>
