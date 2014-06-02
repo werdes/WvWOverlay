@@ -3,17 +3,21 @@
   <Map>
     <Title>Ewige Schlachtfelder</Title>
     <Identifier>Eternal Battlegrounds</Identifier>
+    <MapID>38</MapID>
   </Map>
   <Map>
     <Title>Rote Grenzlande</Title>
     <Identifier>Red Borderlands</Identifier>
+    <MapID>94</MapID>
   </Map>
   <Map>
     <Title>Grüne Grenzlande</Title>
     <Identifier>Green Borderlands</Identifier>
+    <MapID>95</MapID>
   </Map>
   <Map>
     <Title>Blaue Grenzlande</Title>
     <Identifier>Blue Borderlands</Identifier>
+    <MapID>96</MapID>
   </Map>
 </ArrayOfMap>

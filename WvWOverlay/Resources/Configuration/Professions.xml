@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfProfession>
+  <Profession>
+    <Id>1</Id>
+    <Name>Guardian</Name>
+  </Profession>
+  <Profession>
+    <Id>2</Id>
+    <Name>Warrior</Name>
+  </Profession>
+  <Profession>
+    <Id>3</Id>
+    <Name>Engineer</Name>
+  </Profession>
+  <Profession>
+    <Id>4</Id>
+    <Name>Ranger</Name>
+  </Profession>
+  <Profession>
+    <Id>5</Id>
+    <Name>Thief</Name>
+  </Profession>
+  <Profession>
+    <Id>6</Id>
+    <Name>Elementalist</Name>
+  </Profession>
+  <Profession>
+    <Id>7</Id>
+    <Name>Mesmer</Name>
+  </Profession>
+  <Profession>
+    <Id>8</Id>
+    <Name>Necromancer</Name>
+  </Profession>
+</ArrayOfProfession>

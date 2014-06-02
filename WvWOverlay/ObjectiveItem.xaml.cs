@@ -20,9 +20,16 @@ namespace WvWOverlay
     /// </summary>
     public partial class ObjectiveItem : UserControl
     {
+        public event EventHandler Click;
+
         public ObjectiveItem()
         {
             InitializeComponent();
+        }
+
+        private void labelObjectiveName_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            EventExtensions.RaiseEvent(Click, this, null);
         }
     }
 }
