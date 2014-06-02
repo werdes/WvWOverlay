@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WvWOverlay
+{
+    public static class EventExtensions
+    {
+        static public void RaiseEvent(this EventHandler @event, object sender, EventArgs e)
+        {
+            if (@event != null)
+                @event(sender, e);
+        }
+
+        static public void RaiseEvent<T>(this EventHandler<T> @event, object sender, T e)
+            where T : EventArgs
+        {
+            if (@event != null)
+                @event(sender, e);
+        }
+    }
+
+    public class RegionSelectedEventArgs : EventArgs
+    {
+        public RegionSelectedEventArgs(Model.XML.Region oRegion)
+        {
+            Region = oRegion;
+        }
+        public void a()
+        {
+
+        }
+
+
+        public Model.XML.Region Region { get; set; }
+    }
+
+    public class MatchSelectedEventArgs : EventArgs
+    {
+        public MatchSelectedEventArgs(Model.API.match oMatch)
+        {
+            Match = oMatch;
+        }
+
+        public Model.API.match Match { get; set; }
+    }
+}

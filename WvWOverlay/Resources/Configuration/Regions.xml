@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfRegion>
+  <Region>
+    <RegionIdentifier>1</RegionIdentifier>
+    <Name>North America</Name>
+    <Slug>na</Slug>
+    <Icon>\Resources\Flags\us.png</Icon>
+  </Region>
+  <Region>
+    <RegionIdentifier>2</RegionIdentifier>
+    <Name>Europe</Name>
+    <Slug>eu</Slug>
+    <Icon>\Resources\Flags\europeanunion.png</Icon>
+  </Region>
+</ArrayOfRegion>
