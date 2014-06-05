@@ -45,7 +45,6 @@ namespace WvWOverlay
         {
             public float x, y, z;
             public int world_id;
-            public int map_id;
             public string ind;
         }
 

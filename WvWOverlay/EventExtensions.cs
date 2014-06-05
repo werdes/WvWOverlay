@@ -28,22 +28,17 @@ namespace WvWOverlay
         {
             Region = oRegion;
         }
-        public void a()
-        {
-
-        }
-
 
         public Model.XML.Region Region { get; set; }
     }
 
     public class MatchSelectedEventArgs : EventArgs
     {
-        public MatchSelectedEventArgs(Model.API.match oMatch)
+        public MatchSelectedEventArgs(Model.API.matches_match oMatch)
         {
             Match = oMatch;
         }
 
-        public Model.API.match Match { get; set; }
+        public Model.API.matches_match Match { get; set; }
     }
 }

@@ -1,23 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfMap>
   <Map>
-    <Title>Ewige Schlachtfelder</Title>
+    <Title>Eternal Battlegrounds</Title>
     <Identifier>Eternal Battlegrounds</Identifier>
     <MapID>38</MapID>
+    <Gw2StatsID>3</Gw2StatsID>
   </Map>
   <Map>
-    <Title>Rote Grenzlande</Title>
+    <Title>Borderlands</Title>
     <Identifier>Red Borderlands</Identifier>
     <MapID>94</MapID>
+    <Gw2StatsID>0</Gw2StatsID>
   </Map>
   <Map>
-    <Title>Grüne Grenzlande</Title>
+    <Title>Borderlands</Title>
     <Identifier>Green Borderlands</Identifier>
     <MapID>95</MapID>
+    <Color>Green</Color>
+    <Gw2StatsID>2</Gw2StatsID>
   </Map>
   <Map>
-    <Title>Blaue Grenzlande</Title>
+    <Title>Borderlands</Title>
     <Identifier>Blue Borderlands</Identifier>
     <MapID>96</MapID>
+    <Color>Blue</Color>
+    <Gw2StatsID>1</Gw2StatsID>
   </Map>
 </ArrayOfMap>

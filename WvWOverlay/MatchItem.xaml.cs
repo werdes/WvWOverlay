@@ -20,13 +20,15 @@ namespace WvWOverlay
     /// </summary>
     public partial class MatchItem : UserControl
     {
-        private Model.API.match m_oMatch;
+        public Model.API.matches_match Match;
+
+
         public event EventHandler MatchSelected;
 
-        public MatchItem(Model.API.match oMatch)
+        public MatchItem(Model.API.matches_match oMatch)
         {
             InitializeComponent();
-            m_oMatch = oMatch;
+            Match = oMatch;
 
             labelBlueWorld.Content = oMatch.worlds.Find(x => x.color == "Blue").name;
             labelRedWorld.Content = oMatch.worlds.Find(x => x.color == "Red").name;
@@ -61,7 +63,7 @@ namespace WvWOverlay
         /// <param name="e"></param>
         private void On_MatchSelectionClick(object sender, MouseButtonEventArgs e)
         {
-            EventExtensions.RaiseEvent(MatchSelected, this, new MatchSelectedEventArgs(m_oMatch));
+            EventExtensions.RaiseEvent(MatchSelected, this, new MatchSelectedEventArgs(Match));
         }
     }
 }

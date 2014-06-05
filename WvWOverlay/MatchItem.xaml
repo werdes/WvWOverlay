@@ -8,17 +8,17 @@
     <Grid>
         <Rectangle HorizontalAlignment="Left" Margin="0,39,0,0" Width="320" Fill="#CC000000" MouseEnter="rectangleBack_MouseEnter" MouseLeave="rectangleBack_MouseLeave"/>
         <Rectangle x:Name="rectangleBack" Fill="#66000000" HorizontalAlignment="Left" Height="39" VerticalAlignment="Top" Width="320"/>
-        <Label x:Name="labelRedWorld" Content="Label" HorizontalAlignment="Left" Margin="10,1,0,0" VerticalAlignment="Top" Height="21" Width="300" Foreground="White" Cursor="Hand" MouseEnter="rectangleBack_MouseEnter" MouseLeave="rectangleBack_MouseLeave" MouseLeftButtonUp="On_MatchSelectionClick" FontFamily="Arial">
+        <Label x:Name="labelRedWorld" Content="Label" HorizontalAlignment="Left" Margin="10,-1,0,0" VerticalAlignment="Top" Height="21" Width="300" Foreground="White" Cursor="Hand" MouseEnter="rectangleBack_MouseEnter" MouseLeave="rectangleBack_MouseLeave" MouseLeftButtonUp="On_MatchSelectionClick" FontFamily="Arial">
             <Label.Effect>
                 <DropShadowEffect  Color="Black" Direction="0" ShadowDepth="1" Opacity=".65" />
             </Label.Effect>
         </Label>
-        <Label x:Name="labelBlueWorld" Content="Label" HorizontalAlignment="Left" Margin="10,21,0,-11" VerticalAlignment="Top" Height="30" Width="300" Foreground="White" Cursor="Hand" MouseEnter="rectangleBack_MouseEnter" MouseLeave="rectangleBack_MouseLeave" MouseLeftButtonUp="On_MatchSelectionClick" FontFamily="Arial">
+        <Label x:Name="labelBlueWorld" Content="Label" HorizontalAlignment="Left" Margin="10,19,0,-9" VerticalAlignment="Top" Height="30" Width="300" Foreground="White" Cursor="Hand" MouseEnter="rectangleBack_MouseEnter" MouseLeave="rectangleBack_MouseLeave" MouseLeftButtonUp="On_MatchSelectionClick" FontFamily="Arial">
             <Label.Effect>
                 <DropShadowEffect  Color="Black" Direction="0" ShadowDepth="1" Opacity=".65" />
             </Label.Effect>
         </Label>
-        <Label x:Name="labelGreenWorld" Content="Label" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Height="24" Width="300" Foreground="White" Cursor="Hand" MouseEnter="rectangleBack_MouseEnter" MouseLeave="rectangleBack_MouseLeave" MouseLeftButtonUp="On_MatchSelectionClick" FontFamily="Arial">
+        <Label x:Name="labelGreenWorld" Content="Label" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top" Height="24" Width="300" Foreground="White" Cursor="Hand" MouseEnter="rectangleBack_MouseEnter" MouseLeave="rectangleBack_MouseLeave" MouseLeftButtonUp="On_MatchSelectionClick" FontFamily="Arial">
             <Label.Effect>
                 <DropShadowEffect  Color="Black" Direction="0" ShadowDepth="1" Opacity=".65" />
             </Label.Effect>

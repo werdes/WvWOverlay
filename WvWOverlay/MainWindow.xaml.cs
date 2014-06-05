@@ -28,12 +28,33 @@ namespace WvWOverlay
     public partial class MainWindow : Window
     {
         private List<Model.XML.Profession> m_oLstProfessions;
+        public List<Model.XML.Objective> m_oLstObjectives;
+
         private Model.XML.Region m_oSelectedRegion;
 
+        private Thread m_oThreadMumbleProvider;
+        public bool m_bRunMumbleProvider = true;
+
+        private Thread m_oThreadMatchProvider;
+        private bool m_bRunMatchProvider = true;
+
+        private Model.XML.Map m_oCurrentMap;
+        private Model.mumble_ind m_oMumblelinkInd;
+        private Model.API.matches_match m_oCurrentMatch;
+
+        private enum CurrentDisplay
+        {
+            RegionSelection,
+            MatchSelection,
+            Timer
+        }
+
+        private CurrentDisplay m_eCurrentDisplay;
 
         public MainWindow()
         {
             InitializeComponent();
+            m_eCurrentDisplay = CurrentDisplay.RegionSelection;
         }
 
         /// <summary>
@@ -54,6 +75,7 @@ namespace WvWOverlay
                 m_oSelectedRegion = oArgs.Region;
 
                 StartMatchDownload();
+
             }
             catch (Exception oEx)
             {
@@ -111,7 +133,9 @@ namespace WvWOverlay
                     {
                         if (oMatchlist.region.ContainsKey(m_oSelectedRegion.Slug))
                         {
-                            foreach (Model.API.match oMatch in oMatchlist.region[m_oSelectedRegion.Slug])
+                            m_eCurrentDisplay = CurrentDisplay.MatchSelection;
+
+                            foreach (Model.API.matches_match oMatch in oMatchlist.region[m_oSelectedRegion.Slug])
                             {
                                 itemscontrolMain.Dispatcher.Invoke(delegate
                                 {
@@ -157,7 +181,25 @@ namespace WvWOverlay
             {
                 oArgs = (MatchSelectedEventArgs)e;
 
-                MessageBox.Show(oArgs.Match.match_id);
+                TriggerLoadingIndicator();
+                itemscontrolMain.Items.Clear();
+
+                m_oCurrentMatch = oArgs.Match;
+
+                m_bRunMumbleProvider = true;
+                m_oThreadMumbleProvider = new Thread(new ThreadStart(MumbleProvider));
+                m_oThreadMumbleProvider.Start();
+
+
+
+
+                m_bRunMatchProvider = true;
+
+                StartMatchThread(oArgs.Match);
+
+                m_eCurrentDisplay = CurrentDisplay.Timer;
+
+                TriggerLoadingIndicator();
             }
             catch (Exception oEx)
             {
@@ -192,6 +234,7 @@ namespace WvWOverlay
             List<Model.XML.Region> oLstRegions;
             try
             {
+                m_eCurrentDisplay = CurrentDisplay.RegionSelection;
 
                 itemscontrolMain.Items.Clear();
 
@@ -216,11 +259,27 @@ namespace WvWOverlay
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void imageClose_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void On_imageClose_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            this.Close();
-            Application.Current.Shutdown();
-            Environment.Exit(0);
+            try
+            {
+                m_bRunMumbleProvider = false;
+                m_bRunMatchProvider = false;
+
+                if (m_oThreadMumbleProvider != null)
+                    m_oThreadMumbleProvider.Abort();
+                if (m_oThreadMatchProvider != null)
+                    m_oThreadMatchProvider.Abort();
+
+
+                this.Close();
+                Application.Current.Shutdown();
+                Environment.Exit(0);
+            }
+            catch (Exception oEx)
+            {
+                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>
@@ -273,7 +332,7 @@ namespace WvWOverlay
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void On_Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -281,6 +340,8 @@ namespace WvWOverlay
 
                 InitializeRegionSelection();
                 m_oLstProfessions = ConfigurationParser.GetProfessions();
+
+                m_oLstObjectives = ConfigurationParser.GetObjectives();
 
                 TriggerLoadingIndicator();
             }
@@ -290,9 +351,260 @@ namespace WvWOverlay
             }
         }
 
-        private void imageSelectMatch_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void On_imageSelectMatch_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            StopMatchThread();
+            if(m_oThreadMumbleProvider != null)
+                m_oThreadMumbleProvider.Abort();
 
+            InitializeRegionSelection();
+
+        }
+
+        /// <summary>
+        /// Führt den Mumblelink-Thread aus
+        /// </summary>
+        private void MumbleProvider()
+        {
+            MumbleLink oMumbleLink;
+            MumbleLink.Coordinate oCoordinate;
+
+            List<Model.XML.Map> oLstMaps;
+
+            Model.mumble_ind oInd;
+            Model.XML.Profession oProfession;
+
+            try
+            {
+                oMumbleLink = new MumbleLink();
+                oLstMaps = ConfigurationParser.GetMaps();
+
+                while (m_bRunMumbleProvider)
+                {
+                    oCoordinate = oMumbleLink.GetCoordinates();
+
+                    if (!string.IsNullOrWhiteSpace(oCoordinate.ind))
+                    {
+                        oInd = JsonConvert.DeserializeObject<Model.mumble_ind>(oCoordinate.ind);
+                        m_oMumblelinkInd = oInd;
+
+                        oProfession = m_oLstProfessions.Find(x => x.Id == oInd.profession);
+
+                        if (oProfession != null)
+                        {
+                            //Invoke for multithreading-access
+                            labelPlayerCharacter.Dispatcher.Invoke(delegate { labelPlayerCharacter.Content = string.Format("{0} - {1}", oInd.name, oProfession.Name); });
+                        }
+                        m_oCurrentMap = oLstMaps.Find(x => x.MapID == oInd.map_id);
+                    }
+                    else
+                    {
+                        m_oCurrentMap = null;
+
+                        labelPlayerCharacter.Dispatcher.Invoke(delegate { labelPlayerCharacter.Content = string.Empty; });
+                        if (m_eCurrentDisplay == CurrentDisplay.Timer)
+                            itemscontrolMain.Dispatcher.Invoke(delegate { itemscontrolMain.Items.Clear(); });
+                    }
+
+                    Thread.Sleep(2000);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// Campmode switch
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void On_imageCampMode_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (imageCampMode.Tag.ToString() == "false")
+                {
+                    imageCampMode.Opacity = 0.8D;
+                    imageCampMode.Tag = "true";
+
+                    if (m_eCurrentDisplay == CurrentDisplay.Timer)
+                        RestartMatchThread(m_oCurrentMatch);
+                }
+                else
+                {
+                    imageCampMode.Opacity = 0.4D;
+                    imageCampMode.Tag = "false";
+
+                    if (m_eCurrentDisplay == CurrentDisplay.Timer)
+                        RestartMatchThread(m_oCurrentMatch);
+                }
+            }
+            catch (Exception oEx)
+            {
+                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// Runs the Match THread
+        /// </summary>
+        private void MatchProvider(object oMatchObj)
+        {
+            Model.API.matches_match oMatchInput;
+            Model.API.match oMatch;
+            Model.API.map oMap;
+            Model.API.map oLastMap = null;
+
+            ObjectiveItem oListItem = null;
+
+            string cHeaderLine = string.Empty;
+
+            try
+            {
+                oMatchInput = (Model.API.matches_match)oMatchObj;
+
+                while (m_bRunMatchProvider)
+                {
+                    TriggerLoadingIndicator();
+
+                    cHeaderLine = string.Empty;
+
+                    oMatch = this.GetMatch(oMatchInput.match_id);
+
+                    if (oMatch != null && m_oCurrentMap != null)
+                    {
+                        oMap = oMatch.maps.Find(x => x.map_id == m_oCurrentMap.Gw2StatsID);
+
+                        if (oLastMap != null && oMap.map_id != oLastMap.map_id)
+                        {
+                            itemscontrolMain.Dispatcher.Invoke(delegate { itemscontrolMain.Items.Clear(); });
+                        }
+                        oLastMap = oMap;
+
+                        //Set Header
+                        if (m_oCurrentMap.MapID != 38)
+                        {
+                            cHeaderLine += oMap.map_owner_name + " ";
+                        }
+
+                        cHeaderLine += m_oCurrentMap.Title;
+
+                        labelMatchupMapTitle.Dispatcher.Invoke(delegate { labelMatchupMapTitle.Content = cHeaderLine; });
+
+                        foreach (Model.API.objective oObjective in oMap.objectives_list)
+                        {
+                            if (oObjective.points > 0)
+                            {
+                                itemscontrolMain.Dispatcher.Invoke(delegate { oListItem = (ObjectiveItem)itemscontrolMain.ItemContainerGenerator.Items.ToList().Find(x => ((ObjectiveItem)x).Objective.id == oObjective.id); });
+
+                                if (oListItem == null)
+                                {
+                                    itemscontrolMain.Dispatcher.Invoke(delegate
+                                    {
+                                        if ((imageCampMode.Tag.ToString() == "true" && oObjective.points == 5) || imageCampMode.Tag.ToString() != "true")
+                                        {
+                                            oListItem = new ObjectiveItem(oObjective, m_oLstObjectives);
+                                            itemscontrolMain.Items.Add(oListItem);
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    itemscontrolMain.Dispatcher.Invoke(delegate
+                                    {
+                                        oListItem.Update(oObjective);
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        itemscontrolMain.Dispatcher.Invoke(delegate
+                        {
+                            if (m_eCurrentDisplay == CurrentDisplay.Timer)
+                            {
+                                itemscontrolMain.Items.Clear();
+                            }
+                        });
+
+                        labelMatchupMapTitle.Dispatcher.Invoke(delegate { labelMatchupMapTitle.Content = "No Word vs. World Map"; });
+                    }
+
+                    TriggerLoadingIndicator();
+                    Thread.Sleep(5000);
+                }
+            }
+            catch (ThreadAbortException)
+            {
+                //Nothing to do here
+            }
+            catch (Exception oEx)
+            {
+                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void RestartMatchThread(Model.API.matches_match oMatch)
+        {
+            StopMatchThread();
+            StartMatchThread(oMatch);
+        }
+
+        /// <summary>
+        /// Stopt den Matchup-provider thread
+        /// </summary>
+        private void StopMatchThread()
+        {
+            this.Dispatcher.Invoke(delegate
+            {
+                itemscontrolMain.Items.Clear();
+            });
+
+            if (m_oThreadMatchProvider != null)
+                m_oThreadMatchProvider.Abort();
+        }
+
+        /// <summary>
+        /// Startet den Matchup Thread
+        /// </summary>
+        /// <param name="oMatch"></param>
+        private void StartMatchThread(Model.API.matches_match oMatch)
+        {
+            m_oThreadMatchProvider = new Thread(new ParameterizedThreadStart(MatchProvider));
+            m_oThreadMatchProvider.Start(oMatch);
+        }
+
+        /// <summary>
+        /// Lädt ein Match
+        /// </summary>
+        /// <param name="cMatchID"></param>
+        /// <returns></returns>
+        private Model.API.match GetMatch(string cMatchID)
+        {
+            Model.API.match oRetVal = null;
+            string cJson;
+
+            try
+            {
+                cJson = new WebClient().DownloadString(@"http://gw2stats.net/api/objectives.json?type=match&id=" + cMatchID);
+                if (!string.IsNullOrEmpty(cJson))
+                {
+                    oRetVal = JsonConvert.DeserializeObject<Model.API.match>(cJson);
+                }
+
+                foreach (Model.API.map oMap in oRetVal.maps)
+                {
+                    oMap.objectives_list = (List<Model.API.objective>)oMap.objectives.OrderByDescending(x => x.Value.points).ThenBy(x => x.Value.name).Select(x => x.Value).ToList<Model.API.objective>();
+                }
+            }
+            catch (Exception oEx)
+            {
+                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return oRetVal;
         }
 
     }
