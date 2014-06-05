@@ -1,0 +1,1498 @@
+{
+    "retrieve_time": "2014-06-04 14:56:14 GMT",
+    "type": "match",
+    "match_id": "2-2",
+    "bloodlust": {
+        "update_time": "2014-06-04 09:56:11",
+        "match_id": "2-2",
+        "red_owner_id": 2101,
+        "blue_owner_id": 2301,
+        "green_owner_id": 2301
+    },
+    "maps": [{
+        "name": "Red Borderlands",
+        "map_id": 0,
+        "map_owner_id": 2101,
+        "map_owner_name": "Jade Sea [FR]",
+        "objectives": {
+            "32": {
+                "id": 32,
+                "name": "Etheron Hills",
+                "cardinal": "Hills",
+                "points": 25,
+                "capture_time": "2014-06-02 02:13:02 GMT",
+                "time_held": "2:12:43:12",
+                "current_guild": {
+                    "id": "26D11ABC-AF9E-4535-A6E1-9DBACEFFE0A1",
+                    "name": "World Guardians [WvW]",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/26D11ABC-AF9E-4535-A6E1-9DBACEFFE0A1_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "33": {
+                "id": 33,
+                "name": "Dreaming Bay",
+                "cardinal": "Bay",
+                "points": 25,
+                "capture_time": "2014-06-04 13:34:10 GMT",
+                "time_held": "0:01:22:04",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "34": {
+                "id": 34,
+                "name": "Victor's Lodge",
+                "cardinal": "S Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:55:25 GMT",
+                "ri_remaining": "4:11",
+                "time_held": "0:00:00:49",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "35": {
+                "id": 35,
+                "name": "Greenbriar",
+                "cardinal": "SW Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 14:47:13 GMT",
+                "time_held": "0:00:09:01",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "36": {
+                "id": 36,
+                "name": "Bluelake",
+                "cardinal": "SE Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 07:03:12 GMT",
+                "time_held": "0:07:53:02",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "37": {
+                "id": 37,
+                "name": "Garrison",
+                "cardinal": "Garrison",
+                "points": 25,
+                "capture_time": "2014-06-04 05:37:10 GMT",
+                "time_held": "0:09:19:04",
+                "current_guild": {
+                    "id": "2EC99252-1549-4BE8-8714-5E25B00684DF",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/2EC99252-1549-4BE8-8714-5E25B00684DF_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "38": {
+                "id": 38,
+                "name": "Longview",
+                "cardinal": "NW Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 11:35:01 GMT",
+                "time_held": "0:03:21:13",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "39": {
+                "id": 39,
+                "name": "Godsword",
+                "cardinal": "N Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:46:32 GMT",
+                "time_held": "0:00:09:42",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "40": {
+                "id": 40,
+                "name": "Cliffside",
+                "cardinal": "NE Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 10:29:49 GMT",
+                "time_held": "0:04:26:25",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "50": {
+                "id": 50,
+                "name": "Bluewater Lowlands",
+                "cardinal": "SE Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:40:22 GMT",
+                "time_held": "0:00:15:52",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "51": {
+                "id": 51,
+                "name": "Astralhome",
+                "cardinal": "NE Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:53:19 GMT",
+                "ri_remaining": "2:05",
+                "time_held": "0:00:02:55",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "52": {
+                "id": 52,
+                "name": "Arah's Hope",
+                "cardinal": "NW Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:49:21 GMT",
+                "time_held": "0:00:06:53",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "53": {
+                "id": 53,
+                "name": "Greenvale Refuge",
+                "cardinal": "SW Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:55:25 GMT",
+                "ri_remaining": "4:11",
+                "time_held": "0:00:00:49",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "62": {
+                "id": 62,
+                "name": "Temple of Lost Prayers",
+                "cardinal": "Temple of ",
+                "points": 0,
+                "capture_time": "2014-06-04 14:55:25 GMT",
+                "ri_remaining": "4:11",
+                "time_held": "0:00:00:49",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "63": {
+                "id": 63,
+                "name": "Battle's Hollow",
+                "cardinal": "Battle",
+                "points": 0,
+                "capture_time": "2014-06-04 13:43:22 GMT",
+                "time_held": "0:01:12:52",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "64": {
+                "id": 64,
+                "name": "Bauer's Estate",
+                "cardinal": "Bauer",
+                "points": 0,
+                "capture_time": "2014-06-04 14:18:43 GMT",
+                "time_held": "0:00:37:31",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "65": {
+                "id": 65,
+                "name": "Orchard Overlook",
+                "cardinal": "Orchard Ov",
+                "points": 0,
+                "capture_time": "2014-06-04 14:32:19 GMT",
+                "time_held": "0:00:23:55",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "66": {
+                "id": 66,
+                "name": "Carver's Ascent",
+                "cardinal": "Carver",
+                "points": 0,
+                "capture_time": "2014-06-04 14:08:20 GMT",
+                "time_held": "0:00:47:54",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            }
+        }
+    }, {
+        "name": "Blue Borderlands",
+        "map_id": 1,
+        "map_owner_id": 2010,
+        "map_owner_name": "Seafarer's Rest",
+        "objectives": {
+            "23": {
+                "id": 23,
+                "name": "Garrison",
+                "cardinal": "Garrison",
+                "points": 25,
+                "capture_time": "2014-05-31 04:22:32 GMT",
+                "time_held": "4:10:33:42",
+                "current_guild": {
+                    "id": "B6A22B4B-1604-4491-B189-92B457650F6E",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/B6A22B4B-1604-4491-B189-92B457650F6E_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "24": {
+                "id": 24,
+                "name": "Champion's Demense",
+                "cardinal": "S Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 13:56:18 GMT",
+                "time_held": "0:00:59:56",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "25": {
+                "id": 25,
+                "name": "Redbriar",
+                "cardinal": "SW Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 14:22:58 GMT",
+                "time_held": "0:00:33:16",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "26": {
+                "id": 26,
+                "name": "Greenlake",
+                "cardinal": "SE Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 14:10:57 GMT",
+                "time_held": "0:00:45:17",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "27": {
+                "id": 27,
+                "name": "Ascension Bay",
+                "cardinal": "Bay",
+                "points": 25,
+                "capture_time": "2014-06-04 14:48:57 GMT",
+                "time_held": "0:00:07:17",
+                "current_guild": {
+                    "id": "10EB153F-EE3F-4AB4-B5FA-9FED1D329DB3",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/10EB153F-EE3F-4AB4-B5FA-9FED1D329DB3_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "28": {
+                "id": 28,
+                "name": "Dawn's Eyrie",
+                "cardinal": "NE Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 04:24:30 GMT",
+                "time_held": "0:10:31:44",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "29": {
+                "id": 29,
+                "name": "Spiritholme",
+                "cardinal": "N Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:37:42 GMT",
+                "time_held": "0:00:18:32",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "30": {
+                "id": 30,
+                "name": "Woodhaven",
+                "cardinal": "NW Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 14:52:49 GMT",
+                "ri_remaining": "1:35",
+                "time_held": "0:00:03:25",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "31": {
+                "id": 31,
+                "name": "Askalion Hills",
+                "cardinal": "Hills",
+                "points": 25,
+                "capture_time": "2014-06-04 14:16:50 GMT",
+                "time_held": "0:00:39:24",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "58": {
+                "id": 58,
+                "name": "Godslore",
+                "cardinal": "NW Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:35:34 GMT",
+                "time_held": "0:00:20:40",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "59": {
+                "id": 59,
+                "name": "Redvale Refuge",
+                "cardinal": "SW Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:55:28 GMT",
+                "ri_remaining": "4:14",
+                "time_held": "0:00:00:46",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "60": {
+                "id": 60,
+                "name": "Stargrove",
+                "cardinal": "NE Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:55:25 GMT",
+                "ri_remaining": "4:11",
+                "time_held": "0:00:00:49",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "61": {
+                "id": 61,
+                "name": "Greenwater Lowlands",
+                "cardinal": "SE Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:19:24 GMT",
+                "time_held": "0:00:36:50",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "67": {
+                "id": 67,
+                "name": "Carver's Ascent",
+                "cardinal": "Carver",
+                "points": 0,
+                "capture_time": "2014-06-04 10:50:08 GMT",
+                "time_held": "0:04:06:06",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "68": {
+                "id": 68,
+                "name": "Orchard Overlook",
+                "cardinal": "Orchard Ov",
+                "points": 0,
+                "capture_time": "2014-06-04 14:32:19 GMT",
+                "time_held": "0:00:23:55",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "69": {
+                "id": 69,
+                "name": "Bauer's Estate",
+                "cardinal": "Bauer",
+                "points": 0,
+                "capture_time": "2014-06-04 14:30:59 GMT",
+                "time_held": "0:00:25:15",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "70": {
+                "id": 70,
+                "name": "Battle's Hollow",
+                "cardinal": "Battle",
+                "points": 0,
+                "capture_time": "2014-06-04 14:29:20 GMT",
+                "time_held": "0:00:26:54",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "71": {
+                "id": 71,
+                "name": "Temple of Lost Prayers",
+                "cardinal": "Temple of ",
+                "points": 0,
+                "capture_time": "2014-06-04 13:50:55 GMT",
+                "time_held": "0:01:05:19",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            }
+        }
+    }, {
+        "name": "Green Borderlands",
+        "map_id": 2,
+        "map_owner_id": 2301,
+        "map_owner_name": "Baruch Bay [SP]",
+        "objectives": {
+            "41": {
+                "id": 41,
+                "name": "Shadaran Hills",
+                "cardinal": "Hills",
+                "points": 25,
+                "capture_time": "2014-06-04 14:29:16 GMT",
+                "time_held": "0:00:26:58",
+                "current_guild": {
+                    "id": "59102269-82C2-E311-941E-AC162DAE5AD5",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/59102269-82C2-E311-941E-AC162DAE5AD5_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "42": {
+                "id": 42,
+                "name": "Redlake",
+                "cardinal": "SE Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 12:28:01 GMT",
+                "time_held": "0:02:28:13",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "43": {
+                "id": 43,
+                "name": "Hero's Lodge",
+                "cardinal": "S Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:35:43 GMT",
+                "time_held": "0:00:20:31",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "44": {
+                "id": 44,
+                "name": "Dreadfall Bay",
+                "cardinal": "Bay",
+                "points": 25,
+                "capture_time": "2014-06-04 07:07:08 GMT",
+                "time_held": "0:07:49:06",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "45": {
+                "id": 45,
+                "name": "Bluebriar",
+                "cardinal": "SW Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 07:03:56 GMT",
+                "time_held": "0:07:52:18",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "46": {
+                "id": 46,
+                "name": "Garrison",
+                "cardinal": "Garrison",
+                "points": 25,
+                "capture_time": "2014-06-04 12:37:09 GMT",
+                "time_held": "0:02:19:05",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "47": {
+                "id": 47,
+                "name": "Sunnyhill",
+                "cardinal": "NW Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 14:33:41 GMT",
+                "time_held": "0:00:22:33",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "48": {
+                "id": 48,
+                "name": "Faithleap",
+                "cardinal": "NW Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:50:38 GMT",
+                "time_held": "0:00:05:36",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "49": {
+                "id": 49,
+                "name": "Bluevale Refuge",
+                "cardinal": "SW Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:53:39 GMT",
+                "ri_remaining": "2:25",
+                "time_held": "0:00:02:35",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "54": {
+                "id": 54,
+                "name": "Foghaven",
+                "cardinal": "NE Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:12:02 GMT",
+                "time_held": "0:00:44:12",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "55": {
+                "id": 55,
+                "name": "Redwater Lowlands",
+                "cardinal": "SE Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 13:14:02 GMT",
+                "time_held": "0:01:42:12",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "56": {
+                "id": 56,
+                "name": "Titanpaw",
+                "cardinal": "N Camp",
+                "points": 5,
+                "capture_time": "2014-06-04 14:55:57 GMT",
+                "ri_remaining": "4:43",
+                "time_held": "0:00:00:17",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "57": {
+                "id": 57,
+                "name": "Cragtop",
+                "cardinal": "NE Tower",
+                "points": 10,
+                "capture_time": "2014-06-04 12:41:08 GMT",
+                "time_held": "0:02:15:06",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "72": {
+                "id": 72,
+                "name": "Carver's Ascent",
+                "cardinal": "Carver",
+                "points": 0,
+                "capture_time": "2014-06-04 14:03:00 GMT",
+                "time_held": "0:00:53:14",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "73": {
+                "id": 73,
+                "name": "Orchard Overlook",
+                "cardinal": "Orchard Ov",
+                "points": 0,
+                "capture_time": "2014-06-04 08:36:44 GMT",
+                "time_held": "0:06:19:30",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "74": {
+                "id": 74,
+                "name": "Bauer's Estate",
+                "cardinal": "Bauer",
+                "points": 0,
+                "capture_time": "2014-06-04 14:06:56 GMT",
+                "time_held": "0:00:49:18",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "75": {
+                "id": 75,
+                "name": "Battle's Hollow",
+                "cardinal": "Battle",
+                "points": 0,
+                "capture_time": "2014-06-04 14:40:22 GMT",
+                "time_held": "0:00:15:52",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "76": {
+                "id": 76,
+                "name": "Temple of Lost Prayers",
+                "cardinal": "Temple of ",
+                "points": 0,
+                "capture_time": "2014-06-04 14:41:27 GMT",
+                "time_held": "0:00:14:47",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            }
+        }
+    }, {
+        "name": "Eternal Battlegrounds",
+        "map_id": 3,
+        "map_owner_name": "Eternal Battlegrounds",
+        "objectives": {
+            "1": {
+                "id": 1,
+                "name": "Overlook",
+                "cardinal": "Overlook",
+                "points": 25,
+                "capture_time": "2014-06-04 08:58:50 GMT",
+                "time_held": "0:05:57:24",
+                "current_guild": {
+                    "id": "850AAAFA-3A5E-466E-9B13-D31963AD8903",
+                    "name": "En Mode Bisounours [EMB]",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/850AAAFA-3A5E-466E-9B13-D31963AD8903_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "2": {
+                "id": 2,
+                "name": "Valley",
+                "cardinal": "Valley",
+                "points": 25,
+                "capture_time": "2014-06-04 00:55:40 GMT",
+                "time_held": "0:14:00:34",
+                "current_guild": {
+                    "id": "D4C2C3CC-CAF0-46A6-BACC-084A297BE9F9",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/D4C2C3CC-CAF0-46A6-BACC-084A297BE9F9_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "3": {
+                "id": 3,
+                "name": "Lowlands",
+                "cardinal": "Lowlands",
+                "points": 25,
+                "capture_time": "2014-06-04 13:26:22 GMT",
+                "time_held": "0:01:29:52",
+                "current_guild": {
+                    "id": "2216FBFB-EEDE-4A3E-A4CC-060244CB0111",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/2216FBFB-EEDE-4A3E-A4CC-060244CB0111_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "4": {
+                "id": 4,
+                "name": "Golanta Clearing",
+                "cardinal": "Golanta",
+                "points": 5,
+                "capture_time": "2014-06-04 14:45:35 GMT",
+                "time_held": "0:00:10:39",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "5": {
+                "id": 5,
+                "name": "Pangloss Rise",
+                "cardinal": "Pangloss",
+                "points": 5,
+                "capture_time": "2014-06-04 12:06:51 GMT",
+                "time_held": "0:02:49:23",
+                "current_guild": {
+                    "id": "4FA7CDA7-20D2-4B23-8059-BD0C4B722ADF",
+                    "name": "Blood Factory [BF]",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/4FA7CDA7-20D2-4B23-8059-BD0C4B722ADF_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "6": {
+                "id": 6,
+                "name": "Speldan Clearcut",
+                "cardinal": "Speldan",
+                "points": 5,
+                "capture_time": "2014-06-04 13:51:04 GMT",
+                "time_held": "0:01:05:10",
+                "current_guild": {
+                    "id": "3AA75F80-4365-48FE-8AE4-9264B604FD9C",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/3AA75F80-4365-48FE-8AE4-9264B604FD9C_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "7": {
+                "id": 7,
+                "name": "Danelon Passage",
+                "cardinal": "Danelon",
+                "points": 5,
+                "capture_time": "2014-06-04 14:50:59 GMT",
+                "time_held": "0:00:05:15",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "8": {
+                "id": 8,
+                "name": "Umberglade Woods",
+                "cardinal": "Umberglade",
+                "points": 5,
+                "capture_time": "2014-06-04 14:55:25 GMT",
+                "ri_remaining": "4:11",
+                "time_held": "0:00:00:49",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "9": {
+                "id": 9,
+                "name": "Stonemist Castle",
+                "cardinal": "SM",
+                "points": 35,
+                "capture_time": "2014-06-04 05:32:50 GMT",
+                "time_held": "0:09:23:24",
+                "current_guild": {
+                    "id": "21F04EAB-CFB2-E311-BC6C-AC162DC0070D",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/21F04EAB-CFB2-E311-BC6C-AC162DC0070D_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "10": {
+                "id": 10,
+                "name": "Rogue's Quarry",
+                "cardinal": "Rogue's",
+                "points": 5,
+                "capture_time": "2014-06-04 14:35:06 GMT",
+                "time_held": "0:00:21:08",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "11": {
+                "id": 11,
+                "name": "Aldon's Ledge",
+                "cardinal": "Aldon's",
+                "points": 10,
+                "capture_time": "2014-06-04 13:36:38 GMT",
+                "time_held": "0:01:19:36",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "12": {
+                "id": 12,
+                "name": "Wildcreek Run",
+                "cardinal": "Wildcreek",
+                "points": 10,
+                "capture_time": "2014-06-04 14:43:20 GMT",
+                "time_held": "0:00:12:54",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "13": {
+                "id": 13,
+                "name": "Jerrifer's Slough",
+                "cardinal": "Jerrifer's",
+                "points": 10,
+                "capture_time": "2014-06-04 14:49:30 GMT",
+                "time_held": "0:00:06:44",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "14": {
+                "id": 14,
+                "name": "Klovan Gully",
+                "cardinal": "Klovan",
+                "points": 10,
+                "capture_time": "2014-06-04 14:31:03 GMT",
+                "time_held": "0:00:25:11",
+                "current_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "15": {
+                "id": 15,
+                "name": "Langor Gulch",
+                "cardinal": "Langor",
+                "points": 10,
+                "capture_time": "2014-06-01 07:01:17 GMT",
+                "time_held": "3:07:54:57",
+                "current_guild": {
+                    "id": "5CEB6CD5-65ED-432E-88FC-ACF1F1310BFD",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/5CEB6CD5-65ED-432E-88FC-ACF1F1310BFD_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "16": {
+                "id": 16,
+                "name": "Quentin Lake",
+                "cardinal": "Quentin",
+                "points": 10,
+                "capture_time": "2014-06-04 01:16:06 GMT",
+                "time_held": "0:13:40:08",
+                "current_guild": {
+                    "id": "CB060D0B-152E-4EA4-A020-96890B69CCF5",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/CB060D0B-152E-4EA4-A020-96890B69CCF5_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            },
+            "17": {
+                "id": 17,
+                "name": "Mendon's Gap",
+                "cardinal": "Mendon's",
+                "points": 10,
+                "capture_time": "2014-06-04 11:58:27 GMT",
+                "time_held": "0:02:57:47",
+                "current_guild": {
+                    "id": "27F4A3D9-EECC-4240-91C7-3463636F6F4F",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/27F4A3D9-EECC-4240-91C7-3463636F6F4F_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "18": {
+                "id": 18,
+                "name": "Anzalias Pass",
+                "cardinal": "Anzalias",
+                "points": 10,
+                "capture_time": "2014-06-04 12:04:07 GMT",
+                "time_held": "0:02:52:07",
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "19": {
+                "id": 19,
+                "name": "Ogrewatch Cut",
+                "cardinal": "Ogrewatch",
+                "points": 10,
+                "capture_time": "2014-06-04 12:05:47 GMT",
+                "time_held": "0:02:50:27",
+                "current_guild": {
+                    "id": "CA096CBF-8FD8-E311-8D3D-AC162DC0A8ED",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/CA096CBF-8FD8-E311-8D3D-AC162DC0A8ED_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "20": {
+                "id": 20,
+                "name": "Veloka Slope",
+                "cardinal": "Veloka",
+                "points": 10,
+                "capture_time": "2014-06-04 09:01:44 GMT",
+                "time_held": "0:05:54:30",
+                "current_guild": {
+                    "id": "93A8906A-FB00-484E-B11C-F08BAD788847",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/93A8906A-FB00-484E-B11C-F08BAD788847_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                }
+            },
+            "21": {
+                "id": 21,
+                "name": "Durios Gulch",
+                "cardinal": "Durios",
+                "points": 10,
+                "capture_time": "2014-06-04 13:32:35 GMT",
+                "time_held": "0:01:23:39",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2101,
+                    "name": "Jade Sea [FR]",
+                    "color": "RED"
+                }
+            },
+            "22": {
+                "id": 22,
+                "name": "Bravost Escarpment",
+                "cardinal": "Bravost",
+                "points": 10,
+                "capture_time": "2014-06-04 01:09:42 GMT",
+                "time_held": "0:13:46:32",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": "BLUE"
+                },
+                "previous_owner": {
+                    "world_id": 2301,
+                    "name": "Baruch Bay [SP]",
+                    "color": "GREEN"
+                }
+            }
+        }
+    }]
+}
