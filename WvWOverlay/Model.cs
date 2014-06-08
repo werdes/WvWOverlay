@@ -31,6 +31,7 @@ namespace WvWOverlay.Model
             public string Identifier { get; set; }
             public string Title { get; set; }
             public short Gw2StatsID { get; set; }
+            public string Color { get; set; }
         }
 
         [Serializable()]
@@ -74,9 +75,9 @@ namespace WvWOverlay.Model
         {
             public DateTime update_time { get; set; }
             public string match_id { get; set; }
-            public string red_owner_id { get; set; }
-            public string blue_owner_id { get; set; }
-            public string green_owner_id { get; set; }
+            public short red_owner_id { get; set; }
+            public short blue_owner_id { get; set; }
+            public short green_owner_id { get; set; }
         }
 
         public class world
@@ -101,7 +102,7 @@ namespace WvWOverlay.Model
         {
             public string name { get; set; }
             public short map_id { get; set; }
-            public string map_owner_id { get; set; }
+            public short map_owner_id { get; set; }
             public string map_owner_name { get; set; }
             public Dictionary<string, objective> objectives { get; set; }
             public List<objective> objectives_list { get; set; }

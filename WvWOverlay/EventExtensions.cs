@@ -34,11 +34,14 @@ namespace WvWOverlay
 
     public class MatchSelectedEventArgs : EventArgs
     {
-        public MatchSelectedEventArgs(Model.API.matches_match oMatch)
+        public MatchSelectedEventArgs(Model.API.matches_match oMatch, Model.API.world oWorld)
         {
             Match = oMatch;
+            World = oWorld;
         }
 
         public Model.API.matches_match Match { get; set; }
+        public Model.API.world World { get; set; }
+
     }
 }

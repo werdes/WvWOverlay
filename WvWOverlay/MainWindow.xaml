@@ -5,18 +5,48 @@
     <Grid>
         <!--Header-->
         <Rectangle x:Name="rectangleTitlebar" Fill="#99000000" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="320" RenderTransformOrigin="0.466,0.567" MouseLeftButtonDown="On_HeaderDrag"/>
-        <Image x:Name="imageClose" HorizontalAlignment="Left" Height="20" Margin="299,1,0,0" VerticalAlignment="Top" Width="20" Source="pack://siteoforigin:,,,/Resources/close.png" MouseLeftButtonUp="On_imageClose_MouseLeftButtonUp" Cursor="Hand" Opacity="0.5" MouseEnter="On_OpacityHoverEnter" MouseLeave="On_OpacityHoverLeave"/>
-        <Image x:Name="imageSelectMatch" HorizontalAlignment="Left" Height="20" Margin="279,2,0,0" VerticalAlignment="Top" Width="20" Source="pack://siteoforigin:,,,/Resources/search.png" Cursor="Hand" Opacity="0.5" MouseEnter="On_OpacityHoverEnter" MouseLeave="On_OpacityHoverLeave" MouseLeftButtonUp="On_imageSelectMatch_MouseLeftButtonUp"/>
-        <Label x:Name="labelTitle" Content="WvW Overlay&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Height="25" Width="255" Margin="0,-3,0,0" Opacity="0.5" MouseLeftButtonDown="On_HeaderDrag" FontSize="13"/>
-        <Label x:Name="labelMatchupMapTitle" Content="" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Height="29" Width="246" Foreground="#99FFFFFF" MouseLeftButtonDown="On_HeaderDrag" FontSize="15" />
-        <Image x:Name="imageCampMode" HorizontalAlignment="Left" Height="24" Margin="292,16,0,0" VerticalAlignment="Top" Width="24" Source="pack://siteoforigin:,,,/Resources/camp_white.png" Opacity="0.4" Tag="false" MouseLeftButtonDown="On_imageCampMode_MouseLeftButtonDown" Cursor="Hand"/>
+        <Image x:Name="imageClose" HorizontalAlignment="Left" Height="20" Margin="300,0,0,0" VerticalAlignment="Top" Width="20" Source="pack://siteoforigin:,,,/Resources/close.png" MouseLeftButtonUp="On_imageClose_MouseLeftButtonUp" Cursor="Hand" Opacity="0.5" MouseEnter="On_OpacityHoverEnter" MouseLeave="On_OpacityHoverLeave"/>
+        <Image x:Name="imageSelectMatch" HorizontalAlignment="Left" Height="20" Margin="300,20,0,0" VerticalAlignment="Top" Width="20" Source="pack://siteoforigin:,,,/Resources/search.png" Cursor="Hand" Opacity="0.5" MouseEnter="On_OpacityHoverEnter" MouseLeave="On_OpacityHoverLeave" MouseLeftButtonUp="On_imageSelectMatch_MouseLeftButtonUp"/>
+        <Label x:Name="labelTitle" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Height="25" Width="255" Margin="0,-3,0,0" Opacity="0.5" MouseLeftButtonDown="On_HeaderDrag" FontSize="13">
+        </Label>
+        <Label x:Name="labelMatchupMapTitle" Content="" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Height="29" Width="222" Foreground="#99FFFFFF" MouseLeftButtonDown="On_HeaderDrag" FontSize="14" />
+        <Image x:Name="imageCampMode" HorizontalAlignment="Left" Height="24" Margin="269,14,0,0" VerticalAlignment="Top" Width="24" Source="pack://siteoforigin:,,,/Resources/camp_white.png" Opacity="0.4" Tag="false" MouseLeftButtonDown="On_imageCampMode_MouseLeftButtonDown" Cursor="Hand"/>
         <ProgressBar x:Name="progressbarLoading" HorizontalAlignment="Left" Height="5" Margin="-1,46,-1,0" VerticalAlignment="Top" Width="322" BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="0" Foreground="Red" IsIndeterminate="True" Opacity="0.5" LargeChange="0" Visibility="Hidden"/>
-       
+
         <!--Content-->
         <ItemsControl x:Name="itemscontrolMain" Margin="0,50.183,0,11.817" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False" Grid.Row="0">
 
         </ItemsControl>
         <Label x:Name="labelPlayerCharacter" Content="" HorizontalAlignment="Left" Margin="0,23,0,0" VerticalAlignment="Top" Height="27" Width="194" Foreground="#99FFFFFF" MouseLeftButtonDown="On_HeaderDrag" Opacity="0.5" />
+        <Image x:Name="imageBloodlustColor" HorizontalAlignment="Left" Height="24" Margin="230,10,0,0" VerticalAlignment="Top" Width="24" Source="Resources/Icons/bloodlust_neutral.png" Tag="false"/>
+        <Label Content="Bloodlust&#xD;&#xA;" HorizontalAlignment="Left" Margin="221,-6,0,0" VerticalAlignment="Top" Foreground="#99FFFFFF" FontSize="8"/>
+        <Rectangle HorizontalAlignment="Left" Height="48" Margin="222,0,0,0" VerticalAlignment="Top" Width="1" Opacity="0.6">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="#00000000" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle HorizontalAlignment="Left" Height="48" Margin="262,0,0,0" VerticalAlignment="Top" Width="1" Opacity="0.6">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="#00000000" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Label Content="Mode&#xA;" HorizontalAlignment="Left" Margin="265,-6,0,0" VerticalAlignment="Top" Foreground="#99FFFFFF" FontSize="8"/>
+        <Rectangle HorizontalAlignment="Left" Height="48" Margin="298,0,0,0" VerticalAlignment="Top" Width="1" Opacity="0.6">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="#00000000" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Label Content="Player&#xA;" HorizontalAlignment="Left" Margin="-1,-6,0,0" VerticalAlignment="Top" Foreground="#99FFFFFF" FontSize="8"/>
+        <Label x:Name="labelBloodlustStackCount" HorizontalContentAlignment="Center" Content="" HorizontalAlignment="Left" Margin="223,27,0,0" VerticalAlignment="Top" Foreground="#99FFFFFF" FontSize="9" Opacity="0.6" Width="39" Padding="0,5"/>
 
     </Grid>
 </Window>

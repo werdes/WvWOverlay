@@ -4,12 +4,14 @@
     <Title>Eternal Battlegrounds</Title>
     <Identifier>Eternal Battlegrounds</Identifier>
     <MapID>38</MapID>
+    <Color>Neutral</Color>
     <Gw2StatsID>3</Gw2StatsID>
   </Map>
   <Map>
     <Title>Borderlands</Title>
     <Identifier>Red Borderlands</Identifier>
     <MapID>94</MapID>
+    <Color>Red</Color>
     <Gw2StatsID>0</Gw2StatsID>
   </Map>
   <Map>

@@ -43,6 +43,11 @@ namespace WvWOverlay
         private void rectangleBack_MouseEnter(object sender, MouseEventArgs e)
         {
             rectangleBack.Fill.Opacity = 0.9D;
+            Label oLabel = (Label)sender;
+
+            oLabel.Opacity = 1D;
+            oLabel.Margin = new Thickness(oLabel.Margin.Left - 2, oLabel.Margin.Top, oLabel.Margin.Right, oLabel.Margin.Bottom);
+            
         }
 
         /// <summary>
@@ -53,6 +58,10 @@ namespace WvWOverlay
         private void rectangleBack_MouseLeave(object sender, MouseEventArgs e)
         {
             rectangleBack.Fill.Opacity = 1D;
+            Label oLabel = (Label)sender;
+
+            oLabel.Opacity = 0.8D;
+            oLabel.Margin = new Thickness(oLabel.Margin.Left + 2, oLabel.Margin.Top, oLabel.Margin.Right, oLabel.Margin.Bottom);
         }
 
 
@@ -63,7 +72,8 @@ namespace WvWOverlay
         /// <param name="e"></param>
         private void On_MatchSelectionClick(object sender, MouseButtonEventArgs e)
         {
-            EventExtensions.RaiseEvent(MatchSelected, this, new MatchSelectedEventArgs(Match));
+            Model.API.world oWorld = Match.worlds.Find(x => x.color.ToLower() == ((Label)sender).Tag.ToString());
+            EventExtensions.RaiseEvent(MatchSelected, this, new MatchSelectedEventArgs(Match, oWorld));
         }
     }
 }

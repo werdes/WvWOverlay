@@ -193,6 +193,7 @@
   <ItemGroup>
     <None Include="Resources\Configuration\Objectives.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +242,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="shield.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icons\bloodlust_blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Icons\bloodlust_green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Icons\bloodlust_neutral.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Icons\bloodlust_red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

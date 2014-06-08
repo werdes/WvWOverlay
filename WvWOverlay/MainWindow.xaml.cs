@@ -39,6 +39,7 @@ namespace WvWOverlay
         private bool m_bRunMatchProvider = true;
 
         private Model.XML.Map m_oCurrentMap;
+        private Model.API.world m_oCurrentWorld;
         private Model.mumble_ind m_oMumblelinkInd;
         private Model.API.matches_match m_oCurrentMatch;
 
@@ -185,12 +186,11 @@ namespace WvWOverlay
                 itemscontrolMain.Items.Clear();
 
                 m_oCurrentMatch = oArgs.Match;
+                m_oCurrentWorld = oArgs.World;
 
                 m_bRunMumbleProvider = true;
                 m_oThreadMumbleProvider = new Thread(new ThreadStart(MumbleProvider));
                 m_oThreadMumbleProvider.Start();
-
-
 
 
                 m_bRunMatchProvider = true;
@@ -235,6 +235,9 @@ namespace WvWOverlay
             try
             {
                 m_eCurrentDisplay = CurrentDisplay.RegionSelection;
+                m_oCurrentMap = null;
+                m_oCurrentMatch = null;
+                m_oCurrentWorld = null;
 
                 itemscontrolMain.Items.Clear();
 
@@ -246,6 +249,13 @@ namespace WvWOverlay
                     oItem.RegionSelected += new EventHandler(On_RegionSelected);
                     itemscontrolMain.Items.Add(oItem);
                 }
+
+
+                imageBloodlustColor.Dispatcher.Invoke(delegate
+                {
+                    imageBloodlustColor.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\Icons\bloodlust_neutral.png"));
+                });
+
 
             }
             catch (Exception oEx)
@@ -354,7 +364,7 @@ namespace WvWOverlay
         private void On_imageSelectMatch_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             StopMatchThread();
-            if(m_oThreadMumbleProvider != null)
+            if (m_oThreadMumbleProvider != null)
                 m_oThreadMumbleProvider.Abort();
 
             InitializeRegionSelection();
@@ -460,6 +470,9 @@ namespace WvWOverlay
             ObjectiveItem oListItem = null;
 
             string cHeaderLine = string.Empty;
+            string cIconLink = string.Empty;
+
+            int nCountBloodlustStacks = 0;
 
             try
             {
@@ -469,6 +482,7 @@ namespace WvWOverlay
                 {
                     TriggerLoadingIndicator();
 
+                    nCountBloodlustStacks = 0;
                     cHeaderLine = string.Empty;
 
                     oMatch = this.GetMatch(oMatchInput.match_id);
@@ -488,10 +502,24 @@ namespace WvWOverlay
                         {
                             cHeaderLine += oMap.map_owner_name + " ";
                         }
-
                         cHeaderLine += m_oCurrentMap.Title;
 
                         labelMatchupMapTitle.Dispatcher.Invoke(delegate { labelMatchupMapTitle.Content = cHeaderLine; });
+
+                        //Bloodlust
+
+                        nCountBloodlustStacks += oMatch.bloodlust.blue_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
+                        nCountBloodlustStacks += oMatch.bloodlust.red_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
+                        nCountBloodlustStacks += oMatch.bloodlust.blue_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
+
+                        imageBloodlustColor.Dispatcher.Invoke(delegate
+                        {
+                            imageBloodlustColor.Source = new BitmapImage(new Uri(GetBloodlustByMap(oMatch)));
+                            labelBloodlustStackCount.Content = string.Format("{0} Stacks",
+                                nCountBloodlustStacks);
+                        });
+
+
 
                         foreach (Model.API.objective oObjective in oMap.objectives_list)
                         {
@@ -545,6 +573,51 @@ namespace WvWOverlay
             {
                 MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        /// <summary>
+        /// Liefert den Blutlust.status der aktuellen map
+        /// </summary>
+        /// <param name="m_oCurrentMap"></param>
+        private string GetBloodlustByMap(Model.API.match oMatch)
+        {
+            string cRetVal = string.Empty;
+            string cFile = string.Empty;
+            string cColorId = string.Empty;
+
+            PropertyInfo oPropertyInfo;
+
+            Dictionary<short, string> oDictWorldidsToColors;
+
+            try
+            {
+                cColorId = string.Format("{0}_owner_id", m_oCurrentMap.Color.ToLower());
+
+                oPropertyInfo = typeof(Model.API.bloodlust).GetProperties().ToList().Find(y => y.Name == cColorId);
+
+                if(oPropertyInfo != null)
+                {
+                    oDictWorldidsToColors = new Dictionary<short, string>();
+                    oDictWorldidsToColors.Add(oMatch.maps.Find(x => x.map_id == 0).map_owner_id, "red");
+                    oDictWorldidsToColors.Add(oMatch.maps.Find(x => x.map_id == 1).map_owner_id, "blue");
+                    oDictWorldidsToColors.Add(oMatch.maps.Find(x => x.map_id == 2).map_owner_id, "green");
+
+
+                    cFile = string.Format(@"\Resources\Icons\bloodlust_{0}.png", oDictWorldidsToColors[Convert.ToInt16(oPropertyInfo.GetValue(oMatch.bloodlust).ToString())]);
+
+                    cRetVal = Environment.CurrentDirectory + cFile;
+                }
+                else
+                {
+                    //Ewige
+                    cRetVal = Environment.CurrentDirectory + @"\Resources\Icons\bloodlust_neutral.png";
+                }
+            }
+            catch (Exception oEx)
+            {
+                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return cRetVal;
         }
 
         private void RestartMatchThread(Model.API.matches_match oMatch)
