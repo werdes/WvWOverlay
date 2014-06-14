@@ -9,18 +9,23 @@
 
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="1" Margin="0,25,0,0" Stroke="#99000000" VerticalAlignment="Top" Width="320"/>
         <Rectangle Fill="#66000000" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="320"/>
-        <Label x:Name="labelObjectiveName" Content="" HorizontalAlignment="Left" Margin="22,1,0,0" VerticalAlignment="Top" Height="24" Width="205" FontSize="14" FontFamily="Arial" Foreground="White" MouseLeftButtonDown="labelObjectiveName_MouseLeftButtonDown">
+        <Label x:Name="labelObjectiveName" Content="" HorizontalAlignment="Left" Margin="22,1,0,0" VerticalAlignment="Top" Height="24" Width="170" FontSize="14" FontFamily="Arial" Foreground="White" MouseLeftButtonDown="labelObjectiveName_MouseLeftButtonDown">
             <Label.Effect>
                 <DropShadowEffect  Color="Black" Direction="0" ShadowDepth="1" Opacity=".65" />
             </Label.Effect>
         </Label>
         <Image x:Name="imageObjectiveType" Height="16" Width="16" Margin="6,6,298,0" VerticalAlignment="Top"/>
-        <Label x:Name="labelTimer" Content="" HorizontalAlignment="Left" Margin="227,0,0,0" VerticalAlignment="Top" Height="24" Width="48" FontSize="14" FontFamily="Arial" Foreground="White">
+        <Label x:Name="labelTimer" Content="" HorizontalAlignment="Left" Margin="192,0,0,0" VerticalAlignment="Top" Height="24" Width="48" FontSize="14" FontFamily="Arial" Foreground="White">
             <Label.Effect>
                 <DropShadowEffect  Color="Black" Direction="0" ShadowDepth="1" Opacity=".65" />
             </Label.Effect>
         </Label>
-        <Image x:Name="imageBlock" Height="24" Margin="0,1,23,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="24" Source="pack://siteoforigin:,,,/Resources/close.png" Visibility="Hidden"/>
-        <Image x:Name="imageClaim" Height="24" Margin="0,1,3,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="24" Source="pack://siteoforigin:,,,/Resources/shield.png" Visibility="Hidden" />
+        <Image x:Name="imageBlock" Height="24" Margin="0,1,56,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="24" Source="pack://siteoforigin:,,,/Resources/close.png" Visibility="Hidden"/>
+        <Image x:Name="imageClaim" Height="24" Margin="0,1,38,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="24" Source="pack://siteoforigin:,,,/Resources/shield.png" Visibility="Hidden" />
+        <Label x:Name="labelTimeOwned" Content="" HorizontalAlignment="Left" Margin="280,1,0,0" VerticalAlignment="Top" Height="24" Width="40" FontSize="14" FontFamily="Arial" Foreground="White" HorizontalContentAlignment="Right">
+            <Label.Effect>
+                <DropShadowEffect  Color="Black" Direction="0" ShadowDepth="1" Opacity=".65" />
+            </Label.Effect>
+        </Label>
     </Grid>
 </UserControl>

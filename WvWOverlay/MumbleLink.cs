@@ -46,6 +46,7 @@ namespace WvWOverlay
             public float x, y, z;
             public int world_id;
             public string ind;
+            public float af_x, af_y, af_z;
         }
 
         #region Win32
@@ -148,7 +149,10 @@ namespace WvWOverlay
             coord.y = l.fAvatarPosition[2] * METER_TO_INCH; //north to south
             coord.z = -l.fAvatarPosition[1] * METER_TO_INCH; //altitude
             coord.world_id = BitConverter.ToInt32(l.context, 36);
-            //coord.map_id = BitConverter.ToInt32(l.name, 0);
+
+            coord.af_x = l.fAvatarFront[0];
+            coord.af_y = l.fAvatarFront[2];
+            coord.af_z = l.fAvatarFront[1];
 
             coord.ind = l.identity;
 

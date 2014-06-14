@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Security;
@@ -19,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WvWOverlay
 {
@@ -32,16 +35,22 @@ namespace WvWOverlay
 
         private Model.XML.Region m_oSelectedRegion;
 
-        private Thread m_oThreadMumbleProvider;
-        public bool m_bRunMumbleProvider = true;
+        private Thread m_oThreadMumbleFileProvider;
+        public bool m_bRunMumbleFileProvider = true;
+
+        private MumbleLink.Coordinate m_oCurrentCoordinate;
+        private Thread m_oThreadPlayerDisplayProvider;
+        private bool m_bRunPlayerDisplay = true;
 
         private Thread m_oThreadMatchProvider;
         private bool m_bRunMatchProvider = true;
 
         private Model.XML.Map m_oCurrentMap;
         private Model.API.world m_oCurrentWorld;
-        private Model.mumble_ind m_oMumblelinkInd;
+
+
         private Model.API.matches_match m_oCurrentMatch;
+
 
         private enum CurrentDisplay
         {
@@ -188,10 +197,18 @@ namespace WvWOverlay
                 m_oCurrentMatch = oArgs.Match;
                 m_oCurrentWorld = oArgs.World;
 
-                m_bRunMumbleProvider = true;
-                m_oThreadMumbleProvider = new Thread(new ThreadStart(MumbleProvider));
-                m_oThreadMumbleProvider.Start();
+                m_bRunMumbleFileProvider = true;
+                m_oThreadMumbleFileProvider = new Thread(new ThreadStart(MumbleFileProvider));
+                m_oThreadMumbleFileProvider.Start();
 
+                m_bRunPlayerDisplay = true;
+                m_oThreadPlayerDisplayProvider = new Thread(new ThreadStart(PlayerDisplayProvider));
+                m_oThreadPlayerDisplayProvider.Start();
+
+                labelPlayerWorld.Dispatcher.Invoke(delegate
+                {
+                    labelPlayerWorld.Content = m_oCurrentWorld.name;
+                });
 
                 m_bRunMatchProvider = true;
 
@@ -254,6 +271,7 @@ namespace WvWOverlay
                 imageBloodlustColor.Dispatcher.Invoke(delegate
                 {
                     imageBloodlustColor.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\Icons\bloodlust_neutral.png"));
+                    labelPlayerWorld.Content = string.Empty;
                 });
 
 
@@ -273,13 +291,16 @@ namespace WvWOverlay
         {
             try
             {
-                m_bRunMumbleProvider = false;
+                m_bRunMumbleFileProvider = false;
                 m_bRunMatchProvider = false;
 
-                if (m_oThreadMumbleProvider != null)
-                    m_oThreadMumbleProvider.Abort();
+                if (m_oThreadMumbleFileProvider != null)
+                    m_oThreadMumbleFileProvider.Abort();
                 if (m_oThreadMatchProvider != null)
                     m_oThreadMatchProvider.Abort();
+                if (m_oThreadPlayerDisplayProvider != null)
+                    m_oThreadPlayerDisplayProvider.Abort();
+
 
 
                 this.Close();
@@ -364,48 +385,77 @@ namespace WvWOverlay
         private void On_imageSelectMatch_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             StopMatchThread();
-            if (m_oThreadMumbleProvider != null)
-                m_oThreadMumbleProvider.Abort();
+            if (m_oThreadMumbleFileProvider != null)
+                m_oThreadMumbleFileProvider.Abort();
+
+            if (m_oThreadPlayerDisplayProvider != null)
+                m_oThreadPlayerDisplayProvider.Abort();
 
             InitializeRegionSelection();
 
         }
 
         /// <summary>
-        /// Führt den Mumblelink-Thread aus
+        /// Zieht die Mumble-Coordinate aus dem RAM
         /// </summary>
-        private void MumbleProvider()
+        private void MumbleFileProvider()
         {
             MumbleLink oMumbleLink;
-            MumbleLink.Coordinate oCoordinate;
+
+            try
+            {
+                oMumbleLink = new MumbleLink();
+
+                while (m_bRunMumbleFileProvider)
+                {
+                    m_oCurrentCoordinate = oMumbleLink.GetCoordinates();
+
+                    imageRotate.Dispatcher.Invoke(delegate
+                    {
+                        AnimatedRotateTransform.Angle = (Math.Atan2(m_oCurrentCoordinate.af_y, m_oCurrentCoordinate.af_x > 0 ? m_oCurrentCoordinate.af_x * -1 : Math.Abs(m_oCurrentCoordinate.af_x)) * 180 / Math.PI) - 90;
+
+                    }, DispatcherPriority.Send);
+
+
+                    Thread.Sleep(100);
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// <summary>
+        /// Führt den Mumblelink-Thread aus
+        /// </summary>
+        private void PlayerDisplayProvider()
+        {
+            MumbleLink oMumbleLink;
 
             List<Model.XML.Map> oLstMaps;
 
-            Model.mumble_ind oInd;
+            Model.mumble_identity oIndentity;
             Model.XML.Profession oProfession;
 
             try
             {
                 oMumbleLink = new MumbleLink();
                 oLstMaps = ConfigurationParser.GetMaps();
-
-                while (m_bRunMumbleProvider)
+                while (m_bRunPlayerDisplay)
                 {
-                    oCoordinate = oMumbleLink.GetCoordinates();
-
-                    if (!string.IsNullOrWhiteSpace(oCoordinate.ind))
+                    if (!string.IsNullOrWhiteSpace(m_oCurrentCoordinate.ind))
                     {
-                        oInd = JsonConvert.DeserializeObject<Model.mumble_ind>(oCoordinate.ind);
-                        m_oMumblelinkInd = oInd;
+                        oIndentity = JsonConvert.DeserializeObject<Model.mumble_identity>(m_oCurrentCoordinate.ind);
 
-                        oProfession = m_oLstProfessions.Find(x => x.Id == oInd.profession);
+                        oProfession = m_oLstProfessions.Find(x => x.Id == oIndentity.profession);
 
                         if (oProfession != null)
                         {
                             //Invoke for multithreading-access
-                            labelPlayerCharacter.Dispatcher.Invoke(delegate { labelPlayerCharacter.Content = string.Format("{0} - {1}", oInd.name, oProfession.Name); });
+                            labelPlayerCharacter.Dispatcher.Invoke(delegate { labelPlayerCharacter.Content = string.Format("{0} - {1}", oIndentity.name, oProfession.Name); });
                         }
-                        m_oCurrentMap = oLstMaps.Find(x => x.MapID == oInd.map_id);
+
+                        m_oCurrentMap = oLstMaps.Find(x => x.MapID == oIndentity.map_id);
                     }
                     else
                     {
@@ -419,9 +469,12 @@ namespace WvWOverlay
                     Thread.Sleep(2000);
                 }
             }
-            catch
+            catch (ThreadAbortException)
             {
 
+            }
+            catch (Exception oEx)
+            {
             }
         }
 
@@ -510,16 +563,17 @@ namespace WvWOverlay
 
                         nCountBloodlustStacks += oMatch.bloodlust.blue_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
                         nCountBloodlustStacks += oMatch.bloodlust.red_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
-                        nCountBloodlustStacks += oMatch.bloodlust.blue_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
+                        nCountBloodlustStacks += oMatch.bloodlust.green_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
 
                         imageBloodlustColor.Dispatcher.Invoke(delegate
                         {
                             imageBloodlustColor.Source = new BitmapImage(new Uri(GetBloodlustByMap(oMatch)));
-                            labelBloodlustStackCount.Content = string.Format("{0} Stacks",
-                                nCountBloodlustStacks);
+                            labelBloodlustStackCount.Content = string.Format("{0} Stack{1}",
+                                nCountBloodlustStacks,
+                                nCountBloodlustStacks == 0 || nCountBloodlustStacks > 1 ? "s" : "");
                         });
 
-
+                        oMap.objectives_list = (List<Model.API.objective>)oMap.objectives_list.Where(x => x.points > 0).OrderByDescending(x => x.points).ThenBy(x =>  m_oLstObjectives.Find(y => y.Id == x.id).Name).ToList();
 
                         foreach (Model.API.objective oObjective in oMap.objectives_list)
                         {
@@ -559,6 +613,9 @@ namespace WvWOverlay
                         });
 
                         labelMatchupMapTitle.Dispatcher.Invoke(delegate { labelMatchupMapTitle.Content = "No Word vs. World Map"; });
+
+                        imageBloodlustColor.Dispatcher.Invoke(delegate { imageBloodlustColor.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\Icons\bloodlust_neutral.png")); });
+                        labelBloodlustStackCount.Dispatcher.Invoke(delegate { labelBloodlustStackCount.Content = string.Empty; });
                     }
 
                     TriggerLoadingIndicator();
@@ -584,6 +641,7 @@ namespace WvWOverlay
             string cRetVal = string.Empty;
             string cFile = string.Empty;
             string cColorId = string.Empty;
+            short nWorldID;
 
             PropertyInfo oPropertyInfo;
 
@@ -595,15 +653,16 @@ namespace WvWOverlay
 
                 oPropertyInfo = typeof(Model.API.bloodlust).GetProperties().ToList().Find(y => y.Name == cColorId);
 
-                if(oPropertyInfo != null)
+                if (oPropertyInfo != null)
                 {
                     oDictWorldidsToColors = new Dictionary<short, string>();
                     oDictWorldidsToColors.Add(oMatch.maps.Find(x => x.map_id == 0).map_owner_id, "red");
                     oDictWorldidsToColors.Add(oMatch.maps.Find(x => x.map_id == 1).map_owner_id, "blue");
                     oDictWorldidsToColors.Add(oMatch.maps.Find(x => x.map_id == 2).map_owner_id, "green");
 
+                    nWorldID = Convert.ToInt16(oPropertyInfo.GetValue(oMatch.bloodlust).ToString());
 
-                    cFile = string.Format(@"\Resources\Icons\bloodlust_{0}.png", oDictWorldidsToColors[Convert.ToInt16(oPropertyInfo.GetValue(oMatch.bloodlust).ToString())]);
+                    cFile = string.Format(@"\Resources\Icons\bloodlust_{0}.png", oDictWorldidsToColors[nWorldID]);
 
                     cRetVal = Environment.CurrentDirectory + cFile;
                 }
@@ -615,7 +674,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                throw oEx;
             }
             return cRetVal;
         }
@@ -670,12 +729,12 @@ namespace WvWOverlay
 
                 foreach (Model.API.map oMap in oRetVal.maps)
                 {
-                    oMap.objectives_list = (List<Model.API.objective>)oMap.objectives.OrderByDescending(x => x.Value.points).ThenBy(x => x.Value.name).Select(x => x.Value).ToList<Model.API.objective>();
+                    oMap.objectives_list = (List<Model.API.objective>)oMap.objectives.Select(x => x.Value).ToList<Model.API.objective>();
                 }
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                throw oEx;
             }
             return oRetVal;
         }

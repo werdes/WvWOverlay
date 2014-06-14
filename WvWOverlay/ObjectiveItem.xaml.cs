@@ -55,6 +55,8 @@ namespace WvWOverlay
                     imageObjectiveType.Source = new BitmapImage(this.GetIconUri(oObjectiveInList, Objective.current_owner.color));
                     imageClaim.Visibility = Objective.current_guild == null ? System.Windows.Visibility.Hidden : System.Windows.Visibility.Visible;
 
+                    labelTimeOwned.Content = GetTimeOwnedString(Objective);
+
                     if (Objective.ri_remaining.TotalMilliseconds > 0)
                     {
                         imageBlock.Visibility = System.Windows.Visibility.Visible;
@@ -82,6 +84,8 @@ namespace WvWOverlay
 
                 if (oObjectiveInList != null)
                 {
+                    labelTimeOwned.Content = GetTimeOwnedString(oObjective);
+
                     if (Objective.current_owner.color != oObjective.current_owner.color)
                     {
                         Objective = oObjective;
@@ -90,6 +94,7 @@ namespace WvWOverlay
                         imageObjectiveType.Source = new BitmapImage(this.GetIconUri(oObjectiveInList, Objective.current_owner.color));
                         imageClaim.Visibility = Objective.current_guild == null ? System.Windows.Visibility.Hidden : System.Windows.Visibility.Visible;
 
+                       
                         if (Objective.ri_remaining.TotalMilliseconds > 0)
                         {
                             if(!string.IsNullOrWhiteSpace(labelTimer.Content.ToString()))
@@ -106,6 +111,35 @@ namespace WvWOverlay
             {
 
             }
+        }
+
+        /// <summary>
+        /// Liefert den String
+        /// </summary>
+        /// <param name="oObjective"></param>
+        /// <returns></returns>
+        private string GetTimeOwnedString(Model.API.objective oObjective)
+        {
+            string cRetVal = string.Empty;
+
+            if(oObjective.time_held.Days > 0)
+            {
+                cRetVal = oObjective.time_held.Days.ToString() + "d";
+            }
+            else if(oObjective.time_held.Hours > 0)
+            {
+                cRetVal = oObjective.time_held.Hours.ToString() + "h";
+            }
+            else if(oObjective.time_held.Minutes > 0)
+            {
+                cRetVal = oObjective.time_held.Minutes.ToString() + "m";
+            }
+            else
+            {
+                cRetVal = "<1m";
+            }
+
+            return cRetVal;
         }
 
         /// <summary>

@@ -148,7 +148,7 @@ namespace WvWOverlay.Model
         }
     }
 
-    public class mumble_ind
+    public class mumble_identity
     {
         public string name { get; set; }
         public short profession { get; set; }
