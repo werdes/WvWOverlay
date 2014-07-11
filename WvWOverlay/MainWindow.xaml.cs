@@ -18,6 +18,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -39,6 +40,7 @@ namespace WvWOverlay
         public bool m_bRunMumbleFileProvider = true;
 
         private MumbleLink.Coordinate m_oCurrentCoordinate;
+        private Model.mumble_identity m_oCurrentIdentity;
         private Thread m_oThreadPlayerDisplayProvider;
         private bool m_bRunPlayerDisplay = true;
 
@@ -48,9 +50,10 @@ namespace WvWOverlay
         private Model.XML.Map m_oCurrentMap;
         private Model.API.world m_oCurrentWorld;
 
+        private string m_cCurrentSpotifyString;
+
 
         private Model.API.matches_match m_oCurrentMatch;
-
 
         private enum CurrentDisplay
         {
@@ -205,16 +208,13 @@ namespace WvWOverlay
                 m_oThreadPlayerDisplayProvider = new Thread(new ThreadStart(PlayerDisplayProvider));
                 m_oThreadPlayerDisplayProvider.Start();
 
-                labelPlayerWorld.Dispatcher.Invoke(delegate
-                {
-                    labelPlayerWorld.Content = m_oCurrentWorld.name;
-                });
 
                 m_bRunMatchProvider = true;
 
                 StartMatchThread(oArgs.Match);
 
                 m_eCurrentDisplay = CurrentDisplay.Timer;
+
 
                 TriggerLoadingIndicator();
             }
@@ -291,26 +291,33 @@ namespace WvWOverlay
         {
             try
             {
-                m_bRunMumbleFileProvider = false;
-                m_bRunMatchProvider = false;
-
-                if (m_oThreadMumbleFileProvider != null)
-                    m_oThreadMumbleFileProvider.Abort();
-                if (m_oThreadMatchProvider != null)
-                    m_oThreadMatchProvider.Abort();
-                if (m_oThreadPlayerDisplayProvider != null)
-                    m_oThreadPlayerDisplayProvider.Abort();
-
-
-
                 this.Close();
-                Application.Current.Shutdown();
-                Environment.Exit(0);
             }
             catch (Exception oEx)
             {
                 MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        /// <summary>
+        /// Closing all the things
+        /// </summary>
+        private void ApplicationShutdown()
+        {
+            m_bRunMumbleFileProvider = false;
+            m_bRunMatchProvider = false;
+
+            if (m_oThreadMumbleFileProvider != null)
+                m_oThreadMumbleFileProvider.Abort();
+            if (m_oThreadMatchProvider != null)
+                m_oThreadMatchProvider.Abort();
+            if (m_oThreadPlayerDisplayProvider != null)
+                m_oThreadPlayerDisplayProvider.Abort();
+
+
+
+            Application.Current.Shutdown();
+            Environment.Exit(0);
         }
 
         /// <summary>
@@ -375,6 +382,8 @@ namespace WvWOverlay
                 m_oLstObjectives = ConfigurationParser.GetObjectives();
 
                 TriggerLoadingIndicator();
+
+
             }
             catch (Exception oEx)
             {
@@ -401,27 +410,28 @@ namespace WvWOverlay
         private void MumbleFileProvider()
         {
             MumbleLink oMumbleLink;
+            List<Model.XML.Map> oLstMaps;
 
             try
             {
                 oMumbleLink = new MumbleLink();
 
+                oLstMaps = ConfigurationParser.GetMaps();
+
                 while (m_bRunMumbleFileProvider)
                 {
                     m_oCurrentCoordinate = oMumbleLink.GetCoordinates();
 
-                    imageRotate.Dispatcher.Invoke(delegate
-                    {
-                        AnimatedRotateTransform.Angle = (Math.Atan2(m_oCurrentCoordinate.af_y, m_oCurrentCoordinate.af_x > 0 ? m_oCurrentCoordinate.af_x * -1 : Math.Abs(m_oCurrentCoordinate.af_x)) * 180 / Math.PI) - 90;
+                    m_oCurrentIdentity = JsonConvert.DeserializeObject<Model.mumble_identity>(m_oCurrentCoordinate.ind);
 
-                    }, DispatcherPriority.Send);
-
+                    m_oCurrentMap = oLstMaps.Find(x => x.MapID == m_oCurrentIdentity.map_id);
 
                     Thread.Sleep(100);
                 }
             }
-            catch (Exception)
+            catch (Exception oEx)
             {
+
             }
         }
 
@@ -432,30 +442,44 @@ namespace WvWOverlay
         {
             MumbleLink oMumbleLink;
 
-            List<Model.XML.Map> oLstMaps;
-
-            Model.mumble_identity oIndentity;
             Model.XML.Profession oProfession;
+
+            SpotifyLocalApi oAPI = null;
+            Status oSpotifyStatus = null;
 
             try
             {
                 oMumbleLink = new MumbleLink();
-                oLstMaps = ConfigurationParser.GetMaps();
+
+                //Spotify Integration
+                try
+                {
+                    oAPI = new SpotifyLocalApi();
+                    if (oAPI.Cfid.Token == null)
+                    {
+                        m_cCurrentSpotifyString = string.Empty;
+                    }
+                }
+                catch (Exception)
+                {
+                    //Spotify not running
+                    m_cCurrentSpotifyString = string.Empty;
+                }
+
+
                 while (m_bRunPlayerDisplay)
                 {
+                    //World Name
                     if (!string.IsNullOrWhiteSpace(m_oCurrentCoordinate.ind))
                     {
-                        oIndentity = JsonConvert.DeserializeObject<Model.mumble_identity>(m_oCurrentCoordinate.ind);
 
-                        oProfession = m_oLstProfessions.Find(x => x.Id == oIndentity.profession);
+                        oProfession = m_oLstProfessions.Find(x => x.Id == m_oCurrentIdentity.profession);
 
                         if (oProfession != null)
                         {
                             //Invoke for multithreading-access
-                            labelPlayerCharacter.Dispatcher.Invoke(delegate { labelPlayerCharacter.Content = string.Format("{0} - {1}", oIndentity.name, oProfession.Name); });
+                            labelPlayerCharacter.Dispatcher.Invoke(delegate { labelPlayerCharacter.Content = string.Format("{0} - {1}", m_oCurrentIdentity.name, oProfession.Name); });
                         }
-
-                        m_oCurrentMap = oLstMaps.Find(x => x.MapID == oIndentity.map_id);
                     }
                     else
                     {
@@ -466,6 +490,49 @@ namespace WvWOverlay
                             itemscontrolMain.Dispatcher.Invoke(delegate { itemscontrolMain.Items.Clear(); });
                     }
 
+
+                    //Spotify Display
+                    if (oAPI != null)
+                    {
+                        oSpotifyStatus = oAPI.Status;
+                        if (oAPI.Cfid.Token != null && oSpotifyStatus != null && oSpotifyStatus.Track != null)
+                        {
+                            if (oSpotifyStatus.Playing)
+                            {
+                                m_cCurrentSpotifyString = string.Format("{0} - {1}",
+                                    oSpotifyStatus.Track.ArtistResource.Name,
+                                    oSpotifyStatus.Track.TrackResource.Name);
+
+                                labelPlayerWorld.Dispatcher.Invoke(delegate
+                                {
+                                    labelPlayerWorld.Content = m_cCurrentSpotifyString;
+                                });
+                            }
+                            else
+                            {
+                                labelPlayerWorld.Dispatcher.Invoke(delegate
+                                {
+                                    labelPlayerWorld.Content = m_oCurrentWorld.name;
+                                });
+                            }
+                        }
+                        else
+                        {
+                            labelPlayerWorld.Dispatcher.Invoke(delegate
+                            {
+                                labelPlayerWorld.Content = m_oCurrentWorld.name;
+                            });
+                        }
+                    }
+                    else
+                    {
+                        labelPlayerWorld.Dispatcher.Invoke(delegate
+                        {
+                            labelPlayerWorld.Content = m_oCurrentWorld.name;
+                        });
+                    }
+
+
                     Thread.Sleep(2000);
                 }
             }
@@ -475,6 +542,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
+                int a = 0;
             }
         }
 
@@ -560,7 +628,6 @@ namespace WvWOverlay
                         labelMatchupMapTitle.Dispatcher.Invoke(delegate { labelMatchupMapTitle.Content = cHeaderLine; });
 
                         //Bloodlust
-
                         nCountBloodlustStacks += oMatch.bloodlust.blue_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
                         nCountBloodlustStacks += oMatch.bloodlust.red_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
                         nCountBloodlustStacks += oMatch.bloodlust.green_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
@@ -573,8 +640,22 @@ namespace WvWOverlay
                                 nCountBloodlustStacks == 0 || nCountBloodlustStacks > 1 ? "s" : "");
                         });
 
-                        oMap.objectives_list = (List<Model.API.objective>)oMap.objectives_list.Where(x => x.points > 0).OrderByDescending(x => x.points).ThenBy(x =>  m_oLstObjectives.Find(y => y.Id == x.id).Name).ToList();
+                        //Score
+                        labelScoreBlue.Dispatcher.Invoke(delegate
+                        {
+                            //Green
+                            labelScoreGreen.Content = oMatchInput.worlds.Find(x => x.color == "Green").ppt;
+                            
+                            //Blue
+                            labelScoreBlue.Content = oMatchInput.worlds.Find(x => x.color == "Blue").ppt;
 
+                            //Red
+                            labelScoreRed.Content = oMatchInput.worlds.Find(x => x.color == "Red").ppt;
+
+                        });
+
+                        oMap.objectives_list = (List<Model.API.objective>)oMap.objectives_list.Where(x => x.points > 0).OrderByDescending(x => x.points).ThenBy(x => m_oLstObjectives.Find(y => y.Id == x.id).Name).ToList();
+                        
                         foreach (Model.API.objective oObjective in oMap.objectives_list)
                         {
                             if (oObjective.points > 0)
@@ -619,7 +700,7 @@ namespace WvWOverlay
                     }
 
                     TriggerLoadingIndicator();
-                    Thread.Sleep(5000);
+                    Thread.Sleep(10000);
                 }
             }
             catch (ThreadAbortException)
@@ -674,7 +755,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                throw oEx;
+                cRetVal = cRetVal = Environment.CurrentDirectory + @"\Resources\Icons\bloodlust_neutral.png";
             }
             return cRetVal;
         }
@@ -737,6 +818,16 @@ namespace WvWOverlay
                 throw oEx;
             }
             return oRetVal;
+        }
+
+        /// <summary>
+        /// Closed event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            ApplicationShutdown();
         }
 
     }

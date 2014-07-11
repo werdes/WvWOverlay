@@ -48,13 +48,13 @@ namespace WvWOverlay
             try
             {
                 oObjectiveInList = m_oLstObjectives.Find(x => x.Id == Objective.id);
+                imageClaim.Visibility = Objective.current_guild == null || string.IsNullOrWhiteSpace(Objective.current_guild.id) ? System.Windows.Visibility.Hidden : System.Windows.Visibility.Visible;
 
                 if (oObjectiveInList != null)
                 {
                     labelObjectiveName.Content = oObjectiveInList.Name;
                     imageObjectiveType.Source = new BitmapImage(this.GetIconUri(oObjectiveInList, Objective.current_owner.color));
-                    imageClaim.Visibility = Objective.current_guild == null ? System.Windows.Visibility.Hidden : System.Windows.Visibility.Visible;
-
+                    
                     labelTimeOwned.Content = GetTimeOwnedString(Objective);
 
                     if (Objective.ri_remaining.TotalMilliseconds > 0)
@@ -77,7 +77,7 @@ namespace WvWOverlay
         public void Update(Model.API.objective oObjective)
         {
             Model.XML.Objective oObjectiveInList;
-
+            
             try
             {
                 oObjectiveInList = m_oLstObjectives.Find(x => x.Id == Objective.id);
@@ -85,6 +85,7 @@ namespace WvWOverlay
                 if (oObjectiveInList != null)
                 {
                     labelTimeOwned.Content = GetTimeOwnedString(oObjective);
+                    imageClaim.Visibility = oObjective.current_guild == null || string.IsNullOrWhiteSpace(oObjective.current_guild.id) ? System.Windows.Visibility.Hidden : System.Windows.Visibility.Visible;
 
                     if (Objective.current_owner.color != oObjective.current_owner.color)
                     {
@@ -92,8 +93,7 @@ namespace WvWOverlay
 
                         labelObjectiveName.Content = oObjectiveInList.Name;
                         imageObjectiveType.Source = new BitmapImage(this.GetIconUri(oObjectiveInList, Objective.current_owner.color));
-                        imageClaim.Visibility = Objective.current_guild == null ? System.Windows.Visibility.Hidden : System.Windows.Visibility.Visible;
-
+                       
                        
                         if (Objective.ri_remaining.TotalMilliseconds > 0)
                         {
