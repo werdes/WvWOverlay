@@ -64,6 +64,21 @@ namespace WvWOverlay
 
         private CurrentDisplay m_eCurrentDisplay;
 
+
+
+        private LogWriter m_oLogWriter;
+        public LogWriter LOGWRITER
+        {
+            get
+            {
+                if (m_oLogWriter == null)
+                {
+                    m_oLogWriter = new LogWriter(System.IO.Path.Combine(Environment.CurrentDirectory, "Log"), new TimeSpan(7, 0, 0, 0));
+                }
+                return m_oLogWriter;
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -92,7 +107,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -122,7 +137,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -175,7 +190,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
 
             TriggerLoadingIndicator();
@@ -220,7 +235,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -238,9 +253,28 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
+
+        /// <summary>
+        /// Zeigt die Ladeansicht
+        /// </summary>
+        public void TriggerLoadingIndicator(System.Windows.Visibility eVisibility)
+        {
+            try
+            {
+                progressbarLoading.Dispatcher.Invoke((ThreadStart)delegate
+                {
+                    progressbarLoading.Visibility = eVisibility;
+                });
+            }
+            catch (Exception oEx)
+            {
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
+        }
+
 
 
         /// <summary>
@@ -278,7 +312,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -295,7 +329,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -381,13 +415,15 @@ namespace WvWOverlay
 
                 m_oLstObjectives = ConfigurationParser.GetObjectives();
 
+                LOGWRITER.WriteMessage(string.Format("Overlay started, Machine [{0}]", Environment.MachineName), LogWriter.MESSAGE_TYPE.Info);
+
                 TriggerLoadingIndicator();
 
 
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -420,18 +456,33 @@ namespace WvWOverlay
 
                 while (m_bRunMumbleFileProvider)
                 {
-                    m_oCurrentCoordinate = oMumbleLink.GetCoordinates();
-
-                    m_oCurrentIdentity = JsonConvert.DeserializeObject<Model.mumble_identity>(m_oCurrentCoordinate.ind);
-
-                    m_oCurrentMap = oLstMaps.Find(x => x.MapID == m_oCurrentIdentity.map_id);
-
-                    Thread.Sleep(100);
+                    try
+                    {
+                        m_oCurrentCoordinate = oMumbleLink.GetCoordinates();
+                        m_oCurrentIdentity = JsonConvert.DeserializeObject<Model.mumble_identity>(m_oCurrentCoordinate.ind);
+                        //Invoke Mapchange if necessary
+                        if(m_oCurrentMap != null && m_oCurrentMap.MapID != m_oCurrentIdentity.map_id)
+                        {
+                            StopMatchThread();
+                            m_oCurrentMap = oLstMaps.Find(x => x.MapID == m_oCurrentIdentity.map_id);
+                            StartMatchThread(m_oCurrentMatch);
+                        }
+                        else
+                        {
+                            m_oCurrentMap = oLstMaps.Find(x => x.MapID == m_oCurrentIdentity.map_id);
+                        }
+                        
+                    }
+                    catch (Exception oEx)
+                    {
+                        LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+                    }
+                    Thread.Sleep(250);
                 }
             }
             catch (Exception oEx)
             {
-
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -440,8 +491,6 @@ namespace WvWOverlay
         /// </summary>
         private void PlayerDisplayProvider()
         {
-            MumbleLink oMumbleLink;
-
             Model.XML.Profession oProfession;
 
             SpotifyLocalApi oAPI = null;
@@ -449,7 +498,6 @@ namespace WvWOverlay
 
             try
             {
-                oMumbleLink = new MumbleLink();
 
                 //Spotify Integration
                 try
@@ -542,8 +590,9 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                int a = 0;
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
+            
         }
 
         /// <summary>
@@ -574,7 +623,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -668,7 +717,7 @@ namespace WvWOverlay
                                     {
                                         if ((imageCampMode.Tag.ToString() == "true" && oObjective.points == 5) || imageCampMode.Tag.ToString() != "true")
                                         {
-                                            oListItem = new ObjectiveItem(oObjective, m_oLstObjectives);
+                                            oListItem = new ObjectiveItem(oObjective, m_oLstObjectives, oMatchInput, LOGWRITER);
                                             itemscontrolMain.Items.Add(oListItem);
                                         }
                                     });
@@ -709,7 +758,7 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                MessageBox.Show(oEx.ToString(), oEx.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -764,6 +813,7 @@ namespace WvWOverlay
         {
             StopMatchThread();
             StartMatchThread(oMatch);
+            LOGWRITER.RequestStop();
         }
 
         /// <summary>
@@ -775,6 +825,8 @@ namespace WvWOverlay
             {
                 itemscontrolMain.Items.Clear();
             });
+
+            TriggerLoadingIndicator(Visibility.Hidden);
 
             if (m_oThreadMatchProvider != null)
                 m_oThreadMatchProvider.Abort();
@@ -815,7 +867,8 @@ namespace WvWOverlay
             }
             catch (Exception oEx)
             {
-                throw oEx;
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+                oRetVal = null;
             }
             return oRetVal;
         }

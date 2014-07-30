@@ -136,7 +136,7 @@ namespace WvWOverlay.Model
 
         public class owner
         {
-            public string world_id { get; set; }
+            public short world_id { get; set; }
             public string name { get; set; }
             public string color { get; set; }
         }

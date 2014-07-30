@@ -25,15 +25,18 @@ namespace WvWOverlay
         private List<Model.XML.Objective> m_oLstObjectives;
         public Model.API.objective Objective;
         public System.Windows.Threading.DispatcherTimer m_oTimer;
+        public Model.API.matches_match m_oMatch;
+        public LogWriter m_oLogWriter;
 
 
-
-        public ObjectiveItem(Model.API.objective oObjective, List<Model.XML.Objective> oLstObjectives)
+        public ObjectiveItem(Model.API.objective oObjective, List<Model.XML.Objective> oLstObjectives, Model.API.matches_match oMatch, LogWriter oLogWriter)
         {
             InitializeComponent();
 
             Objective = oObjective;
             m_oLstObjectives = oLstObjectives;
+            m_oMatch = oMatch;
+            m_oLogWriter = oLogWriter;
 
             Init();
         }
@@ -64,9 +67,9 @@ namespace WvWOverlay
                     }
                 }
             }
-            catch
+            catch(Exception oEx)
             {
-
+                m_oLogWriter.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -107,9 +110,9 @@ namespace WvWOverlay
                     }
                 }
             }
-            catch
+            catch(Exception oEx)
             {
-
+                m_oLogWriter.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
         }
 
@@ -191,6 +194,27 @@ namespace WvWOverlay
 
             try
             {
+                //null entfernen
+                if(string.IsNullOrWhiteSpace(cColor))
+                {
+                    if(Objective.current_owner.world_id == m_oMatch.worlds[0].world_id)
+                    {
+                        cColor = "RED";
+                    }
+                    else if(Objective.current_owner.world_id == m_oMatch.worlds[1].world_id)
+                    {
+                        cColor = "BLUE";
+                    }
+                    else if(Objective.current_owner.world_id == m_oMatch.worlds[2].world_id)
+                    {
+                        cColor = "GREEN";
+                    }
+                    else
+                    {
+                        cColor = "";
+                    }
+                }
+
                 if (oObjective.Type != Model.XML.Objective.ObjectiveType.Ruin)
                 {
                     switch (cColor)
@@ -224,9 +248,10 @@ namespace WvWOverlay
                     oRetVal = new Uri(cStartupPath + @"\Resources\Icons\" + cFileName);
                 }
             }
-            catch
+            catch(Exception oEx)
             {
                 oRetVal = null;
+                m_oLogWriter.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
             return oRetVal;
         }
