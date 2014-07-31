@@ -4,305 +4,550 @@
     <Id>1</Id>
     <Type>Keep</Type>
     <Name>Rote Garni</Name>
+    <Coordinates>
+      <X>179</X>
+      <Y>80</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>2</Id>
     <Type>Keep</Type>
     <Name>Blaue Garni</Name>
+    <Coordinates>
+      <X>263</X>
+      <Y>247</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>3</Id>
     <Type>Keep</Type>
     <Name>Grüne Garni</Name>
+    <Coordinates>
+      <X>58</X>
+      <Y>242</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>4</Id>
     <Type>Camp</Type>
     <Name>Golanta</Name>
+    <Coordinates>
+      <X>124</X>
+      <Y>275</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>5</Id>
     <Type>Camp</Type>
     <Name>Pangloss</Name>
+    <Coordinates>
+      <X>236</X>
+      <Y>92</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>6</Id>
     <Type>Camp</Type>
     <Name>Speldan</Name>
+    <Coordinates>
+      <X>83</X>
+      <Y>72</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>7</Id>
     <Type>Camp</Type>
     <Name>Danelon</Name>
+    <Coordinates>
+      <X>210</X>
+      <Y>283</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>8</Id>
     <Type>Camp</Type>
     <Name>Umber</Name>
+    <Coordinates>
+      <X>279</X>
+      <Y>174</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>9</Id>
     <Type>Castle</Type>
     <Name>Steinnebel</Name>
+    <Coordinates>
+      <X>166</X>
+      <Y>184</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>10</Id>
     <Type>Camp</Type>
     <Name>Schurkenbruch</Name>
+    <Coordinates>
+      <X>61</X>
+      <Y>166</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>11</Id>
     <Type>Tower</Type>
     <Name>Aldon's</Name>
+    <Coordinates>
+      <X>37</X>
+      <Y>215</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>12</Id>
     <Type>Tower</Type>
     <Name>Wildbach</Name>
+    <Coordinates>
+      <X>91</X>
+      <Y>187</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>13</Id>
     <Type>Tower</Type>
     <Name>Jerrifer's</Name>
+    <Coordinates>
+      <X>82</X>
+      <Y>273</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>14</Id>
     <Type>Tower</Type>
     <Name>Klovan</Name>
+    <Coordinates>
+      <X>121</X>
+      <Y>241</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>15</Id>
     <Type>Tower</Type>
     <Name>Langor</Name>
+    <Coordinates>
+      <X>256</X>
+      <Y>283</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>16</Id>
     <Type>Tower</Type>
     <Name>Quentin</Name>
+    <Coordinates>
+      <X>190</X>
+      <Y>257</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>17</Id>
     <Type>Tower</Type>
     <Name>Mendon's</Name>
+    <Coordinates>
+      <X>126</X>
+      <Y>70</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>18</Id>
     <Type>Tower</Type>
     <Name>Anzalias</Name>
+    <Coordinates>
+      <X>122</X>
+      <Y>127</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>19</Id>
     <Type>Tower</Type>
     <Name>Ogerwacht</Name>
+    <Coordinates>
+      <X>212</X>
+      <Y>108</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>20</Id>
     <Type>Tower</Type>
     <Name>Veloka</Name>
+    <Coordinates>
+      <X>212</X>
+      <Y>68</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>21</Id>
     <Type>Tower</Type>
     <Name>Durios</Name>
+    <Coordinates>
+      <X>227</X>
+      <Y>180</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>22</Id>
     <Type>Tower</Type>
     <Name>Bravost</Name>
+    <Coordinates>
+      <X>285</X>
+      <Y>206</Y>
+    </Coordinates>
   </Objective>
+  <!--Borderlands-->
   <Objective>
     <Id>23</Id>
     <Type>Keep</Type>
     <Name>Garni</Name>
+    <Coordinates>
+      <X>152</X>
+      <Y>159</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>24</Id>
     <Type>Camp</Type>
     <Name>Südlager</Name>
+    <Coordinates>
+      <X>154</X>
+      <Y>372</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>25</Id>
     <Type>Tower</Type>
     <Name>Roter Spawnturm</Name>
+    <Coordinates>
+      <X>112</X>
+      <Y>286</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>26</Id>
     <Type>Tower</Type>
     <Name>Grüner Spawnturm</Name>
+    <Coordinates>
+      <X>215</X>
+      <Y>286</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>27</Id>
     <Type>Keep</Type>
     <Name>Bucht</Name>
+    <Coordinates>
+      <X>29</X>
+      <Y>233</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>28</Id>
     <Type>Tower</Type>
     <Name>Ostturm</Name>
+    <Coordinates>
+      <X>223</X>
+      <Y>118</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>29</Id>
     <Type>Camp</Type>
     <Name>Nordlager</Name>
+    <Coordinates>
+      <X>155</X>
+      <Y>20</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>30</Id>
     <Type>Tower</Type>
     <Name>Westturm</Name>
+    <Coordinates>
+      <X>83</X>
+      <Y>121</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>31</Id>
     <Type>Keep</Type>
     <Name>Hügel</Name>
+    <Coordinates>
+      <X>296</X>
+      <Y>226</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>32</Id>
     <Type>Keep</Type>
     <Name>Hügel</Name>
+    <Coordinates>
+      <X>296</X>
+      <Y>226</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>33</Id>
     <Type>Keep</Type>
     <Name>Bucht</Name>
+    <Coordinates>
+      <X>29</X>
+      <Y>233</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>34</Id>
     <Type>Camp</Type>
     <Name>Südlager</Name>
+    <Coordinates>
+      <X>154</X>
+      <Y>372</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>35</Id>
     <Type>Tower</Type>
     <Name>Grüner Spawnturm</Name>
+    <Coordinates>
+      <X>112</X>
+      <Y>286</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>36</Id>
     <Type>Tower</Type>
     <Name>Blauer Spawnturm</Name>
+    <Coordinates>
+      <X>215</X>
+      <Y>286</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>37</Id>
     <Type>Keep</Type>
     <Name>Garni</Name>
+    <Coordinates>
+      <X>152</X>
+      <Y>159</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>38</Id>
     <Type>Tower</Type>
     <Name>Westturm</Name>
+    <Coordinates>
+      <X>83</X>
+      <Y>121</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>39</Id>
     <Type>Camp</Type>
     <Name>Nordlager</Name>
+    <Coordinates>
+      <X>155</X>
+      <Y>20</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>40</Id>
     <Type>Tower</Type>
     <Name>Ostturm</Name>
+    <Coordinates>
+      <X>223</X>
+      <Y>118</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>41</Id>
     <Type>Keep</Type>
     <Name>Hügel</Name>
+    <Coordinates>
+      <X>296</X>
+      <Y>226</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>42</Id>
     <Type>Tower</Type>
     <Name>Roter Spawnturm</Name>
+    <Coordinates>
+      <X>215</X>
+      <Y>286</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>43</Id>
     <Type>Camp</Type>
     <Name>Südlager</Name>
+    <Coordinates>
+      <X>154</X>
+      <Y>372</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>44</Id>
     <Type>Keep</Type>
     <Name>Bucht</Name>
+    <Coordinates>
+      <X>29</X>
+      <Y>233</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>45</Id>
     <Type>Tower</Type>
     <Name>Blauer Spawnturm</Name>
+    <Coordinates>
+      <X>112</X>
+      <Y>286</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>46</Id>
     <Type>Keep</Type>
     <Name>Garni</Name>
+    <Coordinates>
+      <X>152</X>
+      <Y>159</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>47</Id>
     <Type>Tower</Type>
     <Name>Westturm</Name>
+    <Coordinates>
+      <X>83</X>
+      <Y>121</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>48</Id>
     <Type>Camp</Type>
     <Name>Westlager</Name>
+    <Coordinates>
+      <X>49</X>
+      <Y>145</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>49</Id>
     <Type>Camp</Type>
     <Name>Zuflucht</Name>
+    <Coordinates>
+      <X>53</X>
+      <Y>302</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>50</Id>
     <Type>Camp</Type>
     <Name>Tiefland</Name>
+    <Coordinates>
+      <X>268</X>
+      <Y>299</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>51</Id>
     <Type>Camp</Type>
     <Name>Ostlager</Name>
+    <Coordinates>
+      <X>272</X>
+      <Y>137</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>52</Id>
     <Type>Camp</Type>
     <Name>Westlager</Name>
+    <Coordinates>
+      <X>49</X>
+      <Y>145</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>53</Id>
     <Type>Camp</Type>
     <Name>Zuflucht</Name>
+    <Coordinates>
+      <X>53</X>
+      <Y>302</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>54</Id>
     <Type>Camp</Type>
     <Name>Ostlager</Name>
+    <Coordinates>
+      <X>272</X>
+      <Y>137</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>55</Id>
     <Type>Camp</Type>
     <Name>Tiefland</Name>
+    <Coordinates>
+      <X>268</X>
+      <Y>299</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>56</Id>
     <Type>Camp</Type>
     <Name>Nordlager</Name>
+    <Coordinates>
+      <X>155</X>
+      <Y>20</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>57</Id>
     <Type>Tower</Type>
     <Name>Ostturm</Name>
+    <Coordinates>
+      <X>223</X>
+      <Y>118</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>58</Id>
     <Type>Camp</Type>
     <Name>Westlager</Name>
+    <Coordinates>
+      <X>49</X>
+      <Y>145</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>59</Id>
     <Type>Camp</Type>
     <Name>Zuflucht</Name>
+    <Coordinates>
+      <X>53</X>
+      <Y>302</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>60</Id>
     <Type>Camp</Type>
     <Name>Ostlager</Name>
+    <Coordinates>
+      <X>272</X>
+      <Y>137</Y>
+    </Coordinates>
   </Objective>
   <Objective>
     <Id>61</Id>
     <Type>Camp</Type>
     <Name>Tiefland</Name>
+    <Coordinates>
+      <X>268</X>
+      <Y>299</Y>
+    </Coordinates>
   </Objective>
 </ArrayOfObjective>

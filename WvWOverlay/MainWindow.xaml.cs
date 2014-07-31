@@ -62,7 +62,15 @@ namespace WvWOverlay
             Timer
         }
 
+        private enum CurrentDisplayMode
+        {
+            List,
+            Map,
+            CampsOnly
+        }
+
         private CurrentDisplay m_eCurrentDisplay;
+        private CurrentDisplayMode m_eCurrentDisplayMode;
 
 
 
@@ -83,6 +91,7 @@ namespace WvWOverlay
         {
             InitializeComponent();
             m_eCurrentDisplay = CurrentDisplay.RegionSelection;
+            m_eCurrentDisplayMode = CurrentDisplayMode.Map;
         }
 
         /// <summary>
@@ -175,18 +184,18 @@ namespace WvWOverlay
                         }
                         else
                         {
-                            MessageBox.Show("Region not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            LOGWRITER.WriteMessage("Region not found", LogWriter.MESSAGE_TYPE.Error);
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No Matchlist", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    LOGWRITER.WriteMessage("No Matchlist", LogWriter.MESSAGE_TYPE.Error);
                 }
             }
             catch (ThreadAbortException)
             {
-
+                //nothing to do here
             }
             catch (Exception oEx)
             {
@@ -488,7 +497,7 @@ namespace WvWOverlay
                     Thread.Sleep(250);
                 }
             }
-            catch(ThreadAbortException)
+            catch (ThreadAbortException)
             {
                 //nothing to do here
             }
@@ -604,7 +613,7 @@ namespace WvWOverlay
             {
                 LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
-            
+
         }
 
         /// <summary>
@@ -612,22 +621,38 @@ namespace WvWOverlay
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void On_imageCampMode_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void On_imageDisplayMode_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             try
             {
-                if (imageCampMode.Tag.ToString() == "false")
+                if (m_eCurrentDisplayMode == CurrentDisplayMode.List)
                 {
-                    imageCampMode.Opacity = 0.8D;
-                    imageCampMode.Tag = "true";
+                    //Camp only
+                    m_eCurrentDisplayMode = CurrentDisplayMode.CampsOnly;
+
+                    //Image
+                    imageDisplayMode.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\Resources\\Icons\\camp_white.png"));
 
                     if (m_eCurrentDisplay == CurrentDisplay.Timer)
                         RestartMatchThread(m_oCurrentMatch);
                 }
-                else
+                else if (m_eCurrentDisplayMode == CurrentDisplayMode.CampsOnly)
                 {
-                    imageCampMode.Opacity = 0.4D;
-                    imageCampMode.Tag = "false";
+                    //Map
+                    m_eCurrentDisplayMode = CurrentDisplayMode.Map;
+
+                    imageDisplayMode.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\Resources\\Icons\\map.png"));
+
+                    if (m_eCurrentDisplay == CurrentDisplay.Timer)
+                        RestartMatchThread(m_oCurrentMatch);
+                }
+                else if (m_eCurrentDisplayMode == CurrentDisplayMode.Map)
+                {
+                    //List
+                    m_eCurrentDisplayMode = CurrentDisplayMode.List;
+
+                    HideMap();
+                    imageDisplayMode.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\Resources\\Icons\\keep_white.png"));
 
                     if (m_eCurrentDisplay == CurrentDisplay.Timer)
                         RestartMatchThread(m_oCurrentMatch);
@@ -640,6 +665,71 @@ namespace WvWOverlay
         }
 
         /// <summary>
+        /// Sets the Map to hidden
+        /// </summary>
+        private void HideMap()
+        {
+            try
+            {
+                this.Dispatcher.Invoke(delegate
+                {
+                    rectangleMapBorder.Visibility = System.Windows.Visibility.Hidden;
+                    imageMapImage.Visibility = System.Windows.Visibility.Hidden;
+
+                    canvasMapObjectives.Visibility = System.Windows.Visibility.Hidden;
+                    canvasMapObjectives.Children.Clear();
+                });
+            }
+            catch (Exception oEx)
+            {
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
+        }
+
+        /// <summary>
+        /// Sets the Map to visible
+        /// </summary>
+        private void ShowMap()
+        {
+            try
+            {
+                this.Dispatcher.Invoke(delegate
+                {
+                    rectangleMapBorder.Visibility = System.Windows.Visibility.Visible;
+                    imageMapImage.Visibility = System.Windows.Visibility.Visible;
+                    canvasMapObjectives.Visibility = System.Windows.Visibility.Visible;
+
+                    if (m_oCurrentMap != null)
+                    {
+                        if (m_oCurrentMap.Gw2StatsID == 3)
+                        {
+                            //EBG
+                            imageMapImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\Resources\\Maps\\EternalBattlegrounds.jpg"));
+                            rectangleMapBorder.Height = 320;
+                        }
+                        else
+                        {
+                            //Border
+                            imageMapImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\Resources\\Maps\\Borderland.jpg"));
+                            rectangleMapBorder.Height = 421;
+                        }
+                    }
+                    else
+                    {
+                        rectangleMapBorder.Visibility = System.Windows.Visibility.Hidden;
+                        imageMapImage.Visibility = System.Windows.Visibility.Hidden;
+                        canvasMapObjectives.Visibility = System.Windows.Visibility.Hidden;
+                    }
+                });
+            }
+            catch (Exception oEx)
+            {
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
+        }
+
+
+        /// <summary>
         /// Runs the Match THread
         /// </summary>
         private void MatchProvider(object oMatchObj)
@@ -648,8 +738,12 @@ namespace WvWOverlay
             Model.API.match oMatch;
             Model.API.map oMap;
             Model.API.map oLastMap = null;
+            Model.XML.Objective oObjectiveXML = null;
 
             ObjectiveItem oListItem = null;
+            MapObjectiveItem oMapItem = null;
+            List<Model.XML.Objective.ObjectiveType> oLstDisplayTypes;
+
 
             string cHeaderLine = string.Empty;
             string cIconLink = string.Empty;
@@ -660,8 +754,11 @@ namespace WvWOverlay
             {
                 oMatchInput = (Model.API.matches_match)oMatchObj;
 
+
                 while (m_bRunMatchProvider)
                 {
+
+
                     TriggerLoadingIndicator();
 
                     nCountBloodlustStacks = 0;
@@ -671,6 +768,18 @@ namespace WvWOverlay
 
                     if (oMatch != null && m_oCurrentMap != null)
                     {
+                        //Show Map on Map Mode
+                        if (m_eCurrentDisplayMode == CurrentDisplayMode.Map)
+                        {
+                            //Wait for Map to appear
+                            while (m_oCurrentMap == null)
+                            {
+                                Thread.Sleep(250);
+                            }
+
+                            ShowMap();
+                        }
+
                         oMap = oMatch.maps.Find(x => x.map_id == m_oCurrentMap.Gw2StatsID);
 
                         if (oLastMap != null && oMap.map_id != oLastMap.map_id)
@@ -705,41 +814,97 @@ namespace WvWOverlay
                         labelScoreBlue.Dispatcher.Invoke(delegate
                         {
                             //Green
-                            labelScoreGreen.Content = oMatchInput.worlds.Find(x => x.color == "Green").ppt;
-                            
+                            labelScoreGreen.Content = oMatch.maps.Sum(x => x.objectives.Select(o => o.Value).ToList().FindAll(y => y.current_owner.world_id == oMatchInput.worlds.Find(z => z.color.ToUpper() == "GREEN").world_id).Sum(y => y.points));
+
                             //Blue
-                            labelScoreBlue.Content = oMatchInput.worlds.Find(x => x.color == "Blue").ppt;
+                            labelScoreBlue.Content = oMatch.maps.Sum(x => x.objectives.Select(o => o.Value).ToList().FindAll(y => y.current_owner.world_id == oMatchInput.worlds.Find(z => z.color.ToUpper() == "BLUE").world_id).Sum(y => y.points));
 
                             //Red
-                            labelScoreRed.Content = oMatchInput.worlds.Find(x => x.color == "Red").ppt;
+                            labelScoreRed.Content = oMatch.maps.Sum(x => x.objectives.Select(o => o.Value).ToList().FindAll(y => y.current_owner.world_id == oMatchInput.worlds.Find(z => z.color.ToUpper() == "RED").world_id).Sum(y => y.points));
 
                         });
 
                         oMap.objectives_list = (List<Model.API.objective>)oMap.objectives_list.Where(x => x.points > 0).OrderByDescending(x => x.points).ThenBy(x => m_oLstObjectives.Find(y => y.Id == x.id).Name).ToList();
-                        
+
+                        oLstDisplayTypes = GetObjectiveTypesForView();
+
                         foreach (Model.API.objective oObjective in oMap.objectives_list)
                         {
                             if (oObjective.points > 0)
                             {
-                                itemscontrolMain.Dispatcher.Invoke(delegate { oListItem = (ObjectiveItem)itemscontrolMain.ItemContainerGenerator.Items.ToList().Find(x => ((ObjectiveItem)x).Objective.id == oObjective.id); });
-
-                                if (oListItem == null)
+                                if (m_eCurrentDisplayMode == CurrentDisplayMode.Map)
                                 {
-                                    itemscontrolMain.Dispatcher.Invoke(delegate
+                                    oMapItem = null;
+                                    canvasMapObjectives.Dispatcher.Invoke(delegate
                                     {
-                                        if ((imageCampMode.Tag.ToString() == "true" && oObjective.points == 5) || imageCampMode.Tag.ToString() != "true")
+                                        foreach (UIElement oCanvasChild in canvasMapObjectives.Children)
                                         {
-                                            oListItem = new ObjectiveItem(oObjective, m_oLstObjectives, oMatchInput, LOGWRITER);
-                                            itemscontrolMain.Items.Add(oListItem);
+                                            if (((MapObjectiveItem)oCanvasChild).Objective.id == oObjective.id)
+                                            {
+                                                oMapItem = (MapObjectiveItem)oCanvasChild;
+                                                break;
+                                            }
                                         }
                                     });
+
+                                    if (oMapItem == null)
+                                    {
+                                        //Get XML Objective for Display Check
+                                        oObjectiveXML = m_oLstObjectives.Find(x => x.Id == oObjective.id);
+
+                                        //Show Objective type?
+                                        if (oLstDisplayTypes.Contains(oObjectiveXML.Type))
+                                        {
+                                            //Map View
+                                            canvasMapObjectives.Dispatcher.Invoke(delegate
+                                            {
+                                                oMapItem = new MapObjectiveItem(oObjective, m_oLstObjectives, oMatchInput, LOGWRITER);
+
+                                                canvasMapObjectives.Children.Add(oMapItem);
+                                                Canvas.SetLeft(oMapItem, oObjectiveXML.Coordinates.X);
+                                                Canvas.SetTop(oMapItem, oObjectiveXML.Coordinates.Y);
+                                            });
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //Map view
+                                        canvasMapObjectives.Dispatcher.Invoke(delegate
+                                        {
+                                            oMapItem.Update(oObjective);
+                                        });
+                                    }
+
                                 }
                                 else
                                 {
-                                    itemscontrolMain.Dispatcher.Invoke(delegate
+
+                                    itemscontrolMain.Dispatcher.Invoke(delegate { oListItem = (ObjectiveItem)itemscontrolMain.ItemContainerGenerator.Items.ToList().Find(x => ((ObjectiveItem)x).Objective.id == oObjective.id); });
+
+                                    if (oListItem == null)
                                     {
-                                        oListItem.Update(oObjective);
-                                    });
+                                        //Get XML Objective for Display Check
+                                        oObjectiveXML = m_oLstObjectives.Find(x => x.Id == oObjective.id);
+
+                                        //Show Objective type?
+                                        if (oLstDisplayTypes.Contains(oObjectiveXML.Type))
+                                        {
+                                            //List view
+                                            itemscontrolMain.Dispatcher.Invoke(delegate
+                                            {
+                                                oListItem = new ObjectiveItem(oObjective, m_oLstObjectives, oMatchInput, LOGWRITER);
+                                                itemscontrolMain.Items.Add(oListItem);
+                                            });
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //List view
+                                        itemscontrolMain.Dispatcher.Invoke(delegate
+                                        {
+                                            oListItem.Update(oObjective);
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -754,7 +919,7 @@ namespace WvWOverlay
                             }
                         });
 
-                        labelMatchupMapTitle.Dispatcher.Invoke(delegate { labelMatchupMapTitle.Content = "No Word vs. World Map"; });
+                        labelMatchupMapTitle.Dispatcher.Invoke(delegate { labelMatchupMapTitle.Content = "No World vs. World Map"; });
 
                         imageBloodlustColor.Dispatcher.Invoke(delegate { imageBloodlustColor.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\Icons\bloodlust_neutral.png")); });
                         labelBloodlustStackCount.Dispatcher.Invoke(delegate { labelBloodlustStackCount.Content = string.Empty; });
@@ -772,6 +937,31 @@ namespace WvWOverlay
             {
                 LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
+        }
+
+        /// <summary>
+        /// Liefert die anzuzeigenden Typen
+        /// </summary>
+        /// <returns></returns>
+        public List<Model.XML.Objective.ObjectiveType> GetObjectiveTypesForView()
+        {
+            List<Model.XML.Objective.ObjectiveType> oLstRetVal = new List<Model.XML.Objective.ObjectiveType>();
+
+            switch (m_eCurrentDisplayMode)
+            {
+                case CurrentDisplayMode.CampsOnly:
+                    oLstRetVal.Add(Model.XML.Objective.ObjectiveType.Camp);
+                    break;
+                case CurrentDisplayMode.List:
+                case CurrentDisplayMode.Map:
+                    oLstRetVal.Add(Model.XML.Objective.ObjectiveType.Camp);
+                    oLstRetVal.Add(Model.XML.Objective.ObjectiveType.Castle);
+                    oLstRetVal.Add(Model.XML.Objective.ObjectiveType.Tower);
+                    oLstRetVal.Add(Model.XML.Objective.ObjectiveType.Keep);
+                    break;
+            }
+
+            return oLstRetVal;
         }
 
         /// <summary>
@@ -825,7 +1015,6 @@ namespace WvWOverlay
         {
             StopMatchThread();
             StartMatchThread(oMatch);
-            LOGWRITER.RequestStop();
         }
 
         /// <summary>
@@ -837,6 +1026,8 @@ namespace WvWOverlay
             {
                 itemscontrolMain.Items.Clear();
             });
+
+            HideMap();
 
             TriggerLoadingIndicator(Visibility.Hidden);
 

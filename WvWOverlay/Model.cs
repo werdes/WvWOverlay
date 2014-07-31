@@ -37,6 +37,12 @@ namespace WvWOverlay.Model
         [Serializable()]
         public class Objective
         {
+            public class Coordinate
+            {
+                public int X { get; set; }
+                public int Y { get; set; }
+            }
+
             public enum ObjectiveType
             {
                 Castle = 35,
@@ -46,9 +52,11 @@ namespace WvWOverlay.Model
                 Ruin = 0
             }
 
+
             public short Id { get; set; }
             public ObjectiveType Type { get; set; }
             public string Name { get; set; }
+            public Coordinate Coordinates { get; set; }
         }
     }
 

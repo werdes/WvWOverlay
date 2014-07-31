@@ -67,6 +67,9 @@
     </ApplicationDefinition>
     <Compile Include="ConfigurationParser.cs" />
     <Compile Include="LogWriter.cs" />
+    <Compile Include="MapObjectiveItem.xaml.cs">
+      <DependentUpon>MapObjectiveItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model.cs" />
     <Compile Include="MumbleLink.cs" />
     <Compile Include="RegionItem.xaml.cs">
@@ -86,6 +89,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MapObjectiveItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MatchItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,6 +129,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -234,11 +242,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\camp_white.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\shield.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -262,6 +265,29 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Maps\Borderland.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Maps\EternalBattlegrounds.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icons\camp_white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icons\map.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icons\keep_white.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
