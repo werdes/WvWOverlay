@@ -488,6 +488,10 @@ namespace WvWOverlay
                     Thread.Sleep(250);
                 }
             }
+            catch(ThreadAbortException)
+            {
+                //nothing to do here
+            }
             catch (Exception oEx)
             {
                 LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
