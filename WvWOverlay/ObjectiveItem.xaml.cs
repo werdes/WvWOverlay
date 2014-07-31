@@ -197,22 +197,7 @@ namespace WvWOverlay
                 //null entfernen
                 if(string.IsNullOrWhiteSpace(cColor))
                 {
-                    if(Objective.current_owner.world_id == m_oMatch.worlds[0].world_id)
-                    {
-                        cColor = "RED";
-                    }
-                    else if(Objective.current_owner.world_id == m_oMatch.worlds[1].world_id)
-                    {
-                        cColor = "BLUE";
-                    }
-                    else if(Objective.current_owner.world_id == m_oMatch.worlds[2].world_id)
-                    {
-                        cColor = "GREEN";
-                    }
-                    else
-                    {
-                        cColor = "";
-                    }
+                    cColor = m_oMatch.worlds.Find(x => x.world_id == Objective.current_owner.world_id).color.ToUpper();
                 }
 
                 if (oObjective.Type != Model.XML.Objective.ObjectiveType.Ruin)

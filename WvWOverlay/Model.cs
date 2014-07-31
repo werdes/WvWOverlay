@@ -86,7 +86,9 @@ namespace WvWOverlay.Model
             public string name { get; set; }
             public string color { get; set; }
             public int score { get; set; }
-            public short ppt { get; set; }
+
+            //String, da bei 0 ->null
+            public string ppt { get; set; }
         }
 
         public class match
