@@ -90,7 +90,7 @@ namespace WvWOverlay
                     labelTimeOwned.Content = GetTimeOwnedString(oObjective);
                     imageClaim.Visibility = oObjective.current_guild == null || string.IsNullOrWhiteSpace(oObjective.current_guild.id) ? System.Windows.Visibility.Hidden : System.Windows.Visibility.Visible;
 
-                    if (Objective.current_owner.color != oObjective.current_owner.color)
+                    if (Objective.current_owner.world_id != oObjective.current_owner.world_id)
                     {
                         Objective = oObjective;
 

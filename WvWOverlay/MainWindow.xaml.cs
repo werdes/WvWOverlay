@@ -459,19 +459,27 @@ namespace WvWOverlay
                     try
                     {
                         m_oCurrentCoordinate = oMumbleLink.GetCoordinates();
-                        m_oCurrentIdentity = JsonConvert.DeserializeObject<Model.mumble_identity>(m_oCurrentCoordinate.ind);
-                        //Invoke Mapchange if necessary
-                        if(m_oCurrentMap != null && m_oCurrentMap.MapID != m_oCurrentIdentity.map_id)
+
+                        if (!string.IsNullOrEmpty(m_oCurrentCoordinate.ind))
                         {
-                            StopMatchThread();
-                            m_oCurrentMap = oLstMaps.Find(x => x.MapID == m_oCurrentIdentity.map_id);
-                            StartMatchThread(m_oCurrentMatch);
+                            m_oCurrentIdentity = JsonConvert.DeserializeObject<Model.mumble_identity>(m_oCurrentCoordinate.ind);
+
+                            //Invoke Mapchange if necessary
+                            if (m_oCurrentMap != null && m_oCurrentMap.MapID != m_oCurrentIdentity.map_id)
+                            {
+                                StopMatchThread();
+                                m_oCurrentMap = oLstMaps.Find(x => x.MapID == m_oCurrentIdentity.map_id);
+                                StartMatchThread(m_oCurrentMatch);
+                            }
+                            else
+                            {
+                                m_oCurrentMap = oLstMaps.Find(x => x.MapID == m_oCurrentIdentity.map_id);
+                            }
                         }
                         else
                         {
-                            m_oCurrentMap = oLstMaps.Find(x => x.MapID == m_oCurrentIdentity.map_id);
+
                         }
-                        
                     }
                     catch (Exception oEx)
                     {
