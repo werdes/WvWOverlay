@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -100,6 +102,7 @@ namespace WvWOverlay
                        
                         if (Objective.ri_remaining.TotalMilliseconds > 0)
                         {
+                            SetEffect(Brushes.Red);
                             if(!string.IsNullOrWhiteSpace(labelTimer.Content.ToString()))
                             {
                                 m_oTimer.Stop();
@@ -162,7 +165,7 @@ namespace WvWOverlay
                 {
                     m_oTimer.Stop();
                     labelTimer.Content = "";
-
+                    SetEffect(Brushes.GreenYellow);
                     imageBlock.Visibility = System.Windows.Visibility.Hidden;
                 }
                 else
@@ -172,6 +175,53 @@ namespace WvWOverlay
             };
             ts(count);
             m_oTimer.Start();
+        }
+
+        /// <summary>
+        /// Blinking thing
+        /// </summary>
+        /// <param name="oBrush"></param>
+        private void SetEffect(Brush oBrush)
+        {
+            Thread oThread = null;
+
+            try
+            {
+
+                oThread = new Thread((ThreadStart)delegate
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        rectangleBackground.Dispatcher.Invoke(delegate
+                        {
+                            rectangleBackground.Fill = oBrush;
+                        });
+
+                        System.Threading.Thread.Sleep(500);
+
+                        rectangleBackground.Dispatcher.Invoke(delegate
+                        {
+                            rectangleBackground.Fill = Brushes.Black;
+                        });
+                        System.Threading.Thread.Sleep(500);
+                    }
+
+                    try
+                    {
+                        oThread.Abort();
+                    }
+                    catch(Exception)
+                    {
+
+                    }
+                });
+
+                oThread.Start();
+            }
+            catch (Exception oEx)
+            {
+                m_oLogWriter.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
         }
 
         private void labelObjectiveName_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

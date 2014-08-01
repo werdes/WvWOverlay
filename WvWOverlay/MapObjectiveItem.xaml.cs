@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,7 +58,7 @@ namespace WvWOverlay
                 if (oObjectiveInList != null)
                 {
                     imageObjectiveType.Source = new BitmapImage(this.GetIconUri(oObjectiveInList, Objective.current_owner.color));
-                    
+
                     labelTimeOwned.Content = GetTimeOwnedString(Objective);
 
                     if (Objective.ri_remaining.TotalMilliseconds > 0)
@@ -92,6 +94,7 @@ namespace WvWOverlay
                     if (Objective.current_owner.world_id != oObjective.current_owner.world_id)
                     {
                         Objective = oObjective;
+                        this.SetEffect(Brushes.Red);
 
                         imageObjectiveType.Source = new BitmapImage(this.GetIconUri(oObjectiveInList, Objective.current_owner.color));
                        
@@ -162,6 +165,7 @@ namespace WvWOverlay
                     labelTimer.Content = "";
 
                     imageBlock.Visibility = System.Windows.Visibility.Hidden;
+                    this.SetEffect(Brushes.GreenYellow);
                 }
                 else
                 {
@@ -175,6 +179,54 @@ namespace WvWOverlay
         private void labelObjectiveName_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             EventExtensions.RaiseEvent(Click, this, null);
+        }
+
+        /// <summary>
+        /// Blinking thing
+        /// </summary>
+        /// <param name="oBrush"></param>
+        private void SetEffect(Brush oBrush)
+        {
+            Thread oThread = null;
+
+
+            try
+            {
+
+                oThread = new Thread((ThreadStart)delegate
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        rectangleBackground.Dispatcher.Invoke(delegate
+                        {
+                            rectangleBackground.Fill = oBrush;
+                            rectangleBackground.Opacity = .7;
+                        });
+
+                        System.Threading.Thread.Sleep(500);
+
+                        rectangleBackground.Dispatcher.Invoke(delegate
+                        {
+                            rectangleBackground.Opacity = 0;
+                        });
+                        System.Threading.Thread.Sleep(500);
+                    }
+                    try
+                    {
+                        oThread.Abort();
+                    }
+                    catch(Exception)
+                    {
+
+                    }
+                });
+
+                oThread.Start();
+            }
+            catch (Exception oEx)
+            {
+                m_oLogWriter.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
         }
 
         /// <summary>

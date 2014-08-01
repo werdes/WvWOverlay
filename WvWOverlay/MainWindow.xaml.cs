@@ -757,8 +757,6 @@ namespace WvWOverlay
 
                 while (m_bRunMatchProvider)
                 {
-
-
                     TriggerLoadingIndicator();
 
                     nCountBloodlustStacks = 0;

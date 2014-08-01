@@ -8,7 +8,7 @@
     <Grid>
 
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="1" Margin="0,25,0,0" Stroke="#99000000" VerticalAlignment="Top" Width="320"/>
-        <Rectangle Fill="#66000000" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="320"/>
+        <Rectangle x:Name="rectangleBackground" Fill="Black" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="320" Opacity="0.4"/>
         <Label x:Name="labelObjectiveName" Content="" HorizontalAlignment="Left" Margin="22,1,0,0" VerticalAlignment="Top" Height="24" Width="170" FontSize="14" FontFamily="Arial" Foreground="White" MouseLeftButtonDown="labelObjectiveName_MouseLeftButtonDown">
             <Label.Effect>
                 <DropShadowEffect  Color="Black" Direction="0" ShadowDepth="1" Opacity=".65" />
