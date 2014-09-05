@@ -56,6 +56,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="TS3QueryLib.Core.Framework">
+      <HintPath>Resources\Lib\TS3QueryLib.Core.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -76,6 +79,7 @@
       <DependentUpon>RegionItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="SpotifyLocalApi.cs" />
+    <Compile Include="TeamspeakClientWrapper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -288,6 +292,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Icons\keep_white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icons\microphone_muted.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Icons\quiet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Icons\talking.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -120,7 +120,6 @@ namespace WvWOverlay.Model
 
         public class objective
         {
-            private TimeSpan remaining;
             private TimeSpan held;
 
             public int id { get; set; }
@@ -128,20 +127,30 @@ namespace WvWOverlay.Model
             public string cardinal { get; set; }
             public short points { get; set; }
             public DateTime capture_time { get; set; }
+
             public TimeSpan ri_remaining
             {
-                get { return remaining; }
-                set
-                {
-                    string cIn = value.ToString();
-                    remaining = TimeSpan.ParseExact(cIn, "mm\\:ss\\:hh", System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat);
-
-                }
+                get;
+                set;
             }
             public TimeSpan time_held { get; set; }
             public owner current_owner { get; set; }
             public owner previous_owner { get; set; }
             public guild current_guild { get; set; }
+
+            public void SetTimes(DateTime oTime)
+            {
+                ri_remaining = new TimeSpan();
+                TimeSpan oTemp;
+                DateTime oTemp2;
+                oTemp = (oTime.ToUniversalTime() - capture_time);
+                time_held = oTemp;
+                if (oTemp.TotalMilliseconds < 1000 * 60 * 5)
+                {
+                    oTemp2 = new DateTime(1, 1, 1, 0, 5, 0) - oTemp;
+                    ri_remaining = new TimeSpan(0, oTemp2.Minute, oTemp2.Second);
+                }
+            }
         }
 
         public class owner

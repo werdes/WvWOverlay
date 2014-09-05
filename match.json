@@ -1,0 +1,1516 @@
+{
+    "retrieve_time": "2014-07-31 17:58:11 GMT",
+    "type": "match",
+    "match_id": "2-1",
+    "bloodlust": {
+        "update_time": "2014-07-31 12:58:11",
+        "match_id": "2-1",
+        "red_owner_id": 2010,
+        "blue_owner_id": 2201,
+        "green_owner_id": 2002
+    },
+    "maps": [{
+        "name": "Red Borderlands",
+        "map_id": 0,
+        "map_owner_id": 2010,
+        "map_owner_name": "Seafarer's Rest",
+        "objectives": {
+            "32": {
+                "id": 32,
+                "name": "Etheron Hills",
+                "cardinal": "Hills",
+                "points": 25,
+                "capture_time": "2014-07-31 17:54:53 GMT",
+                "ri_remaining": "1:42",
+                "time_held": "0:00:03:18",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "33": {
+                "id": 33,
+                "name": "Dreaming Bay",
+                "cardinal": "Bay",
+                "points": 25,
+                "capture_time": "2014-07-31 17:51:39 GMT",
+                "time_held": "0:00:06:32",
+                "current_guild": {
+                    "id": "D1372496-877F-4D55-B544-DF4603D4AC9B",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/D1372496-877F-4D55-B544-DF4603D4AC9B_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "34": {
+                "id": 34,
+                "name": "Victor's Lodge",
+                "cardinal": "S Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:54:40 GMT",
+                "ri_remaining": "1:29",
+                "time_held": "0:00:03:31",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "35": {
+                "id": 35,
+                "name": "Greenbriar",
+                "cardinal": "SW Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 17:56:22 GMT",
+                "ri_remaining": "3:11",
+                "time_held": "0:00:01:49",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "36": {
+                "id": 36,
+                "name": "Bluelake",
+                "cardinal": "SE Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 17:41:53 GMT",
+                "time_held": "0:00:16:18",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "37": {
+                "id": 37,
+                "name": "Garrison",
+                "cardinal": "Garrison",
+                "points": 25,
+                "capture_time": "2014-07-30 02:22:34 GMT",
+                "time_held": "1:15:35:37",
+                "current_guild": {
+                    "id": "88340C35-053E-498F-9087-59326B55D6AD",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/88340C35-053E-498F-9087-59326B55D6AD_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "38": {
+                "id": 38,
+                "name": "Longview",
+                "cardinal": "NW Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 15:04:28 GMT",
+                "time_held": "0:02:53:43",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "39": {
+                "id": 39,
+                "name": "Godsword",
+                "cardinal": "N Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:56:01 GMT",
+                "ri_remaining": "2:50",
+                "time_held": "0:00:02:10",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "40": {
+                "id": 40,
+                "name": "Cliffside",
+                "cardinal": "NE Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 17:34:53 GMT",
+                "time_held": "0:00:23:18",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "50": {
+                "id": 50,
+                "name": "Bluewater Lowlands",
+                "cardinal": "SE Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:49:30 GMT",
+                "time_held": "0:00:08:41",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "51": {
+                "id": 51,
+                "name": "Astralhome",
+                "cardinal": "NE Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:56:56 GMT",
+                "ri_remaining": "3:45",
+                "time_held": "0:00:01:15",
+                "current_guild": {
+                    "id": "AE207F4B-2AD9-4677-9145-5DAB9164F636",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/AE207F4B-2AD9-4677-9145-5DAB9164F636_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "52": {
+                "id": 52,
+                "name": "Arah's Hope",
+                "cardinal": "NW Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:54:44 GMT",
+                "ri_remaining": "1:33",
+                "time_held": "0:00:03:27",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "53": {
+                "id": 53,
+                "name": "Greenvale Refuge",
+                "cardinal": "SW Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:55:56 GMT",
+                "ri_remaining": "2:45",
+                "time_held": "0:00:02:15",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "62": {
+                "id": 62,
+                "name": "Temple of Lost Prayers",
+                "cardinal": "Temple of ",
+                "points": 0,
+                "capture_time": "2014-07-31 16:10:30 GMT",
+                "time_held": "0:01:47:41",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "63": {
+                "id": 63,
+                "name": "Battle's Hollow",
+                "cardinal": "Battle",
+                "points": 0,
+                "capture_time": "2014-07-31 15:40:10 GMT",
+                "time_held": "0:02:18:01",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "64": {
+                "id": 64,
+                "name": "Bauer's Estate",
+                "cardinal": "Bauer",
+                "points": 0,
+                "capture_time": "2014-07-31 17:44:30 GMT",
+                "time_held": "0:00:13:41",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "65": {
+                "id": 65,
+                "name": "Orchard Overlook",
+                "cardinal": "Orchard Ov",
+                "points": 0,
+                "capture_time": "2014-07-31 17:01:44 GMT",
+                "time_held": "0:00:56:27",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "66": {
+                "id": 66,
+                "name": "Carver's Ascent",
+                "cardinal": "Carver",
+                "points": 0,
+                "capture_time": "2014-07-31 17:03:08 GMT",
+                "time_held": "0:00:55:03",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            }
+        }
+    }, {
+        "name": "Blue Borderlands",
+        "map_id": 1,
+        "map_owner_id": 2201,
+        "map_owner_name": "Kodash [DE]",
+        "objectives": {
+            "23": {
+                "id": 23,
+                "name": "Garrison",
+                "cardinal": "Garrison",
+                "points": 25,
+                "capture_time": "2014-07-31 15:55:08 GMT",
+                "time_held": "0:02:03:03",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "24": {
+                "id": 24,
+                "name": "Champion's Demense",
+                "cardinal": "S Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:54:53 GMT",
+                "ri_remaining": "1:42",
+                "time_held": "0:00:03:18",
+                "current_guild": {
+                    "id": "D3ADEECE-D542-484E-A03B-B274B737E638",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/D3ADEECE-D542-484E-A03B-B274B737E638_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "25": {
+                "id": 25,
+                "name": "Redbriar",
+                "cardinal": "SW Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 16:51:29 GMT",
+                "time_held": "0:01:06:42",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "26": {
+                "id": 26,
+                "name": "Greenlake",
+                "cardinal": "SE Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 17:11:47 GMT",
+                "time_held": "0:00:46:24",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "27": {
+                "id": 27,
+                "name": "Ascension Bay",
+                "cardinal": "Bay",
+                "points": 25,
+                "capture_time": "2014-07-31 17:57:10 GMT",
+                "ri_remaining": "3:59",
+                "time_held": "0:00:01:01",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "28": {
+                "id": 28,
+                "name": "Dawn's Eyrie",
+                "cardinal": "NE Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 03:49:48 GMT",
+                "time_held": "0:14:08:23",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "29": {
+                "id": 29,
+                "name": "Spiritholme",
+                "cardinal": "N Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:42:56 GMT",
+                "time_held": "0:00:15:15",
+                "current_guild": {
+                    "id": "5D2EDE41-3BF9-E311-8577-AC162DC028B5",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/5D2EDE41-3BF9-E311-8577-AC162DC028B5_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "30": {
+                "id": 30,
+                "name": "Woodhaven",
+                "cardinal": "NW Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 16:01:42 GMT",
+                "time_held": "0:01:56:29",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "31": {
+                "id": 31,
+                "name": "Askalion Hills",
+                "cardinal": "Hills",
+                "points": 25,
+                "capture_time": "2014-07-31 17:54:36 GMT",
+                "ri_remaining": "1:25",
+                "time_held": "0:00:03:35",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "58": {
+                "id": 58,
+                "name": "Godslore",
+                "cardinal": "NW Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:55:31 GMT",
+                "ri_remaining": "2:20",
+                "time_held": "0:00:02:40",
+                "current_guild": {
+                    "id": "EE90ED8E-2CDA-4174-801E-16B2C3B94CED",
+                    "name": "Golden Horde [GH]",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/EE90ED8E-2CDA-4174-801E-16B2C3B94CED_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "59": {
+                "id": 59,
+                "name": "Redvale Refuge",
+                "cardinal": "SW Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:36:00 GMT",
+                "time_held": "0:00:22:11",
+                "current_guild": {
+                    "id": "F0D948A4-F927-46CA-825F-586D3839D04E",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/F0D948A4-F927-46CA-825F-586D3839D04E_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "60": {
+                "id": 60,
+                "name": "Stargrove",
+                "cardinal": "NE Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:45:36 GMT",
+                "time_held": "0:00:12:35",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "61": {
+                "id": 61,
+                "name": "Greenwater Lowlands",
+                "cardinal": "SE Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:53:58 GMT",
+                "ri_remaining": "0:47",
+                "time_held": "0:00:04:13",
+                "current_guild": {
+                    "id": "52A6392C-67B0-E311-BC6C-AC162DC0070D",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/52A6392C-67B0-E311-BC6C-AC162DC0070D_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "67": {
+                "id": 67,
+                "name": "Carver's Ascent",
+                "cardinal": "Carver",
+                "points": 0,
+                "capture_time": "2014-07-31 17:16:36 GMT",
+                "time_held": "0:00:41:35",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "68": {
+                "id": 68,
+                "name": "Orchard Overlook",
+                "cardinal": "Orchard Ov",
+                "points": 0,
+                "capture_time": "2014-07-31 14:41:22 GMT",
+                "time_held": "0:03:16:49",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "69": {
+                "id": 69,
+                "name": "Bauer's Estate",
+                "cardinal": "Bauer",
+                "points": 0,
+                "capture_time": "2014-07-31 16:13:42 GMT",
+                "time_held": "0:01:44:29",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "70": {
+                "id": 70,
+                "name": "Battle's Hollow",
+                "cardinal": "Battle",
+                "points": 0,
+                "capture_time": "2014-07-31 17:42:05 GMT",
+                "time_held": "0:00:16:06",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "71": {
+                "id": 71,
+                "name": "Temple of Lost Prayers",
+                "cardinal": "Temple of ",
+                "points": 0,
+                "capture_time": "2014-07-31 17:49:30 GMT",
+                "time_held": "0:00:08:41",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            }
+        }
+    }, {
+        "name": "Green Borderlands",
+        "map_id": 2,
+        "map_owner_id": 2002,
+        "map_owner_name": "Desolation",
+        "objectives": {
+            "41": {
+                "id": 41,
+                "name": "Shadaran Hills",
+                "cardinal": "Hills",
+                "points": 25,
+                "capture_time": "2014-07-31 17:00:10 GMT",
+                "time_held": "0:00:58:01",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "42": {
+                "id": 42,
+                "name": "Redlake",
+                "cardinal": "SE Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 17:42:01 GMT",
+                "time_held": "0:00:16:10",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "43": {
+                "id": 43,
+                "name": "Hero's Lodge",
+                "cardinal": "S Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:54:02 GMT",
+                "ri_remaining": "0:51",
+                "time_held": "0:00:04:09",
+                "current_guild": {
+                    "id": "0BA647AB-9838-4AE4-830B-A15B189255C4",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/0BA647AB-9838-4AE4-830B-A15B189255C4_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "44": {
+                "id": 44,
+                "name": "Dreadfall Bay",
+                "cardinal": "Bay",
+                "points": 25,
+                "capture_time": "2014-07-31 17:35:01 GMT",
+                "time_held": "0:00:23:10",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "45": {
+                "id": 45,
+                "name": "Bluebriar",
+                "cardinal": "SW Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 17:14:48 GMT",
+                "time_held": "0:00:43:23",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "46": {
+                "id": 46,
+                "name": "Garrison",
+                "cardinal": "Garrison",
+                "points": 25,
+                "capture_time": "2014-07-31 04:56:20 GMT",
+                "time_held": "0:13:01:51",
+                "current_guild": {
+                    "id": "993DAA8E-2DC5-4684-81DA-B8EC35E7CFD6",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/993DAA8E-2DC5-4684-81DA-B8EC35E7CFD6_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "47": {
+                "id": 47,
+                "name": "Sunnyhill",
+                "cardinal": "NW Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 17:49:30 GMT",
+                "time_held": "0:00:08:41",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "48": {
+                "id": 48,
+                "name": "Faithleap",
+                "cardinal": "NW Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:36:47 GMT",
+                "time_held": "0:00:21:24",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "49": {
+                "id": 49,
+                "name": "Bluevale Refuge",
+                "cardinal": "SW Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:55:01 GMT",
+                "ri_remaining": "1:50",
+                "time_held": "0:00:03:10",
+                "current_guild": {
+                    "id": "33056B1D-9D80-4F49-B3BE-45912B971205",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/33056B1D-9D80-4F49-B3BE-45912B971205_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "54": {
+                "id": 54,
+                "name": "Foghaven",
+                "cardinal": "NE Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:56:18 GMT",
+                "ri_remaining": "3:07",
+                "time_held": "0:00:01:53",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "55": {
+                "id": 55,
+                "name": "Redwater Lowlands",
+                "cardinal": "SE Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:49:30 GMT",
+                "time_held": "0:00:08:41",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "56": {
+                "id": 56,
+                "name": "Titanpaw",
+                "cardinal": "N Camp",
+                "points": 5,
+                "capture_time": "2014-07-31 17:51:09 GMT",
+                "time_held": "0:00:07:02",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "57": {
+                "id": 57,
+                "name": "Cragtop",
+                "cardinal": "NE Tower",
+                "points": 10,
+                "capture_time": "2014-07-31 17:54:10 GMT",
+                "ri_remaining": "0:59",
+                "time_held": "0:00:04:01",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "72": {
+                "id": 72,
+                "name": "Carver's Ascent",
+                "cardinal": "Carver",
+                "points": 0,
+                "capture_time": "2014-07-31 17:10:52 GMT",
+                "time_held": "0:00:47:19",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "73": {
+                "id": 73,
+                "name": "Orchard Overlook",
+                "cardinal": "Orchard Ov",
+                "points": 0,
+                "capture_time": "2014-07-31 17:29:43 GMT",
+                "time_held": "0:00:28:28",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "74": {
+                "id": 74,
+                "name": "Bauer's Estate",
+                "cardinal": "Bauer",
+                "points": 0,
+                "capture_time": "2014-07-31 17:27:15 GMT",
+                "time_held": "0:00:30:56",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "75": {
+                "id": 75,
+                "name": "Battle's Hollow",
+                "cardinal": "Battle",
+                "points": 0,
+                "capture_time": "2014-07-31 17:11:12 GMT",
+                "time_held": "0:00:46:59",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "76": {
+                "id": 76,
+                "name": "Temple of Lost Prayers",
+                "cardinal": "Temple of ",
+                "points": 0,
+                "capture_time": "2014-07-31 17:54:23 GMT",
+                "ri_remaining": "1:12",
+                "time_held": "0:00:03:48",
+                "current_owner": {
+                    "world_id": 0,
+                    "name": null,
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            }
+        }
+    }, {
+        "name": "Eternal Battlegrounds",
+        "map_id": 3,
+        "map_owner_name": "Eternal Battlegrounds",
+        "objectives": {
+            "1": {
+                "id": 1,
+                "name": "Overlook",
+                "cardinal": "Overlook",
+                "points": 25,
+                "capture_time": "2014-07-30 09:09:43 GMT",
+                "time_held": "1:08:48:28",
+                "current_guild": {
+                    "id": "D0CF5B85-0F0F-E411-A6E5-AC162DC0E835",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/D0CF5B85-0F0F-E411-A6E5-AC162DC0E835_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "2": {
+                "id": 2,
+                "name": "Valley",
+                "cardinal": "Valley",
+                "points": 25,
+                "capture_time": "2014-07-31 09:00:44 GMT",
+                "time_held": "0:08:57:27",
+                "current_guild": {
+                    "id": "26AB1F06-5E64-47CD-930A-51CD2FE2C161",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/26AB1F06-5E64-47CD-930A-51CD2FE2C161_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "3": {
+                "id": 3,
+                "name": "Lowlands",
+                "cardinal": "Lowlands",
+                "points": 25,
+                "capture_time": "2014-07-31 15:22:52 GMT",
+                "time_held": "0:02:35:19",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "4": {
+                "id": 4,
+                "name": "Golanta Clearing",
+                "cardinal": "Golanta",
+                "points": 5,
+                "capture_time": "2014-07-31 17:54:23 GMT",
+                "ri_remaining": "1:12",
+                "time_held": "0:00:03:48",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "5": {
+                "id": 5,
+                "name": "Pangloss Rise",
+                "cardinal": "Pangloss",
+                "points": 5,
+                "capture_time": "2014-07-31 17:39:32 GMT",
+                "time_held": "0:00:18:39",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "6": {
+                "id": 6,
+                "name": "Speldan Clearcut",
+                "cardinal": "Speldan",
+                "points": 5,
+                "capture_time": "2014-07-31 17:44:47 GMT",
+                "time_held": "0:00:13:24",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "7": {
+                "id": 7,
+                "name": "Danelon Passage",
+                "cardinal": "Danelon",
+                "points": 5,
+                "capture_time": "2014-07-31 17:12:31 GMT",
+                "time_held": "0:00:45:40",
+                "current_guild": {
+                    "id": "FC54C7CA-B3FC-E311-B827-AC162DC0A8ED",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/FC54C7CA-B3FC-E311-B827-AC162DC0A8ED_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "8": {
+                "id": 8,
+                "name": "Umberglade Woods",
+                "cardinal": "Umberglade",
+                "points": 5,
+                "capture_time": "2014-07-31 16:58:21 GMT",
+                "time_held": "0:00:59:50",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "9": {
+                "id": 9,
+                "name": "Stonemist Castle",
+                "cardinal": "SM",
+                "points": 35,
+                "capture_time": "2014-07-31 17:45:11 GMT",
+                "time_held": "0:00:13:00",
+                "current_guild": {
+                    "id": "837806BC-CC0A-4955-B2A9-15563AD71469",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/837806BC-CC0A-4955-B2A9-15563AD71469_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "10": {
+                "id": 10,
+                "name": "Rogue's Quarry",
+                "cardinal": "Rogue's",
+                "points": 5,
+                "capture_time": "2014-07-31 17:36:39 GMT",
+                "time_held": "0:00:21:32",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "11": {
+                "id": 11,
+                "name": "Aldon's Ledge",
+                "cardinal": "Aldon's",
+                "points": 10,
+                "capture_time": "2014-07-31 15:28:50 GMT",
+                "time_held": "0:02:29:21",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "12": {
+                "id": 12,
+                "name": "Wildcreek Run",
+                "cardinal": "Wildcreek",
+                "points": 10,
+                "capture_time": "2014-07-31 14:19:25 GMT",
+                "time_held": "0:03:38:46",
+                "current_guild": {
+                    "id": "AA40EC09-8AB0-41AE-8645-5D6AC8A59687",
+                    "name": "Momoville [MOMO]",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/AA40EC09-8AB0-41AE-8645-5D6AC8A59687_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "13": {
+                "id": 13,
+                "name": "Jerrifer's Slough",
+                "cardinal": "Jerrifer's",
+                "points": 10,
+                "capture_time": "2014-07-31 17:47:48 GMT",
+                "time_held": "0:00:10:23",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "14": {
+                "id": 14,
+                "name": "Klovan Gully",
+                "cardinal": "Klovan",
+                "points": 10,
+                "capture_time": "2014-07-31 13:45:24 GMT",
+                "time_held": "0:04:12:47",
+                "current_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                }
+            },
+            "15": {
+                "id": 15,
+                "name": "Langor Gulch",
+                "cardinal": "Langor",
+                "points": 10,
+                "capture_time": "2014-07-31 10:04:47 GMT",
+                "time_held": "0:07:53:24",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                }
+            },
+            "16": {
+                "id": 16,
+                "name": "Quentin Lake",
+                "cardinal": "Quentin",
+                "points": 10,
+                "capture_time": "2014-07-31 14:24:59 GMT",
+                "time_held": "0:03:33:12",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "17": {
+                "id": 17,
+                "name": "Mendon's Gap",
+                "cardinal": "Mendon's",
+                "points": 10,
+                "capture_time": "2014-07-31 16:50:25 GMT",
+                "time_held": "0:01:07:46",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "18": {
+                "id": 18,
+                "name": "Anzalias Pass",
+                "cardinal": "Anzalias",
+                "points": 10,
+                "capture_time": "2014-07-31 11:11:59 GMT",
+                "time_held": "0:06:46:12",
+                "current_guild": {
+                    "id": "E180C8CA-97AA-E311-8BA5-AC162DAAE275",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/E180C8CA-97AA-E311-8BA5-AC162DAAE275_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "19": {
+                "id": 19,
+                "name": "Ogrewatch Cut",
+                "cardinal": "Ogrewatch",
+                "points": 10,
+                "capture_time": "2014-07-31 04:36:00 GMT",
+                "time_held": "0:13:22:11",
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "20": {
+                "id": 20,
+                "name": "Veloka Slope",
+                "cardinal": "Veloka",
+                "points": 10,
+                "capture_time": "2014-07-30 18:04:57 GMT",
+                "time_held": "0:23:53:14",
+                "current_guild": {
+                    "id": "9F609D29-A56C-4937-9BF3-803665F9B217",
+                    "name": " []",
+                    "img_url": "http:\/\/gw2stats.net\/emblems\/9F609D29-A56C-4937-9BF3-803665F9B217_256.png"
+                },
+                "current_owner": {
+                    "world_id": 2010,
+                    "name": "Seafarer's Rest",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "21": {
+                "id": 21,
+                "name": "Durios Gulch",
+                "cardinal": "Durios",
+                "points": 10,
+                "capture_time": "2014-07-31 09:09:11 GMT",
+                "time_held": "0:08:49:00",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            },
+            "22": {
+                "id": 22,
+                "name": "Bravost Escarpment",
+                "cardinal": "Bravost",
+                "points": 10,
+                "capture_time": "2014-07-31 10:53:24 GMT",
+                "time_held": "0:07:04:47",
+                "current_owner": {
+                    "world_id": 2201,
+                    "name": "Kodash [DE]",
+                    "color": null
+                },
+                "previous_owner": {
+                    "world_id": 2002,
+                    "name": "Desolation",
+                    "color": null
+                }
+            }
+        }
+    }]
+}

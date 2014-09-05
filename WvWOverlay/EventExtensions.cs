@@ -44,4 +44,18 @@ namespace WvWOverlay
         public Model.API.world World { get; set; }
 
     }
+
+    public class ObjectiveItemDoubleclickEventArgs : EventArgs
+    {
+        public ObjectiveItemDoubleclickEventArgs(Model.API.objective oObjective, TimeSpan oRemaining, TimeSpan oTimeHeld)
+        {
+            Objective = oObjective;
+            Ri_Remaining = oRemaining;
+            Time_Held = oTimeHeld;
+        }
+
+        public TimeSpan Ri_Remaining { get; set; }
+        public TimeSpan Time_Held { get; set; }
+        public Model.API.objective Objective { get; set; }
+    }
 }

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Security;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
@@ -39,10 +40,13 @@ namespace WvWOverlay
         private Thread m_oThreadMumbleFileProvider;
         public bool m_bRunMumbleFileProvider = true;
 
+        private Thread m_oThreadLowFrequencyProvider;
+        public bool m_bRunLowFrequencyProvider = true;
+
         private MumbleLink.Coordinate m_oCurrentCoordinate;
         private Model.mumble_identity m_oCurrentIdentity;
         private Thread m_oThreadPlayerDisplayProvider;
-        private bool m_bRunPlayerDisplay = true;
+        private bool m_bRunPlayerDisplayProvider = true;
 
         private Thread m_oThreadMatchProvider;
         private bool m_bRunMatchProvider = true;
@@ -51,7 +55,6 @@ namespace WvWOverlay
         private Model.API.world m_oCurrentWorld;
 
         private string m_cCurrentSpotifyString;
-
 
         private Model.API.matches_match m_oCurrentMatch;
 
@@ -73,6 +76,19 @@ namespace WvWOverlay
         private CurrentDisplayMode m_eCurrentDisplayMode;
 
 
+        private Teamspeak.ClientWrapper m_oTsClientWrapper = null;
+        private Teamspeak.ClientWrapper TS_CLIENT_WRAPPER
+        {
+            get
+            {
+                if (m_oTsClientWrapper == null)
+                {
+                    m_oTsClientWrapper = new Teamspeak.ClientWrapper(LOGWRITER);
+                    m_oTsClientWrapper.TalkStatusChanged += new EventHandler(On_TeamspeakTalkStatusChanged);
+                }
+                return m_oTsClientWrapper;
+            }
+        }
 
         private LogWriter m_oLogWriter;
         public LogWriter LOGWRITER
@@ -228,13 +244,12 @@ namespace WvWOverlay
                 m_oThreadMumbleFileProvider = new Thread(new ThreadStart(MumbleFileProvider));
                 m_oThreadMumbleFileProvider.Start();
 
-                m_bRunPlayerDisplay = true;
+                m_bRunPlayerDisplayProvider = true;
                 m_oThreadPlayerDisplayProvider = new Thread(new ThreadStart(PlayerDisplayProvider));
                 m_oThreadPlayerDisplayProvider.Start();
 
 
                 m_bRunMatchProvider = true;
-
                 StartMatchThread(oArgs.Match);
 
                 m_eCurrentDisplay = CurrentDisplay.Timer;
@@ -284,7 +299,21 @@ namespace WvWOverlay
             }
         }
 
+        /// <summary>
+        /// Initialisiert die TS-Verbindung
+        /// </summary>
+        private void InitializeTeamspeakQueryConnection()
+        {
+            try
+            {
+                TS_CLIENT_WRAPPER.Connect();
 
+            }
+            catch (Exception oEx)
+            {
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
+        }
 
         /// <summary>
         /// Zeigt die Regionsansicht
@@ -349,6 +378,8 @@ namespace WvWOverlay
         {
             m_bRunMumbleFileProvider = false;
             m_bRunMatchProvider = false;
+            m_bRunPlayerDisplayProvider = false;
+            m_bRunLowFrequencyProvider = false;
 
             if (m_oThreadMumbleFileProvider != null)
                 m_oThreadMumbleFileProvider.Abort();
@@ -356,6 +387,8 @@ namespace WvWOverlay
                 m_oThreadMatchProvider.Abort();
             if (m_oThreadPlayerDisplayProvider != null)
                 m_oThreadPlayerDisplayProvider.Abort();
+            if (m_oThreadLowFrequencyProvider != null)
+                m_oThreadLowFrequencyProvider.Abort();
 
 
 
@@ -425,6 +458,13 @@ namespace WvWOverlay
                 m_oLstObjectives = ConfigurationParser.GetObjectives();
 
                 LOGWRITER.WriteMessage(string.Format("Overlay started, Machine [{0}]", Environment.MachineName), LogWriter.MESSAGE_TYPE.Info);
+
+                InitializeTeamspeakQueryConnection();
+
+                //Start Low Frequency Provider
+                //m_bRunLowFrequencyProvider = true;
+                //m_oThreadLowFrequencyProvider = new Thread(new ThreadStart(LowFrequencyProvider));
+                //m_oThreadLowFrequencyProvider.Start();
 
                 TriggerLoadingIndicator();
 
@@ -508,6 +548,30 @@ namespace WvWOverlay
         }
 
         /// <summary>
+        /// Very Low Frequency
+        ///  > 5m
+        /// </summary>
+        public void LowFrequencyProvider()
+        {
+            try
+            {
+                while (m_bRunLowFrequencyProvider)
+                {
+                    Thread.Sleep(2 * 60 * 1000);
+
+                }
+            }
+            catch (ThreadAbortException)
+            {
+                //nothing to do here
+            }
+            catch (Exception oEx)
+            {
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
+        }
+
+        /// <summary>
         /// Führt den Mumblelink-Thread aus
         /// </summary>
         private void PlayerDisplayProvider()
@@ -516,6 +580,8 @@ namespace WvWOverlay
 
             SpotifyLocalApi oAPI = null;
             Status oSpotifyStatus = null;
+            Ping oPingSender;
+            PingReply oPingResult;
 
             try
             {
@@ -535,8 +601,10 @@ namespace WvWOverlay
                     m_cCurrentSpotifyString = string.Empty;
                 }
 
+                //Reload TS Identity
+                TS_CLIENT_WRAPPER.ReloadIdentity();
 
-                while (m_bRunPlayerDisplay)
+                while (m_bRunPlayerDisplayProvider)
                 {
                     //World Name
                     if (!string.IsNullOrWhiteSpace(m_oCurrentCoordinate.ind))
@@ -559,23 +627,57 @@ namespace WvWOverlay
                             itemscontrolMain.Dispatcher.Invoke(delegate { itemscontrolMain.Items.Clear(); });
                     }
 
+                    //Ping
 
-                    //Spotify Display
-                    if (oAPI != null)
+                    oPingSender = new Ping();
+                    oPingResult = oPingSender.Send("8.8.8.8");
+                    if (oPingResult.Status == IPStatus.Success)
                     {
-                        oSpotifyStatus = oAPI.Status;
-                        if (oAPI.Cfid.Token != null && oSpotifyStatus != null && oSpotifyStatus.Track != null)
+                        labelPing.Dispatcher.Invoke(delegate
                         {
-                            if (oSpotifyStatus.Playing)
+                            labelPing.Content = (oPingResult.RoundtripTime < 1000 ? oPingResult.RoundtripTime : 999) + "ms";
+                            if (oPingResult.RoundtripTime <= 125)
                             {
-                                m_cCurrentSpotifyString = string.Format("{0} - {1}",
-                                    oSpotifyStatus.Track.ArtistResource.Name,
-                                    oSpotifyStatus.Track.TrackResource.Name);
+                                labelPing.Foreground = System.Windows.Media.Brushes.GreenYellow;
+                            }
+                            else if (oPingResult.RoundtripTime <= 300)
+                            {
+                                labelPing.Foreground = System.Windows.Media.Brushes.Orange;
+                            }
+                            else
+                            {
+                                labelPing.Foreground = System.Windows.Media.Brushes.Red;
+                            }
+                        });
+                    }
 
-                                labelPlayerWorld.Dispatcher.Invoke(delegate
+                    try
+                    {
+
+                        //Spotify Display
+                        if (oAPI != null)
+                        {
+                            oSpotifyStatus = oAPI.Status;
+                            if (oAPI.Cfid.Token != null && oSpotifyStatus != null && oSpotifyStatus.Track != null)
+                            {
+                                if (oSpotifyStatus.Playing)
                                 {
-                                    labelPlayerWorld.Content = m_cCurrentSpotifyString;
-                                });
+                                    m_cCurrentSpotifyString = string.Format("{0} - {1}",
+                                        oSpotifyStatus.Track.ArtistResource.Name,
+                                        oSpotifyStatus.Track.TrackResource.Name);
+
+                                    labelPlayerWorld.Dispatcher.Invoke(delegate
+                                    {
+                                        labelPlayerWorld.Content = m_cCurrentSpotifyString;
+                                    });
+                                }
+                                else
+                                {
+                                    labelPlayerWorld.Dispatcher.Invoke(delegate
+                                    {
+                                        labelPlayerWorld.Content = m_oCurrentWorld.name;
+                                    });
+                                }
                             }
                             else
                             {
@@ -592,15 +694,15 @@ namespace WvWOverlay
                                 labelPlayerWorld.Content = m_oCurrentWorld.name;
                             });
                         }
+
                     }
-                    else
+                    catch (Exception)
                     {
                         labelPlayerWorld.Dispatcher.Invoke(delegate
                         {
                             labelPlayerWorld.Content = m_oCurrentWorld.name;
                         });
                     }
-
 
                     Thread.Sleep(2000);
                 }
@@ -744,15 +846,26 @@ namespace WvWOverlay
             MapObjectiveItem oMapItem = null;
             List<Model.XML.Objective.ObjectiveType> oLstDisplayTypes;
 
+            DateTime oNow;
 
             string cHeaderLine = string.Empty;
             string cIconLink = string.Empty;
 
             int nCountBloodlustStacks = 0;
+            int nCountTries = 0;
 
             try
             {
                 oMatchInput = (Model.API.matches_match)oMatchObj;
+
+                while (m_oCurrentMap == null && nCountTries < 10)
+                {
+                    //Delay -> wait for the mumble provider to load the map
+                    Thread.Sleep(250);
+                    nCountTries++;
+
+                }
+                nCountTries = 0;
 
 
                 while (m_bRunMatchProvider)
@@ -762,6 +875,9 @@ namespace WvWOverlay
                     nCountBloodlustStacks = 0;
                     cHeaderLine = string.Empty;
 
+                    oNow = DateTime.Now;
+
+
                     oMatch = this.GetMatch(oMatchInput.match_id);
 
                     if (oMatch != null && m_oCurrentMap != null)
@@ -769,12 +885,6 @@ namespace WvWOverlay
                         //Show Map on Map Mode
                         if (m_eCurrentDisplayMode == CurrentDisplayMode.Map)
                         {
-                            //Wait for Map to appear
-                            while (m_oCurrentMap == null)
-                            {
-                                Thread.Sleep(250);
-                            }
-
                             ShowMap();
                         }
 
@@ -828,6 +938,8 @@ namespace WvWOverlay
 
                         foreach (Model.API.objective oObjective in oMap.objectives_list)
                         {
+                            oObjective.SetTimes(oNow);
+
                             if (oObjective.points > 0)
                             {
                                 if (m_eCurrentDisplayMode == CurrentDisplayMode.Map)
@@ -857,7 +969,7 @@ namespace WvWOverlay
                                             canvasMapObjectives.Dispatcher.Invoke(delegate
                                             {
                                                 oMapItem = new MapObjectiveItem(oObjective, m_oLstObjectives, oMatchInput, LOGWRITER);
-
+                                                oMapItem.Click += new EventHandler(On_ObjectiveItemDoubleClick);
                                                 canvasMapObjectives.Children.Add(oMapItem);
                                                 Canvas.SetLeft(oMapItem, oObjectiveXML.Coordinates.X);
                                                 Canvas.SetTop(oMapItem, oObjectiveXML.Coordinates.Y);
@@ -872,7 +984,6 @@ namespace WvWOverlay
                                             oMapItem.Update(oObjective);
                                         });
                                     }
-
                                 }
                                 else
                                 {
@@ -891,6 +1002,7 @@ namespace WvWOverlay
                                             itemscontrolMain.Dispatcher.Invoke(delegate
                                             {
                                                 oListItem = new ObjectiveItem(oObjective, m_oLstObjectives, oMatchInput, LOGWRITER);
+                                                oListItem.Click += new EventHandler(On_ObjectiveItemDoubleClick);
                                                 itemscontrolMain.Items.Add(oListItem);
                                             });
                                         }
@@ -930,6 +1042,46 @@ namespace WvWOverlay
             catch (ThreadAbortException)
             {
                 //Nothing to do here
+            }
+            catch (Exception oEx)
+            {
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
+        }
+
+        public void On_ObjectiveItemDoubleClick(object sender, EventArgs e)
+        {
+            ObjectiveItemDoubleclickEventArgs oArgs;
+            string cText = string.Empty;
+            try
+            {
+                oArgs = (ObjectiveItemDoubleclickEventArgs)e;
+
+                cText += "[" + m_oLstObjectives.Find(x => x.Id == oArgs.Objective.id).Name + "] Derzeitiger Eigner: " + oArgs.Objective.current_owner.name.Split('[')[0].Trim();
+
+                if (oArgs.Ri_Remaining.TotalMilliseconds > 0)
+                {
+                    cText += " | Buff: " + oArgs.Ri_Remaining.Minutes + ":" + oArgs.Ri_Remaining.ToString("ss");
+                }
+                else
+                {
+                    cText += " | Buff: Keiner";
+                }
+
+                cText += " | Gehalten seit: ";
+                if (oArgs.Time_Held.Days > 0)
+                    cText += oArgs.Time_Held.Days.ToString() + " Tage, ";
+                if (oArgs.Time_Held.Hours > 0)
+                    cText += oArgs.Time_Held.Hours.ToString() + " Stunden, ";
+                if (oArgs.Time_Held.Minutes > 0)
+                    cText += oArgs.Time_Held.Minutes.ToString() + " Minuten, ";
+
+                cText += oArgs.Time_Held.Seconds.ToString() + " Sekunden";
+
+                if (oArgs.Objective.current_guild != null && !string.IsNullOrWhiteSpace(oArgs.Objective.current_guild.id))
+                    cText += " | Geclaimed von: " + oArgs.Objective.current_guild.name;
+
+                Clipboard.SetText(cText);
             }
             catch (Exception oEx)
             {
@@ -1023,6 +1175,7 @@ namespace WvWOverlay
             this.Dispatcher.Invoke(delegate
             {
                 itemscontrolMain.Items.Clear();
+                canvasMapObjectives.Children.Clear();
             });
 
             HideMap();
@@ -1052,18 +1205,29 @@ namespace WvWOverlay
         {
             Model.API.match oRetVal = null;
             string cJson;
+            string cDownloadUrl;
 
             try
             {
-                cJson = new WebClient().DownloadString(@"http://gw2stats.net/api/objectives.json?type=match&id=" + cMatchID);
-                if (!string.IsNullOrEmpty(cJson))
+                //Console.WriteLine("GetMatch" + cMatchID);
+                if (m_oCurrentMap != null)
                 {
-                    oRetVal = JsonConvert.DeserializeObject<Model.API.match>(cJson);
-                }
+                    //cDownloadUrl = @"http://gw2stats.net/api/objectives.json?type=match&id=" + cMatchID;
+                    cDownloadUrl = string.Format("http://81.20.136.134:8080/wvw_overlay_backend/match_details.php?MATCH_ID={0}&MAP_ID={1}&PASSWORD=aosfdz0981hoah89ashd",
+                        cMatchID,
+                        m_oCurrentMap.Gw2StatsID);
 
-                foreach (Model.API.map oMap in oRetVal.maps)
-                {
-                    oMap.objectives_list = (List<Model.API.objective>)oMap.objectives.Select(x => x.Value).ToList<Model.API.objective>();
+                    cJson = new WebClient().DownloadString(cDownloadUrl);
+
+                    if (!string.IsNullOrEmpty(cJson))
+                    {
+                        oRetVal = JsonConvert.DeserializeObject<Model.API.match>(cJson);
+                    }
+
+                    foreach (Model.API.map oMap in oRetVal.maps)
+                    {
+                        oMap.objectives_list = (List<Model.API.objective>)oMap.objectives.Select(x => x.Value).ToList<Model.API.objective>();
+                    }
                 }
             }
             catch (Exception oEx)
@@ -1079,10 +1243,58 @@ namespace WvWOverlay
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_Closed(object sender, EventArgs e)
+        private void On_Window_Closed(object sender, EventArgs e)
         {
             ApplicationShutdown();
         }
 
+        private void On_TeamspeakTalkStatusChanged(object sender, EventArgs e)
+        {
+            Teamspeak.ClientWrapper oWrapper = (Teamspeak.ClientWrapper)sender;
+            BitmapSource oBitmapsource = null;
+
+            try
+            {
+                if (oWrapper.Status == Teamspeak.ConnectionState.Connected)
+                {
+                    switch (oWrapper.TalkingStatus)
+                    {
+                        case Teamspeak.TalkingState.MicrophoneMuted:
+                            oBitmapsource = new BitmapImage(new Uri(Environment.CurrentDirectory + "/Resources/Icons/microphone_muted.png"));
+                            break;
+                        case Teamspeak.TalkingState.Quiet:
+                            oBitmapsource = new BitmapImage(new Uri(Environment.CurrentDirectory + "/Resources/Icons/quiet.png"));
+                            break;
+                        case Teamspeak.TalkingState.Talking:
+                            oBitmapsource = new BitmapImage(new Uri(Environment.CurrentDirectory + "/Resources/Icons/talking.png"));
+                            break;
+                    }
+                }
+                else
+                {
+                    oBitmapsource = new BitmapImage(new Uri(Environment.CurrentDirectory + "/Resources/Icons/quiet.png"));
+                }
+
+                imageTeamspeakStatus.Dispatcher.Invoke(delegate
+                {
+                    imageTeamspeakStatus.Source = oBitmapsource;
+                });
+            }
+            catch (Exception oEx)
+            {
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
+        }
+
+        /// <summary>
+        /// Reset TS Client
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void On_imageTeamspeakStatus_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            TS_CLIENT_WRAPPER.Disconnect();
+            TS_CLIENT_WRAPPER.Connect();
+        }
     }
 }

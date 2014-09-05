@@ -30,6 +30,9 @@ namespace WvWOverlay
         public Model.API.matches_match m_oMatch;
         public LogWriter m_oLogWriter;
 
+        public TimeSpan TimeHeld;
+        public TimeSpan Ri_Remaining;
+        
 
         public ObjectiveItem(Model.API.objective oObjective, List<Model.XML.Objective> oLstObjectives, Model.API.matches_match oMatch, LogWriter oLogWriter)
         {
@@ -57,10 +60,13 @@ namespace WvWOverlay
 
                 if (oObjectiveInList != null)
                 {
+                    TimeHeld = Objective.time_held;
+                    Ri_Remaining = Objective.ri_remaining;
+
                     labelObjectiveName.Content = oObjectiveInList.Name;
                     imageObjectiveType.Source = new BitmapImage(this.GetIconUri(oObjectiveInList, Objective.current_owner.color));
                     
-                    labelTimeOwned.Content = GetTimeOwnedString(Objective);
+                    labelTimeOwned.Content = GetTimeOwnedString();
 
                     if (Objective.ri_remaining.TotalMilliseconds > 0)
                     {
@@ -89,8 +95,13 @@ namespace WvWOverlay
 
                 if (oObjectiveInList != null)
                 {
-                    labelTimeOwned.Content = GetTimeOwnedString(oObjective);
+                    TimeHeld = oObjective.time_held;
+                    Ri_Remaining = oObjective.ri_remaining;
+
+                    labelTimeOwned.Content = GetTimeOwnedString();
                     imageClaim.Visibility = oObjective.current_guild == null || string.IsNullOrWhiteSpace(oObjective.current_guild.id) ? System.Windows.Visibility.Hidden : System.Windows.Visibility.Visible;
+
+                    Objective.current_guild = oObjective.current_guild;
 
                     if (Objective.current_owner.world_id != oObjective.current_owner.world_id)
                     {
@@ -124,21 +135,21 @@ namespace WvWOverlay
         /// </summary>
         /// <param name="oObjective"></param>
         /// <returns></returns>
-        private string GetTimeOwnedString(Model.API.objective oObjective)
+        private string GetTimeOwnedString()
         {
             string cRetVal = string.Empty;
 
-            if(oObjective.time_held.Days > 0)
+            if (TimeHeld.Days > 0)
             {
-                cRetVal = oObjective.time_held.Days.ToString() + "d";
+                cRetVal = TimeHeld.Days.ToString() + "d";
             }
-            else if(oObjective.time_held.Hours > 0)
+            else if (TimeHeld.Hours > 0)
             {
-                cRetVal = oObjective.time_held.Hours.ToString() + "h";
+                cRetVal = TimeHeld.Hours.ToString() + "h";
             }
-            else if(oObjective.time_held.Minutes > 0)
+            else if (TimeHeld.Minutes > 0)
             {
-                cRetVal = oObjective.time_held.Minutes.ToString() + "m";
+                cRetVal = TimeHeld.Minutes.ToString() + "m";
             }
             else
             {
@@ -147,7 +158,6 @@ namespace WvWOverlay
 
             return cRetVal;
         }
-
         /// <summary>
         /// Dispatch Timer 
         /// > Countdown Tick
@@ -165,12 +175,17 @@ namespace WvWOverlay
                 {
                     m_oTimer.Stop();
                     labelTimer.Content = "";
+                    labelTimeOwned.Content = GetTimeOwnedString();
+
                     SetEffect(Brushes.GreenYellow);
                     imageBlock.Visibility = System.Windows.Visibility.Hidden;
                 }
                 else
                 {
                     ts(count);
+
+                    TimeHeld += TimeSpan.FromSeconds(1);
+                    Ri_Remaining -= TimeSpan.FromSeconds(1);
                 }
             };
             ts(count);
@@ -181,7 +196,7 @@ namespace WvWOverlay
         /// Blinking thing
         /// </summary>
         /// <param name="oBrush"></param>
-        private void SetEffect(Brush oBrush)
+        private void SetEffect(Brush oBrush, int nNumBlinks = 6)
         {
             Thread oThread = null;
 
@@ -190,7 +205,7 @@ namespace WvWOverlay
 
                 oThread = new Thread((ThreadStart)delegate
                 {
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < nNumBlinks; i++)
                     {
                         rectangleBackground.Dispatcher.Invoke(delegate
                         {
@@ -247,7 +262,14 @@ namespace WvWOverlay
                 //null entfernen
                 if(string.IsNullOrWhiteSpace(cColor))
                 {
-                    cColor = m_oMatch.worlds.Find(x => x.world_id == Objective.current_owner.world_id).color.ToUpper();
+                    try
+                    {
+                        cColor = m_oMatch.worlds.Find(x => x.world_id == Objective.current_owner.world_id).color.ToUpper();
+                    }
+                    catch(NullReferenceException)
+                    {
+                        cColor = string.Empty;
+                    }
                 }
 
                 if (oObjective.Type != Model.XML.Objective.ObjectiveType.Ruin)
@@ -289,6 +311,12 @@ namespace WvWOverlay
                 m_oLogWriter.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
             return oRetVal;
+        }
+
+        private void MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EventExtensions.RaiseEvent(Click, this, new ObjectiveItemDoubleclickEventArgs(Objective, Ri_Remaining, TimeHeld));
+            SetEffect(Brushes.Yellow, 1);
         }
     }
 }
