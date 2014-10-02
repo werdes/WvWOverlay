@@ -8,6 +8,7 @@
       <X>179</X>
       <Y>80</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>2</Id>
@@ -17,6 +18,7 @@
       <X>263</X>
       <Y>247</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>3</Id>
@@ -26,6 +28,7 @@
       <X>58</X>
       <Y>242</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>4</Id>
@@ -35,6 +38,7 @@
       <X>124</X>
       <Y>275</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>5</Id>
@@ -44,6 +48,7 @@
       <X>236</X>
       <Y>92</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>6</Id>
@@ -53,6 +58,7 @@
       <X>83</X>
       <Y>72</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>7</Id>
@@ -62,6 +68,7 @@
       <X>210</X>
       <Y>283</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>8</Id>
@@ -71,6 +78,7 @@
       <X>279</X>
       <Y>174</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>9</Id>
@@ -80,6 +88,7 @@
       <X>166</X>
       <Y>184</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>10</Id>
@@ -89,6 +98,7 @@
       <X>61</X>
       <Y>166</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>11</Id>
@@ -98,6 +108,7 @@
       <X>37</X>
       <Y>215</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>12</Id>
@@ -107,6 +118,7 @@
       <X>91</X>
       <Y>187</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>13</Id>
@@ -116,6 +128,7 @@
       <X>82</X>
       <Y>273</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>14</Id>
@@ -125,6 +138,7 @@
       <X>121</X>
       <Y>241</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>15</Id>
@@ -134,6 +148,7 @@
       <X>256</X>
       <Y>283</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>16</Id>
@@ -143,6 +158,7 @@
       <X>190</X>
       <Y>257</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>17</Id>
@@ -152,6 +168,7 @@
       <X>126</X>
       <Y>70</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>18</Id>
@@ -161,6 +178,7 @@
       <X>122</X>
       <Y>127</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>19</Id>
@@ -170,6 +188,7 @@
       <X>212</X>
       <Y>108</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>20</Id>
@@ -179,6 +198,7 @@
       <X>212</X>
       <Y>68</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>21</Id>
@@ -188,6 +208,7 @@
       <X>227</X>
       <Y>180</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <Objective>
     <Id>22</Id>
@@ -197,6 +218,7 @@
       <X>285</X>
       <Y>206</Y>
     </Coordinates>
+    <MapId>3</MapId>
   </Objective>
   <!--Borderlands-->
   <Objective>
@@ -207,6 +229,7 @@
       <X>152</X>
       <Y>159</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>24</Id>
@@ -216,6 +239,7 @@
       <X>154</X>
       <Y>372</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>25</Id>
@@ -225,6 +249,7 @@
       <X>112</X>
       <Y>286</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>26</Id>
@@ -234,6 +259,7 @@
       <X>215</X>
       <Y>286</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>27</Id>
@@ -243,6 +269,7 @@
       <X>29</X>
       <Y>233</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>28</Id>
@@ -252,6 +279,7 @@
       <X>223</X>
       <Y>118</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>29</Id>
@@ -261,6 +289,7 @@
       <X>155</X>
       <Y>20</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>30</Id>
@@ -270,6 +299,7 @@
       <X>83</X>
       <Y>121</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>31</Id>
@@ -279,6 +309,7 @@
       <X>296</X>
       <Y>226</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>32</Id>
@@ -288,6 +319,7 @@
       <X>296</X>
       <Y>226</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>33</Id>
@@ -297,6 +329,7 @@
       <X>29</X>
       <Y>233</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>34</Id>
@@ -306,6 +339,7 @@
       <X>154</X>
       <Y>372</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>35</Id>
@@ -315,6 +349,7 @@
       <X>112</X>
       <Y>286</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>36</Id>
@@ -324,6 +359,7 @@
       <X>215</X>
       <Y>286</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>37</Id>
@@ -333,6 +369,7 @@
       <X>152</X>
       <Y>159</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>38</Id>
@@ -342,6 +379,7 @@
       <X>83</X>
       <Y>121</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>39</Id>
@@ -351,6 +389,7 @@
       <X>155</X>
       <Y>20</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>40</Id>
@@ -360,6 +399,7 @@
       <X>223</X>
       <Y>118</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>41</Id>
@@ -369,6 +409,7 @@
       <X>296</X>
       <Y>226</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>42</Id>
@@ -378,6 +419,7 @@
       <X>215</X>
       <Y>286</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>43</Id>
@@ -387,6 +429,7 @@
       <X>154</X>
       <Y>372</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>44</Id>
@@ -396,6 +439,7 @@
       <X>29</X>
       <Y>233</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>45</Id>
@@ -405,6 +449,7 @@
       <X>112</X>
       <Y>286</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>46</Id>
@@ -414,6 +459,7 @@
       <X>152</X>
       <Y>159</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>47</Id>
@@ -423,6 +469,7 @@
       <X>83</X>
       <Y>121</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>48</Id>
@@ -432,6 +479,7 @@
       <X>49</X>
       <Y>145</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>49</Id>
@@ -441,6 +489,7 @@
       <X>53</X>
       <Y>302</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>50</Id>
@@ -450,6 +499,7 @@
       <X>268</X>
       <Y>299</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>51</Id>
@@ -459,6 +509,7 @@
       <X>272</X>
       <Y>137</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>52</Id>
@@ -468,6 +519,7 @@
       <X>49</X>
       <Y>145</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>53</Id>
@@ -477,6 +529,7 @@
       <X>53</X>
       <Y>302</Y>
     </Coordinates>
+    <MapId>0</MapId>
   </Objective>
   <Objective>
     <Id>54</Id>
@@ -486,6 +539,7 @@
       <X>272</X>
       <Y>137</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>55</Id>
@@ -495,6 +549,7 @@
       <X>268</X>
       <Y>299</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>56</Id>
@@ -504,6 +559,7 @@
       <X>155</X>
       <Y>20</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>57</Id>
@@ -513,6 +569,7 @@
       <X>223</X>
       <Y>118</Y>
     </Coordinates>
+    <MapId>2</MapId>
   </Objective>
   <Objective>
     <Id>58</Id>
@@ -522,6 +579,7 @@
       <X>49</X>
       <Y>145</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>59</Id>
@@ -531,6 +589,7 @@
       <X>53</X>
       <Y>302</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>60</Id>
@@ -540,6 +599,7 @@
       <X>272</X>
       <Y>137</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
   <Objective>
     <Id>61</Id>
@@ -549,5 +609,6 @@
       <X>268</X>
       <Y>299</Y>
     </Coordinates>
+    <MapId>1</MapId>
   </Objective>
 </ArrayOfObjective>

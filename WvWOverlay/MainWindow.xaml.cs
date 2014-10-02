@@ -24,6 +24,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Serialization;
 
 namespace WvWOverlay
 {
@@ -36,20 +37,24 @@ namespace WvWOverlay
         public List<Model.XML.Objective> m_oLstObjectives;
 
         private Model.XML.Region m_oSelectedRegion;
-
-        private Thread m_oThreadMumbleFileProvider;
-        public bool m_bRunMumbleFileProvider = true;
-
-        private Thread m_oThreadLowFrequencyProvider;
-        public bool m_bRunLowFrequencyProvider = true;
-
         private MumbleLink.Coordinate m_oCurrentCoordinate;
         private Model.mumble_identity m_oCurrentIdentity;
-        private Thread m_oThreadPlayerDisplayProvider;
-        private bool m_bRunPlayerDisplayProvider = true;
+
+        private bool m_bRunSiegeEffect = true;
+        private List<Model.SiegeTimer> m_oLstSiegeTimers;
+
+        #region Threads
+
+        private Thread m_oThreadUIInvoke;
+        private bool m_bRunUIInvoke = true;
 
         private Thread m_oThreadMatchProvider;
         private bool m_bRunMatchProvider = true;
+
+        private Thread m_oThreadMemoryProvider;
+        public bool m_bRunMemoryProvider = true;
+
+        #endregion
 
         private Model.XML.Map m_oCurrentMap;
         private Model.API.world m_oCurrentWorld;
@@ -57,6 +62,7 @@ namespace WvWOverlay
         private string m_cCurrentSpotifyString;
 
         private Model.API.matches_match m_oCurrentMatch;
+        private Model.API.match m_oCurrentMatchDetails;
 
         private enum CurrentDisplay
         {
@@ -65,30 +71,7 @@ namespace WvWOverlay
             Timer
         }
 
-        private enum CurrentDisplayMode
-        {
-            List,
-            Map,
-            CampsOnly
-        }
-
         private CurrentDisplay m_eCurrentDisplay;
-        private CurrentDisplayMode m_eCurrentDisplayMode;
-
-
-        private Teamspeak.ClientWrapper m_oTsClientWrapper = null;
-        private Teamspeak.ClientWrapper TS_CLIENT_WRAPPER
-        {
-            get
-            {
-                if (m_oTsClientWrapper == null)
-                {
-                    m_oTsClientWrapper = new Teamspeak.ClientWrapper(LOGWRITER);
-                    m_oTsClientWrapper.TalkStatusChanged += new EventHandler(On_TeamspeakTalkStatusChanged);
-                }
-                return m_oTsClientWrapper;
-            }
-        }
 
         private LogWriter m_oLogWriter;
         public LogWriter LOGWRITER
@@ -107,7 +90,7 @@ namespace WvWOverlay
         {
             InitializeComponent();
             m_eCurrentDisplay = CurrentDisplay.RegionSelection;
-            m_eCurrentDisplayMode = CurrentDisplayMode.Map;
+            itemscontrolSiegeTimers.Items.SortDescriptions.Add(new SortDescription("End", ListSortDirection.Ascending));
         }
 
         /// <summary>
@@ -240,15 +223,6 @@ namespace WvWOverlay
                 m_oCurrentMatch = oArgs.Match;
                 m_oCurrentWorld = oArgs.World;
 
-                m_bRunMumbleFileProvider = true;
-                m_oThreadMumbleFileProvider = new Thread(new ThreadStart(MumbleFileProvider));
-                m_oThreadMumbleFileProvider.Start();
-
-                m_bRunPlayerDisplayProvider = true;
-                m_oThreadPlayerDisplayProvider = new Thread(new ThreadStart(PlayerDisplayProvider));
-                m_oThreadPlayerDisplayProvider.Start();
-
-
                 m_bRunMatchProvider = true;
                 StartMatchThread(oArgs.Match);
 
@@ -270,9 +244,9 @@ namespace WvWOverlay
         {
             try
             {
-                progressbarLoading.Dispatcher.Invoke((ThreadStart)delegate
+                imageLoadingIndicator.Dispatcher.Invoke((ThreadStart)delegate
                 {
-                    progressbarLoading.Visibility = progressbarLoading.Visibility == System.Windows.Visibility.Hidden ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
+                    imageLoadingIndicator.Visibility = imageLoadingIndicator.Visibility == System.Windows.Visibility.Hidden ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
                 });
             }
             catch (Exception oEx)
@@ -288,26 +262,10 @@ namespace WvWOverlay
         {
             try
             {
-                progressbarLoading.Dispatcher.Invoke((ThreadStart)delegate
+                imageLoadingIndicator.Dispatcher.Invoke((ThreadStart)delegate
                 {
-                    progressbarLoading.Visibility = eVisibility;
+                    imageLoadingIndicator.Visibility = eVisibility;
                 });
-            }
-            catch (Exception oEx)
-            {
-                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
-            }
-        }
-
-        /// <summary>
-        /// Initialisiert die TS-Verbindung
-        /// </summary>
-        private void InitializeTeamspeakQueryConnection()
-        {
-            try
-            {
-                TS_CLIENT_WRAPPER.Connect();
-
             }
             catch (Exception oEx)
             {
@@ -345,8 +303,6 @@ namespace WvWOverlay
                     imageBloodlustColor.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\Icons\bloodlust_neutral.png"));
                     labelPlayerWorld.Content = string.Empty;
                 });
-
-
             }
             catch (Exception oEx)
             {
@@ -376,21 +332,16 @@ namespace WvWOverlay
         /// </summary>
         private void ApplicationShutdown()
         {
-            m_bRunMumbleFileProvider = false;
+            m_bRunMemoryProvider = false;
             m_bRunMatchProvider = false;
-            m_bRunPlayerDisplayProvider = false;
-            m_bRunLowFrequencyProvider = false;
+            m_bRunUIInvoke = false;
 
-            if (m_oThreadMumbleFileProvider != null)
-                m_oThreadMumbleFileProvider.Abort();
+            if (m_oThreadMemoryProvider != null)
+                m_oThreadMemoryProvider.Abort();
             if (m_oThreadMatchProvider != null)
                 m_oThreadMatchProvider.Abort();
-            if (m_oThreadPlayerDisplayProvider != null)
-                m_oThreadPlayerDisplayProvider.Abort();
-            if (m_oThreadLowFrequencyProvider != null)
-                m_oThreadLowFrequencyProvider.Abort();
-
-
+            if (m_oThreadUIInvoke != null)
+                m_oThreadUIInvoke.Abort();
 
             Application.Current.Shutdown();
             Environment.Exit(0);
@@ -452,19 +403,21 @@ namespace WvWOverlay
             {
                 TriggerLoadingIndicator();
 
-                InitializeRegionSelection();
-                m_oLstProfessions = ConfigurationParser.GetProfessions();
-
-                m_oLstObjectives = ConfigurationParser.GetObjectives();
-
                 LOGWRITER.WriteMessage(string.Format("Overlay started, Machine [{0}]", Environment.MachineName), LogWriter.MESSAGE_TYPE.Info);
 
-                InitializeTeamspeakQueryConnection();
+                InitializeRegionSelection();
+                m_oLstProfessions = ConfigurationParser.GetProfessions();
+                m_oLstObjectives = ConfigurationParser.GetObjectives();
+                ImportSiegeTimers();
 
-                //Start Low Frequency Provider
-                //m_bRunLowFrequencyProvider = true;
-                //m_oThreadLowFrequencyProvider = new Thread(new ThreadStart(LowFrequencyProvider));
-                //m_oThreadLowFrequencyProvider.Start();
+                m_bRunMemoryProvider = true;
+                m_oThreadMemoryProvider = new Thread(new ThreadStart(RunMemoryProvider));
+                m_oThreadMemoryProvider.Start();
+
+                m_bRunUIInvoke = true;
+                m_oThreadUIInvoke = new Thread(new ThreadStart(RunUIInvoke));
+                m_oThreadUIInvoke.Start();
+
 
                 TriggerLoadingIndicator();
 
@@ -479,12 +432,6 @@ namespace WvWOverlay
         private void On_imageSelectMatch_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             StopMatchThread();
-            if (m_oThreadMumbleFileProvider != null)
-                m_oThreadMumbleFileProvider.Abort();
-
-            if (m_oThreadPlayerDisplayProvider != null)
-                m_oThreadPlayerDisplayProvider.Abort();
-
             InitializeRegionSelection();
 
         }
@@ -492,7 +439,7 @@ namespace WvWOverlay
         /// <summary>
         /// Zieht die Mumble-Coordinate aus dem RAM
         /// </summary>
-        private void MumbleFileProvider()
+        private void RunMemoryProvider()
         {
             MumbleLink oMumbleLink;
             List<Model.XML.Map> oLstMaps;
@@ -503,7 +450,7 @@ namespace WvWOverlay
 
                 oLstMaps = ConfigurationParser.GetMaps();
 
-                while (m_bRunMumbleFileProvider)
+                while (m_bRunMemoryProvider)
                 {
                     try
                     {
@@ -525,10 +472,6 @@ namespace WvWOverlay
                                 m_oCurrentMap = oLstMaps.Find(x => x.MapID == m_oCurrentIdentity.map_id);
                             }
                         }
-                        else
-                        {
-
-                        }
                     }
                     catch (Exception oEx)
                     {
@@ -548,33 +491,9 @@ namespace WvWOverlay
         }
 
         /// <summary>
-        /// Very Low Frequency
-        ///  > 5m
+        /// Führt den UI-Thread aus
         /// </summary>
-        public void LowFrequencyProvider()
-        {
-            try
-            {
-                while (m_bRunLowFrequencyProvider)
-                {
-                    Thread.Sleep(2 * 60 * 1000);
-
-                }
-            }
-            catch (ThreadAbortException)
-            {
-                //nothing to do here
-            }
-            catch (Exception oEx)
-            {
-                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
-            }
-        }
-
-        /// <summary>
-        /// Führt den Mumblelink-Thread aus
-        /// </summary>
-        private void PlayerDisplayProvider()
+        private void RunUIInvoke()
         {
             Model.XML.Profession oProfession;
 
@@ -601,10 +520,7 @@ namespace WvWOverlay
                     m_cCurrentSpotifyString = string.Empty;
                 }
 
-                //Reload TS Identity
-                TS_CLIENT_WRAPPER.ReloadIdentity();
-
-                while (m_bRunPlayerDisplayProvider)
+                while (m_bRunUIInvoke)
                 {
                     //World Name
                     if (!string.IsNullOrWhiteSpace(m_oCurrentCoordinate.ind))
@@ -651,60 +567,140 @@ namespace WvWOverlay
                         });
                     }
 
-                    try
+
+                    if (m_oCurrentWorld != null || oAPI != null)
                     {
-
-                        //Spotify Display
-                        if (oAPI != null)
+                        try
                         {
-                            oSpotifyStatus = oAPI.Status;
-                            if (oAPI.Cfid.Token != null && oSpotifyStatus != null && oSpotifyStatus.Track != null)
+                            //Spotify Display
+                            if (oAPI != null)
                             {
-                                if (oSpotifyStatus.Playing)
+                                oSpotifyStatus = oAPI.Status;
+                                if (oAPI.Cfid.Token != null && oSpotifyStatus != null && oSpotifyStatus.Track != null)
                                 {
-                                    m_cCurrentSpotifyString = string.Format("{0} - {1}",
-                                        oSpotifyStatus.Track.ArtistResource.Name,
-                                        oSpotifyStatus.Track.TrackResource.Name);
-
-                                    labelPlayerWorld.Dispatcher.Invoke(delegate
+                                    if (oSpotifyStatus.Playing)
                                     {
-                                        labelPlayerWorld.Content = m_cCurrentSpotifyString;
-                                    });
+                                        m_cCurrentSpotifyString = string.Format("{0} - {1}",
+                                            oSpotifyStatus.Track.ArtistResource.Name,
+                                            oSpotifyStatus.Track.TrackResource.Name);
+
+                                        labelPlayerWorld.Dispatcher.Invoke(delegate
+                                        {
+                                            labelPlayerWorld.Content = m_cCurrentSpotifyString;
+                                        });
+                                    }
+                                    else
+                                    {
+                                        if (m_oCurrentWorld != null)
+                                        {
+                                            labelPlayerWorld.Dispatcher.Invoke(delegate
+                                            {
+                                                labelPlayerWorld.Content = m_oCurrentWorld.name;
+                                            });
+                                        }
+                                        else
+                                        {
+                                            labelPlayerWorld.Dispatcher.Invoke(delegate
+                                            {
+                                                labelPlayerWorld.Content = "No match selected";
+                                            });
+                                        }
+                                    }
                                 }
                                 else
+                                {
+                                    if (m_oCurrentWorld != null)
+                                    {
+                                        labelPlayerWorld.Dispatcher.Invoke(delegate
+                                        {
+                                            labelPlayerWorld.Content = m_oCurrentWorld.name;
+                                        });
+                                    }
+                                    else
+                                    {
+                                        labelPlayerWorld.Dispatcher.Invoke(delegate
+                                        {
+                                            labelPlayerWorld.Content = "No match selected";
+                                        });
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (m_oCurrentWorld != null)
                                 {
                                     labelPlayerWorld.Dispatcher.Invoke(delegate
                                     {
                                         labelPlayerWorld.Content = m_oCurrentWorld.name;
                                     });
                                 }
+                                else
+                                {
+                                    labelPlayerWorld.Dispatcher.Invoke(delegate
+                                    {
+                                        labelPlayerWorld.Content = "No match selected";
+                                    });
+                                }
                             }
-                            else
+
+                        }
+                        catch (Exception)
+                        {
+                            if (m_oCurrentWorld != null)
                             {
                                 labelPlayerWorld.Dispatcher.Invoke(delegate
                                 {
                                     labelPlayerWorld.Content = m_oCurrentWorld.name;
                                 });
                             }
-                        }
-                        else
-                        {
-                            labelPlayerWorld.Dispatcher.Invoke(delegate
+                            else
                             {
-                                labelPlayerWorld.Content = m_oCurrentWorld.name;
-                            });
+                                labelPlayerWorld.Dispatcher.Invoke(delegate
+                                {
+                                    labelPlayerWorld.Content = "No match selected";
+                                });
+                            }
                         }
-
                     }
-                    catch (Exception)
+                    else
                     {
                         labelPlayerWorld.Dispatcher.Invoke(delegate
                         {
-                            labelPlayerWorld.Content = m_oCurrentWorld.name;
+                            labelPlayerWorld.Content = "No match selected";
                         });
                     }
 
-                    Thread.Sleep(2000);
+                    if (m_oCurrentMap == null)
+                    {
+                        labelMatchupMapTitle.Dispatcher.Invoke(delegate { labelMatchupMapTitle.Content = "No World vs. World Map"; });
+                    }
+                    else
+                    {
+                        if (m_oCurrentMatchDetails == null)
+                        {
+                            labelMatchupMapTitle.Dispatcher.Invoke(delegate { labelMatchupMapTitle.Content = "No match selected"; });
+                        }
+                        else
+                        {
+                            //Real Title
+                            labelMatchupMapTitle.Dispatcher.Invoke(delegate
+                            {
+                                Model.API.map oMap = m_oCurrentMatchDetails.maps.Find(x => x.map_id == m_oCurrentMap.Gw2StatsID);
+                                string cContent = string.Empty;
+
+                                if (m_oCurrentMap.MapID != 38)
+                                {
+                                    cContent += oMap.map_owner_name + " ";
+                                }
+                                cContent += m_oCurrentMap.Title;
+
+                                labelMatchupMapTitle.Content = cContent;
+
+                            });
+                        }
+                    }
+
+                    Thread.Sleep(1000);
                 }
             }
             catch (ThreadAbortException)
@@ -718,53 +714,6 @@ namespace WvWOverlay
 
         }
 
-        /// <summary>
-        /// Campmode switch
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void On_imageDisplayMode_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                if (m_eCurrentDisplayMode == CurrentDisplayMode.List)
-                {
-                    //Camp only
-                    m_eCurrentDisplayMode = CurrentDisplayMode.CampsOnly;
-
-                    //Image
-                    imageDisplayMode.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\Resources\\Icons\\camp_white.png"));
-
-                    if (m_eCurrentDisplay == CurrentDisplay.Timer)
-                        RestartMatchThread(m_oCurrentMatch);
-                }
-                else if (m_eCurrentDisplayMode == CurrentDisplayMode.CampsOnly)
-                {
-                    //Map
-                    m_eCurrentDisplayMode = CurrentDisplayMode.Map;
-
-                    imageDisplayMode.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\Resources\\Icons\\map.png"));
-
-                    if (m_eCurrentDisplay == CurrentDisplay.Timer)
-                        RestartMatchThread(m_oCurrentMatch);
-                }
-                else if (m_eCurrentDisplayMode == CurrentDisplayMode.Map)
-                {
-                    //List
-                    m_eCurrentDisplayMode = CurrentDisplayMode.List;
-
-                    HideMap();
-                    imageDisplayMode.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\Resources\\Icons\\keep_white.png"));
-
-                    if (m_eCurrentDisplay == CurrentDisplay.Timer)
-                        RestartMatchThread(m_oCurrentMatch);
-                }
-            }
-            catch (Exception oEx)
-            {
-                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
-            }
-        }
 
         /// <summary>
         /// Sets the Map to hidden
@@ -777,6 +726,7 @@ namespace WvWOverlay
                 {
                     rectangleMapBorder.Visibility = System.Windows.Visibility.Hidden;
                     imageMapImage.Visibility = System.Windows.Visibility.Hidden;
+                    canvasFooter.Visibility = System.Windows.Visibility.Hidden;
 
                     canvasMapObjectives.Visibility = System.Windows.Visibility.Hidden;
                     canvasMapObjectives.Children.Clear();
@@ -800,6 +750,7 @@ namespace WvWOverlay
                     rectangleMapBorder.Visibility = System.Windows.Visibility.Visible;
                     imageMapImage.Visibility = System.Windows.Visibility.Visible;
                     canvasMapObjectives.Visibility = System.Windows.Visibility.Visible;
+                    canvasFooter.Visibility = System.Windows.Visibility.Visible;
 
                     if (m_oCurrentMap != null)
                     {
@@ -808,12 +759,18 @@ namespace WvWOverlay
                             //EBG
                             imageMapImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\Resources\\Maps\\EternalBattlegrounds.jpg"));
                             rectangleMapBorder.Height = 320;
+                            canvasFooter.Margin = new Thickness(0, 370, 0, 0);
+                            canvasSiegeTimers.Height = 319;
+                            itemscontrolSiegeTimers.Height = 314;
                         }
                         else
                         {
                             //Border
                             imageMapImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\Resources\\Maps\\Borderland.jpg"));
                             rectangleMapBorder.Height = 421;
+                            canvasFooter.Margin = new Thickness(0, 471, 0, 0);
+                            canvasSiegeTimers.Height = 420;
+                            itemscontrolSiegeTimers.Height = 415;
                         }
                     }
                     else
@@ -821,6 +778,7 @@ namespace WvWOverlay
                         rectangleMapBorder.Visibility = System.Windows.Visibility.Hidden;
                         imageMapImage.Visibility = System.Windows.Visibility.Hidden;
                         canvasMapObjectives.Visibility = System.Windows.Visibility.Hidden;
+                        canvasFooter.Visibility = System.Windows.Visibility.Hidden;
                     }
                 });
             }
@@ -834,17 +792,14 @@ namespace WvWOverlay
         /// <summary>
         /// Runs the Match THread
         /// </summary>
-        private void MatchProvider(object oMatchObj)
+        private void RunMatchProvider(object oMatchObj)
         {
             Model.API.matches_match oMatchInput;
-            Model.API.match oMatch;
             Model.API.map oMap;
             Model.API.map oLastMap = null;
             Model.XML.Objective oObjectiveXML = null;
 
-            ObjectiveItem oListItem = null;
             MapObjectiveItem oMapItem = null;
-            List<Model.XML.Objective.ObjectiveType> oLstDisplayTypes;
 
             DateTime oNow;
 
@@ -863,7 +818,10 @@ namespace WvWOverlay
                     //Delay -> wait for the mumble provider to load the map
                     Thread.Sleep(250);
                     nCountTries++;
-
+                    if (nCountTries == 9)
+                    {
+                        LOGWRITER.WriteMessage("Tried 10x, no map.", LogWriter.MESSAGE_TYPE.Info);
+                    }
                 }
                 nCountTries = 0;
 
@@ -878,17 +836,18 @@ namespace WvWOverlay
                     oNow = DateTime.Now;
 
 
-                    oMatch = this.GetMatch(oMatchInput.match_id);
-
-                    if (oMatch != null && m_oCurrentMap != null)
+                    m_oCurrentMatchDetails = this.GetMatch(oMatchInput.match_id);
+                    if (m_oCurrentMatchDetails != null && m_oCurrentMap != null)
                     {
                         //Show Map on Map Mode
-                        if (m_eCurrentDisplayMode == CurrentDisplayMode.Map)
-                        {
-                            ShowMap();
-                        }
+                        ShowMap();
 
-                        oMap = oMatch.maps.Find(x => x.map_id == m_oCurrentMap.Gw2StatsID);
+                        labelRetrieveTime.Dispatcher.Invoke(delegate
+                        {
+                            labelRetrieveTime.Content = "retrieved: " + m_oCurrentMatchDetails.retrieve_time.ToString("T");
+                        });
+
+                        oMap = m_oCurrentMatchDetails.maps.Find(x => x.map_id == m_oCurrentMap.Gw2StatsID);
 
                         if (oLastMap != null && oMap.map_id != oLastMap.map_id)
                         {
@@ -896,23 +855,14 @@ namespace WvWOverlay
                         }
                         oLastMap = oMap;
 
-                        //Set Header
-                        if (m_oCurrentMap.MapID != 38)
-                        {
-                            cHeaderLine += oMap.map_owner_name + " ";
-                        }
-                        cHeaderLine += m_oCurrentMap.Title;
-
-                        labelMatchupMapTitle.Dispatcher.Invoke(delegate { labelMatchupMapTitle.Content = cHeaderLine; });
-
                         //Bloodlust
-                        nCountBloodlustStacks += oMatch.bloodlust.blue_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
-                        nCountBloodlustStacks += oMatch.bloodlust.red_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
-                        nCountBloodlustStacks += oMatch.bloodlust.green_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
+                        nCountBloodlustStacks += m_oCurrentMatchDetails.bloodlust.blue_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
+                        nCountBloodlustStacks += m_oCurrentMatchDetails.bloodlust.red_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
+                        nCountBloodlustStacks += m_oCurrentMatchDetails.bloodlust.green_owner_id == m_oCurrentWorld.world_id ? 1 : 0;
 
                         imageBloodlustColor.Dispatcher.Invoke(delegate
                         {
-                            imageBloodlustColor.Source = new BitmapImage(new Uri(GetBloodlustByMap(oMatch)));
+                            imageBloodlustColor.Source = new BitmapImage(new Uri(GetBloodlustByMap(m_oCurrentMatchDetails)));
                             labelBloodlustStackCount.Content = string.Format("{0} Stack{1}",
                                 nCountBloodlustStacks,
                                 nCountBloodlustStacks == 0 || nCountBloodlustStacks > 1 ? "s" : "");
@@ -922,99 +872,62 @@ namespace WvWOverlay
                         labelScoreBlue.Dispatcher.Invoke(delegate
                         {
                             //Green
-                            labelScoreGreen.Content = oMatch.maps.Sum(x => x.objectives.Select(o => o.Value).ToList().FindAll(y => y.current_owner.world_id == oMatchInput.worlds.Find(z => z.color.ToUpper() == "GREEN").world_id).Sum(y => y.points));
+                            labelScoreGreen.Content = m_oCurrentMatchDetails.maps.Sum(x => x.objectives.Select(o => o.Value).ToList().FindAll(y => y.current_owner.world_id == oMatchInput.worlds.Find(z => z.color.ToUpper() == "GREEN").world_id).Sum(y => y.points));
 
                             //Blue
-                            labelScoreBlue.Content = oMatch.maps.Sum(x => x.objectives.Select(o => o.Value).ToList().FindAll(y => y.current_owner.world_id == oMatchInput.worlds.Find(z => z.color.ToUpper() == "BLUE").world_id).Sum(y => y.points));
+                            labelScoreBlue.Content = m_oCurrentMatchDetails.maps.Sum(x => x.objectives.Select(o => o.Value).ToList().FindAll(y => y.current_owner.world_id == oMatchInput.worlds.Find(z => z.color.ToUpper() == "BLUE").world_id).Sum(y => y.points));
 
                             //Red
-                            labelScoreRed.Content = oMatch.maps.Sum(x => x.objectives.Select(o => o.Value).ToList().FindAll(y => y.current_owner.world_id == oMatchInput.worlds.Find(z => z.color.ToUpper() == "RED").world_id).Sum(y => y.points));
+                            labelScoreRed.Content = m_oCurrentMatchDetails.maps.Sum(x => x.objectives.Select(o => o.Value).ToList().FindAll(y => y.current_owner.world_id == oMatchInput.worlds.Find(z => z.color.ToUpper() == "RED").world_id).Sum(y => y.points));
 
                         });
 
                         oMap.objectives_list = (List<Model.API.objective>)oMap.objectives_list.Where(x => x.points > 0).OrderByDescending(x => x.points).ThenBy(x => m_oLstObjectives.Find(y => y.Id == x.id).Name).ToList();
 
-                        oLstDisplayTypes = GetObjectiveTypesForView();
+                        m_oCurrentMatchDetails.retrieve_time = DateTime.SpecifyKind(m_oCurrentMatchDetails.retrieve_time, DateTimeKind.Utc);
 
                         foreach (Model.API.objective oObjective in oMap.objectives_list)
                         {
-                            oObjective.SetTimes(oNow);
+                            oObjective.SetTimes(m_oCurrentMatchDetails.retrieve_time.ToLocalTime());
 
                             if (oObjective.points > 0)
                             {
-                                if (m_eCurrentDisplayMode == CurrentDisplayMode.Map)
+                                oMapItem = null;
+                                canvasMapObjectives.Dispatcher.Invoke(delegate
                                 {
-                                    oMapItem = null;
+                                    foreach (UIElement oCanvasChild in canvasMapObjectives.Children)
+                                    {
+                                        if (((MapObjectiveItem)oCanvasChild).Objective.id == oObjective.id)
+                                        {
+                                            oMapItem = (MapObjectiveItem)oCanvasChild;
+                                            break;
+                                        }
+                                    }
+                                });
+
+                                if (oMapItem == null)
+                                {
+                                    //Get XML Objective for Display Check
+                                    oObjectiveXML = m_oLstObjectives.Find(x => x.Id == oObjective.id);
+
+                                    //Map View
                                     canvasMapObjectives.Dispatcher.Invoke(delegate
                                     {
-                                        foreach (UIElement oCanvasChild in canvasMapObjectives.Children)
-                                        {
-                                            if (((MapObjectiveItem)oCanvasChild).Objective.id == oObjective.id)
-                                            {
-                                                oMapItem = (MapObjectiveItem)oCanvasChild;
-                                                break;
-                                            }
-                                        }
+                                        oMapItem = new MapObjectiveItem(oObjective, m_oLstObjectives, oMatchInput, LOGWRITER);
+                                        oMapItem.Click += new EventHandler(On_ObjectiveItemDoubleClick);
+                                        oMapItem.SiegeTimeSelected += new EventHandler(On_ObjectiveItemSiegeTimeSelected);
+                                        canvasMapObjectives.Children.Add(oMapItem);
+                                        Canvas.SetLeft(oMapItem, oObjectiveXML.Coordinates.X);
+                                        Canvas.SetTop(oMapItem, oObjectiveXML.Coordinates.Y);
                                     });
-
-                                    if (oMapItem == null)
-                                    {
-                                        //Get XML Objective for Display Check
-                                        oObjectiveXML = m_oLstObjectives.Find(x => x.Id == oObjective.id);
-
-                                        //Show Objective type?
-                                        if (oLstDisplayTypes.Contains(oObjectiveXML.Type))
-                                        {
-                                            //Map View
-                                            canvasMapObjectives.Dispatcher.Invoke(delegate
-                                            {
-                                                oMapItem = new MapObjectiveItem(oObjective, m_oLstObjectives, oMatchInput, LOGWRITER);
-                                                oMapItem.Click += new EventHandler(On_ObjectiveItemDoubleClick);
-                                                canvasMapObjectives.Children.Add(oMapItem);
-                                                Canvas.SetLeft(oMapItem, oObjectiveXML.Coordinates.X);
-                                                Canvas.SetTop(oMapItem, oObjectiveXML.Coordinates.Y);
-                                            });
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //Map view
-                                        canvasMapObjectives.Dispatcher.Invoke(delegate
-                                        {
-                                            oMapItem.Update(oObjective);
-                                        });
-                                    }
                                 }
                                 else
                                 {
-
-                                    itemscontrolMain.Dispatcher.Invoke(delegate { oListItem = (ObjectiveItem)itemscontrolMain.ItemContainerGenerator.Items.ToList().Find(x => ((ObjectiveItem)x).Objective.id == oObjective.id); });
-
-                                    if (oListItem == null)
+                                    //Map view
+                                    canvasMapObjectives.Dispatcher.Invoke(delegate
                                     {
-                                        //Get XML Objective for Display Check
-                                        oObjectiveXML = m_oLstObjectives.Find(x => x.Id == oObjective.id);
-
-                                        //Show Objective type?
-                                        if (oLstDisplayTypes.Contains(oObjectiveXML.Type))
-                                        {
-                                            //List view
-                                            itemscontrolMain.Dispatcher.Invoke(delegate
-                                            {
-                                                oListItem = new ObjectiveItem(oObjective, m_oLstObjectives, oMatchInput, LOGWRITER);
-                                                oListItem.Click += new EventHandler(On_ObjectiveItemDoubleClick);
-                                                itemscontrolMain.Items.Add(oListItem);
-                                            });
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //List view
-                                        itemscontrolMain.Dispatcher.Invoke(delegate
-                                        {
-                                            oListItem.Update(oObjective);
-                                        });
-                                    }
+                                        oMapItem.Update(oObjective);
+                                    });
                                 }
                             }
                         }
@@ -1049,6 +962,12 @@ namespace WvWOverlay
             }
         }
 
+
+        /// <summary>
+        /// Text for Pasteing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void On_ObjectiveItemDoubleClick(object sender, EventArgs e)
         {
             ObjectiveItemDoubleclickEventArgs oArgs;
@@ -1087,31 +1006,6 @@ namespace WvWOverlay
             {
                 LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
             }
-        }
-
-        /// <summary>
-        /// Liefert die anzuzeigenden Typen
-        /// </summary>
-        /// <returns></returns>
-        public List<Model.XML.Objective.ObjectiveType> GetObjectiveTypesForView()
-        {
-            List<Model.XML.Objective.ObjectiveType> oLstRetVal = new List<Model.XML.Objective.ObjectiveType>();
-
-            switch (m_eCurrentDisplayMode)
-            {
-                case CurrentDisplayMode.CampsOnly:
-                    oLstRetVal.Add(Model.XML.Objective.ObjectiveType.Camp);
-                    break;
-                case CurrentDisplayMode.List:
-                case CurrentDisplayMode.Map:
-                    oLstRetVal.Add(Model.XML.Objective.ObjectiveType.Camp);
-                    oLstRetVal.Add(Model.XML.Objective.ObjectiveType.Castle);
-                    oLstRetVal.Add(Model.XML.Objective.ObjectiveType.Tower);
-                    oLstRetVal.Add(Model.XML.Objective.ObjectiveType.Keep);
-                    break;
-            }
-
-            return oLstRetVal;
         }
 
         /// <summary>
@@ -1192,7 +1086,7 @@ namespace WvWOverlay
         /// <param name="oMatch"></param>
         private void StartMatchThread(Model.API.matches_match oMatch)
         {
-            m_oThreadMatchProvider = new Thread(new ParameterizedThreadStart(MatchProvider));
+            m_oThreadMatchProvider = new Thread(new ParameterizedThreadStart(RunMatchProvider));
             m_oThreadMatchProvider.Start(oMatch);
         }
 
@@ -1204,18 +1098,31 @@ namespace WvWOverlay
         private Model.API.match GetMatch(string cMatchID)
         {
             Model.API.match oRetVal = null;
-            string cJson;
+            string cJson = string.Empty;
             string cDownloadUrl;
+            string cObjectiveIDs;
+            List<short> oLstIDs;
 
             try
             {
                 //Console.WriteLine("GetMatch" + cMatchID);
                 if (m_oCurrentMap != null)
                 {
+                    oLstIDs = (from x in m_oLstObjectives where x.MapId == m_oCurrentMap.Gw2StatsID select x.Id).ToList();
+                    cObjectiveIDs = string.Join(",", oLstIDs);
+
+
                     //cDownloadUrl = @"http://gw2stats.net/api/objectives.json?type=match&id=" + cMatchID;
-                    cDownloadUrl = string.Format("http://81.20.136.134:8080/wvw_overlay_backend/match_details.php?MATCH_ID={0}&MAP_ID={1}&PASSWORD=aosfdz0981hoah89ashd",
+                    cDownloadUrl = string.Format("http://81.20.136.134:8080/wvw_overlay_backend/match_details.php?MATCH_ID={0}&OBJECTIVE_IDS={1}&PASSWORD=aosfdz0981hoah89ashd&UPDATE_RI&REGION={2}",
                         cMatchID,
-                        m_oCurrentMap.Gw2StatsID);
+                        cObjectiveIDs,
+                        m_oSelectedRegion.Slug);
+
+
+                    //cDownloadUrl = string.Format("http://localhost/wvw_overlay_backend//match_details.php?MATCH_ID={0}&OBJECTIVE_IDS={1}&PASSWORD=aosfdz0981hoah89ashd&UPDATE_RI&REGION={2}",
+                    //    cMatchID,
+                    //    cObjectiveIDs,
+                    //    m_oSelectedRegion.Slug);
 
                     cJson = new WebClient().DownloadString(cDownloadUrl);
 
@@ -1229,6 +1136,10 @@ namespace WvWOverlay
                         oMap.objectives_list = (List<Model.API.objective>)oMap.objectives.Select(x => x.Value).ToList<Model.API.objective>();
                     }
                 }
+            }
+            catch (Newtonsoft.Json.JsonReaderException oJSONEx)
+            {
+                LOGWRITER.WriteMessage(oJSONEx.ToString() + Environment.NewLine + cJson, LogWriter.MESSAGE_TYPE.Debug);
             }
             catch (Exception oEx)
             {
@@ -1248,37 +1159,82 @@ namespace WvWOverlay
             ApplicationShutdown();
         }
 
-        private void On_TeamspeakTalkStatusChanged(object sender, EventArgs e)
+        public void SetSiegeIconEffect()
         {
-            Teamspeak.ClientWrapper oWrapper = (Teamspeak.ClientWrapper)sender;
-            BitmapSource oBitmapsource = null;
+            BackgroundWorker oWorker = new BackgroundWorker();
+            m_bRunSiegeEffect = true;
 
-            try
+            oWorker.DoWork += delegate
             {
-                if (oWrapper.Status == Teamspeak.ConnectionState.Connected)
+                while (m_bRunSiegeEffect)
                 {
-                    switch (oWrapper.TalkingStatus)
-                    {
-                        case Teamspeak.TalkingState.MicrophoneMuted:
-                            oBitmapsource = new BitmapImage(new Uri(Environment.CurrentDirectory + "/Resources/Icons/microphone_muted.png"));
-                            break;
-                        case Teamspeak.TalkingState.Quiet:
-                            oBitmapsource = new BitmapImage(new Uri(Environment.CurrentDirectory + "/Resources/Icons/quiet.png"));
-                            break;
-                        case Teamspeak.TalkingState.Talking:
-                            oBitmapsource = new BitmapImage(new Uri(Environment.CurrentDirectory + "/Resources/Icons/talking.png"));
-                            break;
-                    }
+                    Thread.Sleep(1000);
+                    rectangleSiegeTimerEffect.Dispatcher.Invoke(delegate { rectangleSiegeTimerEffect.Visibility = System.Windows.Visibility.Visible; });
+                    Thread.Sleep(1000);
+                    rectangleSiegeTimerEffect.Dispatcher.Invoke(delegate { rectangleSiegeTimerEffect.Visibility = System.Windows.Visibility.Hidden; });
+                }
+            };
+
+            oWorker.RunWorkerAsync();
+        }
+
+        private void On_SiegeTimerOverlayClick(object sender, MouseButtonEventArgs e)
+        {
+            m_bRunSiegeEffect = false;
+            if (m_eCurrentDisplay == CurrentDisplay.Timer)
+            {
+                if (canvasSiegeTimers.Visibility == System.Windows.Visibility.Hidden)
+                {
+                    canvasSiegeTimers.Visibility = System.Windows.Visibility.Visible;
+                    rectangleSiegeTimerTab.Visibility = System.Windows.Visibility.Visible;
                 }
                 else
                 {
-                    oBitmapsource = new BitmapImage(new Uri(Environment.CurrentDirectory + "/Resources/Icons/quiet.png"));
+                    canvasSiegeTimers.Visibility = System.Windows.Visibility.Hidden;
+                    rectangleSiegeTimerTab.Visibility = System.Windows.Visibility.Hidden;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Lädt die Siege-Timer
+        /// </summary>
+        private void ImportSiegeTimers()
+        {
+            m_oLstSiegeTimers = new List<Model.SiegeTimer>();
+            string cPath;
+            XmlSerializer oSerializer;
+            List<Model.SiegeTimer> oLstSiegeTimers = null;
+
+            try
+            {
+
+                cPath = System.IO.Path.Combine(Environment.CurrentDirectory, "Settings", "SiegeTimers.xml");
+                if (!Directory.Exists(System.IO.Path.GetDirectoryName(cPath)))
+                {
+                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(cPath));
                 }
 
-                imageTeamspeakStatus.Dispatcher.Invoke(delegate
+                if (File.Exists(cPath))
                 {
-                    imageTeamspeakStatus.Source = oBitmapsource;
-                });
+                    using (StreamReader oReader = new StreamReader(cPath))
+                    {
+                        oSerializer = new XmlSerializer(typeof(List<Model.SiegeTimer>));
+                        oLstSiegeTimers = (List<Model.SiegeTimer>)oSerializer.Deserialize(oReader);
+                    }
+                }
+
+                if (oLstSiegeTimers != null)
+                {
+                    oLstSiegeTimers.RemoveAll(x => x.End < DateTime.Now);
+
+                    foreach (Model.SiegeTimer oSiegeTimer in oLstSiegeTimers)
+                    {
+                        AddSiegeTimer(oSiegeTimer);
+                    }
+                }
+
+                SetSiegeTimerCountLabel();
             }
             catch (Exception oEx)
             {
@@ -1287,14 +1243,158 @@ namespace WvWOverlay
         }
 
         /// <summary>
-        /// Reset TS Client
+        /// Fügt einen Siege Timer hinzu
+        /// </summary>
+        /// <param name="oSiegeTimer"></param>
+        private void AddSiegeTimer(Model.SiegeTimer oSiegeTimer)
+        {
+            string cPath;
+            XmlSerializer oSerializer;
+            SiegeTimerItem oItem;
+            bool bAddItem = false;
+
+            try
+            {
+                if (m_oLstSiegeTimers.Find(x => x.APIObjective.id == oSiegeTimer.APIObjective.id) == null)
+                {
+                    m_oLstSiegeTimers.Add(oSiegeTimer);
+                    bAddItem = true;
+                }
+                else
+                {
+                    m_oLstSiegeTimers.Find(x => x.APIObjective.id == oSiegeTimer.APIObjective.id).End = oSiegeTimer.End;
+
+                    foreach (UIElement oCanvasChild in itemscontrolSiegeTimers.Items)
+                    {
+                        if (((SiegeTimerItem)oCanvasChild).SiegeTimer.APIObjective.id == oSiegeTimer.APIObjective.id)
+                        {
+                            ((SiegeTimerItem)oCanvasChild).RestartTimer(oSiegeTimer);
+                            break;
+                        }
+                    }
+                }
+
+                cPath = System.IO.Path.Combine(Environment.CurrentDirectory, "Settings", "SiegeTimers.xml");
+                using (TextWriter oWriter = new StreamWriter(cPath))
+                {
+                    oSerializer = new XmlSerializer(typeof(List<Model.SiegeTimer>));
+                    oSerializer.Serialize(oWriter, m_oLstSiegeTimers);
+                }
+
+                if (bAddItem)
+                {
+                    oItem = new SiegeTimerItem(oSiegeTimer, LOGWRITER, m_oCurrentMatch);
+                    oItem.RemoveSiegeTimer += new EventHandler(On_SiegeTimerRemove);
+                    oItem.TimerFinished += new EventHandler(On_SiegeTimerFinshed);
+
+                    itemscontrolSiegeTimers.Items.Add(oItem);
+                }
+
+                SetSiegeTimerCountLabel();
+            }
+            catch (Exception oEx)
+            {
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
+        }
+
+
+        /// <summary>
+        /// Fügt einen Siege Timer hinzu
+        /// </summary>
+        /// <param name="oSiegeTimer"></param>
+        private void RemoveSiegeTimer(Model.SiegeTimer oSiegeTimer)
+        {
+            string cPath;
+            XmlSerializer oSerializer;
+
+            try
+            {
+                m_oLstSiegeTimers.RemoveAll(x => x.APIObjective.id == oSiegeTimer.APIObjective.id);
+
+                cPath = System.IO.Path.Combine(Environment.CurrentDirectory, "Settings", "SiegeTimers.xml");
+                using (TextWriter oWriter = new StreamWriter(cPath))
+                {
+                    oSerializer = new XmlSerializer(typeof(List<Model.SiegeTimer>));
+                    oSerializer.Serialize(oWriter, m_oLstSiegeTimers);
+                }
+
+                SetSiegeTimerCountLabel();
+            }
+            catch (Exception oEx)
+            {
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
+        }
+
+        /// <summary>
+        /// Selected Siege Timer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void On_imageTeamspeakStatus_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void On_ObjectiveItemSiegeTimeSelected(object sender, EventArgs e)
         {
-            TS_CLIENT_WRAPPER.Disconnect();
-            TS_CLIENT_WRAPPER.Connect();
+            ObjectiveSiegeTimeSelectedEventArgs oArgs;
+            MapObjectiveItem oSender;
+            Model.SiegeTimer oSiegeTimer;
+
+            try
+            {
+                oArgs = (ObjectiveSiegeTimeSelectedEventArgs)e;
+                oSender = (MapObjectiveItem)sender;
+
+                oSiegeTimer = new Model.SiegeTimer();
+                oSiegeTimer.APIObjective = oSender.Objective;
+                oSiegeTimer.XMLObjective = m_oLstObjectives.Find(x => x.Id == oSender.Objective.id);
+                oSiegeTimer.End = DateTime.Now.AddMinutes(oArgs.Minutes);
+                oSiegeTimer.Map = m_oCurrentMap;
+
+                AddSiegeTimer(oSiegeTimer);
+            }
+            catch (Exception oEx)
+            {
+                LOGWRITER.WriteMessage(oEx.ToString(), LogWriter.MESSAGE_TYPE.Error);
+            }
+        }
+
+        /// <summary>
+        /// Setzt das Count-Label
+        /// </summary>
+        private void SetSiegeTimerCountLabel()
+        {
+            labelSiegeTimerCount.Dispatcher.Invoke(delegate
+            {
+                if(m_oLstSiegeTimers.Count > 0)
+                {
+                    imageSiegetimerIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(Environment.CurrentDirectory, @"Resources\Icons\arrowcart_active.png")));
+                }
+                else
+                {
+                    imageSiegetimerIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(Environment.CurrentDirectory, @"Resources\Icons\arrowcart.png")));
+                }
+
+                if (m_oLstSiegeTimers.Count < 10)
+                {
+                    labelSiegeTimerCount.Content = m_oLstSiegeTimers.Count.ToString() + " timer" + (m_oLstSiegeTimers.Count == 1 ? "" : "s");
+                    labelSiegeTimerCountAdditional.Visibility = System.Windows.Visibility.Hidden;
+                }
+                else
+                {
+                    labelSiegeTimerCount.Content = m_oLstSiegeTimers.Count;
+                    labelSiegeTimerCountAdditional.Visibility = System.Windows.Visibility.Visible;
+                }
+            });
+        }
+
+        private void On_SiegeTimerFinshed(object sender, EventArgs e)
+        {
+            SetSiegeIconEffect();
+        }
+
+        private void On_SiegeTimerRemove(object sender, EventArgs e)
+        {
+            RemoveSiegeTimer(((SiegeTimerItem)sender).SiegeTimer);
+            itemscontrolSiegeTimers.Items.Remove(sender);
         }
     }
 }

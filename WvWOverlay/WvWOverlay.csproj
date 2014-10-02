@@ -78,8 +78,10 @@
     <Compile Include="RegionItem.xaml.cs">
       <DependentUpon>RegionItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SiegeTimerItem.xaml.cs">
+      <DependentUpon>SiegeTimerItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SpotifyLocalApi.cs" />
-    <Compile Include="TeamspeakClientWrapper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,11 +103,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ObjectiveItem.xaml">
+    <Page Include="RegionItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RegionItem.xaml">
+    <Page Include="SiegeTimerItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -113,9 +115,6 @@
   <ItemGroup>
     <Compile Include="MatchItem.xaml.cs">
       <DependentUpon>MatchItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectiveItem.xaml.cs">
-      <DependentUpon>ObjectiveItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -281,30 +280,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icons\camp_white.png">
+    <None Include="Resources\Icons\arrowcart.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Icons\arrowcart_active.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\Icons\map.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Icons\keep_white.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Icons\microphone_muted.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Icons\quiet.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Icons\talking.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Resource Include="Resources\Icons\reload_25.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

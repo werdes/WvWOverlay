@@ -23,6 +23,7 @@ namespace WvWOverlay
     public partial class MapObjectiveItem : UserControl
     {
         public event EventHandler Click;
+        public event EventHandler SiegeTimeSelected;
 
         private List<Model.XML.Objective> m_oLstObjectives;
         public Model.API.objective Objective;
@@ -33,6 +34,7 @@ namespace WvWOverlay
         public TimeSpan TimeHeld;
         public TimeSpan Ri_Remaining;
 
+        private int m_nZIndex;
 
         public MapObjectiveItem(Model.API.objective oObjective, List<Model.XML.Objective> oLstObjectives, Model.API.matches_match oMatch, LogWriter oLogWriter)
         {
@@ -309,10 +311,43 @@ namespace WvWOverlay
             return oRetVal;
         }
 
-        private void MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void On_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             EventExtensions.RaiseEvent(Click, this, new ObjectiveItemDoubleclickEventArgs(Objective, Ri_Remaining, TimeHeld));
             SetEffect(Brushes.Yellow, 1);
+        }
+
+        private void Label_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            m_nZIndex = Canvas.GetZIndex(this);
+            Canvas.SetZIndex(this, 1);
+            canvasCustomContextMenu.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void canvasCustomContextMenu_MouseLeave(object sender, MouseEventArgs e)
+        {
+            canvasCustomContextMenu.Visibility = System.Windows.Visibility.Hidden;
+            Canvas.SetZIndex(this, m_nZIndex);
+        }
+
+        private void On_SiegeTimerTimeSelect(object sender, MouseButtonEventArgs e)
+        {
+            Label oLabel = (Label)sender;
+            int nMinutes = Convert.ToInt32(oLabel.Tag);
+
+            EventExtensions.RaiseEvent(SiegeTimeSelected, this, new ObjectiveSiegeTimeSelectedEventArgs(nMinutes));
+            canvasCustomContextMenu.Visibility = System.Windows.Visibility.Hidden;
+            Canvas.SetZIndex(this, m_nZIndex);
+        }
+
+        private void On_SiegeTimerMouseHover(object sender, MouseEventArgs e)
+        {
+            ((Label)sender).Opacity = 1;
+        }
+
+        private void On_SiegeTimerMouseleave(object sender, MouseEventArgs e)
+        {
+            ((Label)sender).Opacity = 0.6;
         }
     }
 }

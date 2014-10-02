@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace WvWOverlay.Model
 {
@@ -57,6 +58,7 @@ namespace WvWOverlay.Model
             public ObjectiveType Type { get; set; }
             public string Name { get; set; }
             public Coordinate Coordinates { get; set; }
+            public short MapId { get; set; }
         }
     }
 
@@ -93,7 +95,7 @@ namespace WvWOverlay.Model
             public short world_id { get; set; }
             public string name { get; set; }
             public string color { get; set; }
-            public int score { get; set; }
+            //public int score { get; set; }
 
             //String, da bei 0 ->null
             public string ppt { get; set; }
@@ -175,5 +177,18 @@ namespace WvWOverlay.Model
         public long world_id { get; set; }
         public short team_color_id { get; set; }
         public bool commander { get; set; }
+    }
+
+    public class SiegeTimer
+    {
+        public Model.XML.Objective XMLObjective { get; set; }
+        public Model.API.objective APIObjective { get; set; }
+        public DateTime End { get; set; }
+
+        [XmlIgnore]
+        public System.Windows.Threading.DispatcherTimer Timer { get; set; }
+
+        public Model.XML.Map Map { get; set; }
+
     }
 }

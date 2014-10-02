@@ -58,4 +58,24 @@ namespace WvWOverlay
         public TimeSpan Time_Held { get; set; }
         public Model.API.objective Objective { get; set; }
     }
+
+    public class ObjectiveSiegeTimeSelectedEventArgs : EventArgs
+    {
+        public int Minutes;
+
+        public ObjectiveSiegeTimeSelectedEventArgs(int nMinutes)
+        {
+            Minutes = nMinutes;
+        }
+    }
+
+    public class SiegeTimerEventArgs : EventArgs
+    {
+        public Model.SiegeTimer SiegeTimer { get; set; }
+
+        public SiegeTimerEventArgs(Model.SiegeTimer oSiegeTimer)
+        {
+            SiegeTimer = oSiegeTimer;
+        }
+    }
 }

@@ -78,7 +78,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
             _Client.Encoding = Encoding.UTF8;
             if (_Client.Proxy != null)
                 _Client.Proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
-            
+
             RenewToken();
         }
 
@@ -186,25 +186,19 @@ Unless required by applicable law or agreed to in writing, software distributed 
         }
 
         /// <summary>Resume Spotify playback and return the status afterwards</summary>
-        public Status Resume
+        public Status Resume()
         {
-            get
-            {
-                var a = SendLocalRequest("remote/pause.json?pause=false", true, true, -1);
-                var d = (List<Status>)JsonConvert.DeserializeObject(a, typeof(List<Status>));
-                return d.FirstOrDefault();
-            }
+            var a = SendLocalRequest("remote/pause.json?pause=false", true, true, -1);
+            var d = (List<Status>)JsonConvert.DeserializeObject(a, typeof(List<Status>));
+            return d.FirstOrDefault();
         }
 
         /// <summary>Pause Spotify playback and return the status afterwards</summary>
-        public Status Pause
+        public Status Pause()
         {
-            get
-            {
-                var a = SendLocalRequest("remote/pause.json?pause=true", true, true, -1);
-                var d = (List<Status>)JsonConvert.DeserializeObject(a, typeof(List<Status>));
-                return d.FirstOrDefault();
-            }
+            var a = SendLocalRequest("remote/pause.json?pause=true", true, true, -1);
+            var d = (List<Status>)JsonConvert.DeserializeObject(a, typeof(List<Status>));
+            return d.FirstOrDefault();
         }
 
         /// <summary>Returns the current track info.
